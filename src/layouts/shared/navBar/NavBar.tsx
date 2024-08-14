@@ -4,6 +4,8 @@ import { navBarLinks } from "./constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { radius } from "@lib/theme/radius";
+import { ItemTitle } from "@components/Typography";
+import Flex from "@components/Flex";
 
 const NavBarWrapper = styled.nav`
   position: fixed;
@@ -38,6 +40,15 @@ const NavBarItem = styled.button<{ $isActive: boolean }>`
   svg {
     transition: color 0.3s ease;
   }
+  path {
+    transition: stroke 0.3s ease, stroke-width 0.3s ease;
+    ${(props) =>
+      props.$isActive &&
+      `
+      stroke: #1d5897;
+      stroke-width: 2px;
+    `}
+  }
 `;
 
 const ActiveBg = styled.span<{ $translateX: number }>`
@@ -63,6 +74,15 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const NavItem = styled(ItemTitle)<{ $isActive: boolean }>`
+  color: #fff;
+  -webkit-text-stroke: 2px #1d5897;
+  text-shadow: 0px 4px #00000040;
+  opacity: ${(props) => (props.$isActive ? 1 : 0)};
+  z-index: ${(props) => (props.$isActive ? 1 : -1)};
+  height: ${(props) => (props.$isActive ? "100%" : 0)};
+  transition: opacity 0.3s ease;
+`;
 export const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const { pathname } = useLocation();
@@ -84,7 +104,10 @@ export const NavBar = () => {
               navigate(item.link);
             }}
           >
-            {item.icon(item.link === pathname ? "#fff" : "#6B82AE")}
+            <Flex direction="column" align="center" justify="center" gap="6px">
+              {item.icon(item.link === pathname ? "#fff" : "#6B82AE")}
+              <NavItem $isActive={item.link === pathname}>{item.text}</NavItem>
+            </Flex>
           </NavBarItem>
         ))}
       </Container>
