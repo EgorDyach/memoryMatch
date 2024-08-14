@@ -6,6 +6,7 @@ import { withIndentStyles } from "@hocs/withIndentStyles";
 import { ItemTitle } from "./Typography";
 import PinkStarIcon from "./icons/PinkStarIcon";
 import RedStarIcon from "./icons/RedStarIcon";
+import { textShadow } from "@lib/theme/shadow";
 
 interface TitleProps extends PropsWithChildren {
   type: ButtonType;
@@ -26,19 +27,16 @@ const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
     background-color: #E360EA;
     border-top: 1px solid #C73CDC;
     box-shadow: 0px 2px 0px 0px #C73CDC, 0px 4.19px 0px 0px #00000040;
-    -webkit-text-stroke: 1px #C73CDC;
-    text-shadow: 0px 2px #C73CDC;
-  `}
+    ${textShadow("#C73CDC", 2, 1)};
+    `}
   ${({ $type }) =>
     $type === "red" &&
     `
-    color: #fff;
-    background-color: #FB0059;
-    border-top: 1px solid #B7134D
-    box-shadow: 0px 2px 0px 0px #B7134D, 0px 4.19px 0px 0px #00000040;
-
-    -webkit-text-stroke: 1px #B7134D;
-    text-shadow: 0px 2px #B7134D;
+  color: #fff;
+  background-color: #FB0059;
+  border-top: 1px solid #B7134D
+  box-shadow: 0px 2px 0px 0px #B7134D, 0px 4.19px 0px 0px #00000040;  
+  ${textShadow("#B7134D", 2, 1)};
   `}
 `;
 

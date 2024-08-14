@@ -3,9 +3,10 @@ import IconButton from "@components/button/IconButton";
 import Flex from "@components/Flex";
 import Image from "@components/Image";
 import { SubHeader } from "@components/Typography";
-import { gradients } from "@lib/theme/colors";
+import { gradients, shadows } from "@lib/theme/colors";
 import styled from "styled-components";
 import bg from "@assets/bg.svg";
+import { shadow, textShadow } from "@lib/theme/shadow";
 
 export const Wrapper = styled(Flex)`
   background: url(${bg}), ${gradients.mainBg};
@@ -41,12 +42,9 @@ export const ActionButton = styled(IconButton)`
 `;
 
 export const ButtonPass = styled(Button)`
-  -webkit-text-stroke: 0.81px #e0622c;
-  text-shadow: 0px 2px #e0622c;
+  ${textShadow(shadows.yellow)}
   font-size: 20px;
-  box-shadow: 0px 2px 0px 0px #0000001a, 0px 0.81px 2.85px 0px #00000040,
-    0px 1.95px 0px 0px #0000001a, 0px 1.63px 0px 0px #ffffff40 inset,
-    0px -1.63px 0px 0px #00000040 inset;
+  ${shadow("full")}
   padding: 6px 40px;
 `;
 
@@ -96,8 +94,7 @@ export const StyledButton = styled(Button)`
     width: 100%;
     padding: 24px 100px;
     background-color: #e360ea;
-    box-shadow: 0px 1.62px 0px 0px #ffffff40 inset,
-      0px -1.62px 0px 0px #00000040 inset, 0px 0.81px 2.83px 0px #00000040;
+    ${shadow("full")}
     border-radius: 10px;
   }
 `;

@@ -4,12 +4,17 @@ import { ReactNode } from "react";
 import { indent } from "@lib/theme/sizes";
 import { background } from "@lib/theme/colors";
 import { ButtonType } from "./Button";
+import { shadow } from "@lib/theme/shadow";
+
+export type ShadowType = "full" | "min" | "custom";
 
 export const StyledButton = styled.button<{
   icon?: ReactNode;
   $type: ButtonType;
   $borderRadius: number;
   padding?: string;
+  $shadowType?: ShadowType;
+  $customShadow?: string;
 }>`
   padding: ${(props) => props.padding || `${indent.medium} ${indent.xlarge}`};
   padding-left: ${(props) => props.icon && "12px"};
@@ -22,16 +27,24 @@ export const StyledButton = styled.button<{
   border-radius: ${(props) => props.$borderRadius}px;
   color: ${(props) => (props.$type === "default" ? "#333" : "#fff")};
   cursor: pointer;
-  background-color: ${(props) => {
+  ${(props) => {
     switch (props.$type) {
       case "pink":
-        return background.pinkBg;
+        return `
+          background-color: ${background.pinkBg};
+        `;
       case "yellow":
-        return background.yellowBg;
+        return `
+          background-color: ${background.yellowBg};
+        `;
       case "blue":
-        return background.blueBg;
+        return `
+          background-color: ${background.blueBg};
+        `;
       case "danger":
-        return background.pinkBg;
+        return `
+          background-color: ${background.dangerBg};
+        `;
       case "default":
         return "transparent";
       default:
@@ -41,15 +54,7 @@ export const StyledButton = styled.button<{
   border: ${(props) =>
     props.$type === "default" ? `1px solid #cfd6dd` : "none"};
 
-  box-shadow: 0px 2px 0px 0px #0000001a;
-
-  box-shadow: 0px 0.81px 2.85px 0px #00000040;
-
-  box-shadow: 0px 1.95px 0px 0px #0000001a;
-
-  box-shadow: 0px 1.63px 0px 0px #ffffff40 inset;
-
-  box-shadow: 0px -1.63px 0px 0px #00000040 inset;
+  ${({ $shadowType }) => $shadowType === "full" && shadow("full")}
 
   & svg {
     transition: transform 0.3s ease;

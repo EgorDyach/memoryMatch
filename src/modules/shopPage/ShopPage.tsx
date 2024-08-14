@@ -16,8 +16,9 @@ import {
 } from "@modules/rootPage/rootStyles";
 import { shopCrystall, shopSales } from "./constants";
 import styled from "styled-components";
-import { gradients } from "@lib/theme/colors";
+import { content, gradients, shadows } from "@lib/theme/colors";
 import Button from "@components/button/Button";
+import { shadow, textShadow } from "@lib/theme/shadow";
 
 const ShopItem = styled(Flex)`
   background-color: #0000004d;
@@ -27,8 +28,7 @@ const ShopItem = styled(Flex)`
 
 const StyledItemTitle = styled(ItemTitle)`
   color: #fff;
-  -webkit-text-stroke: 1px #092e46;
-  text-shadow: 0px 2px #092e46;
+  ${textShadow(content.secondary, 2, 1)}
 `;
 
 const StyledImage = styled(Flex)`
@@ -46,10 +46,8 @@ const StyledSubTitle = styled(Text)`
 
 const StyledButton = styled(Button)`
   width: 100%;
-  -webkit-text-stroke: 1px #e0622c;
-  text-shadow: 0px 2px #e0622c;
-  box-shadow: 0px 2px 0px 0px #0000001a;
-  box-shadow: 0px -1.67px 0px 0px #00000040 inset;
+  ${textShadow(shadows.yellow, 2, 1)}
+  ${shadow("min")}
 `;
 
 export const ShopPage = () => {

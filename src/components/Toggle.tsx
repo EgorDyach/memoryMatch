@@ -2,6 +2,8 @@ import { FC, useState } from "react";
 import Flex from "./Flex";
 import styled from "styled-components";
 import { Text } from "./Typography";
+import { textShadow } from "@lib/theme/shadow";
+import { content } from "@lib/theme/colors";
 
 interface ToggleProps {
   values: string[];
@@ -40,8 +42,7 @@ const ToggleItem = styled(Flex)`
 `;
 
 const ToggleText = styled(Text)`
-  -webkit-text-stroke: 0.99px #092e46;
-  text-shadow: 0px 2.46px #092e46;
+  ${textShadow(content.secondary, 2.46, 0.99)}
 `;
 
 export const Toggle: FC<ToggleProps> = ({ values, activeValue, onChange }) => {

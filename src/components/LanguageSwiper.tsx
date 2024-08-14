@@ -5,6 +5,8 @@ import ArrowLeftIcon from "./icons/ArrowLeftIcon";
 import ArrowRightIcon from "./icons/ArrowRightIcon";
 import { withIndentStyles } from "@hocs/withIndentStyles";
 import { Text } from "./Typography";
+import { textShadow } from "@lib/theme/shadow";
+import { content } from "@lib/theme/colors";
 
 interface LanguageSwiperProps {
   languages: string[];
@@ -23,8 +25,7 @@ const SwiperWrapper = styled(Flex)`
 
 const Language = styled(Text)`
   color: #ffffff;
-  text-shadow: 0px 2.53px #092e46;
-  -webkit-text-stroke: 1.02px #092e46;
+  ${textShadow(content.secondary, 2.53, 1.02)};
 `;
 
 const RawLanguageSwiper: FC<LanguageSwiperProps> = ({

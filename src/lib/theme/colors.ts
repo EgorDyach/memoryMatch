@@ -1,3 +1,7 @@
+export const content = {
+  secondary: "#092E46",
+};
+
 export const background = {
   pinkBg: "#E360EA",
   yellowBg: "#FEBC01",
@@ -10,6 +14,8 @@ export const background = {
 
 export const shadows = {
   pink: "#C73CDC",
+  red: "#b92222",
+  yellow: "#e0622c",
   black25: "#00000040",
 };
 

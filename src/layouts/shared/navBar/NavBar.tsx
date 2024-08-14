@@ -35,6 +35,9 @@ const NavBarItem = styled.button<{ $isActive: boolean }>`
   &:active {
     outline: none;
   }
+  div {
+    margin: 0 auto;
+  }
   z-index: 1000;
   transition: flex-basis 0.3s ease;
   svg {

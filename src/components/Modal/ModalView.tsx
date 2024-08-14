@@ -6,17 +6,17 @@ import Flex from "@components/Flex";
 import { ModalViewProps } from "./helpers";
 import CrossIcon from "@components/icons/CrossIcon";
 import styled from "styled-components";
+import { shadow, textShadow } from "@lib/theme/shadow";
+import { content } from "@lib/theme/colors";
 
 const ModalTitle = styled(SubHeader)`
   color: #fff;
-  -webkit-text-stroke: 0.81px #092e46;
-  text-shadow: 0px 2px #092e46;
+  ${textShadow(content.secondary)}
 `;
 
 const CancelButton = styled(IconButton)`
   border-radius: 5px;
   border: 2.29px solid #b92222;
-  box-shadow: 0px 2.29px 0px 0px #b92222;
 `;
 
 const CancelContainer = styled.div`
@@ -30,12 +30,10 @@ const CancelContainer = styled.div`
 
 const MarkupWrapper = styled(Flex)`
   background-color: #ddeaee;
-  box-shadow: 0px 1.67px 0px 0px #ffffff40 inset,
-    0px -1.67px 0px 0px #00000040 inset, 0px 0.84px 2.92px 0px #00000040,
-    0px 2px 0px 0px #0000001a;
+  ${shadow("full")}
   padding: 25px 15px;
   border-radius: 10px;
-  color: #092e46;
+  color: ${content.secondary};
   overflow: auto;
 `;
 

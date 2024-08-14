@@ -1,4 +1,5 @@
 import { background } from "@lib/theme/colors";
+import { shadow } from "@lib/theme/shadow";
 import styled from "styled-components";
 
 export const StyledModalWrap = styled.div<{ $visible?: boolean }>`
@@ -44,7 +45,5 @@ export const StyledModalContent = styled.div`
   padding: 10px;
   width: 100%;
   background-color: #64697b;
-  box-shadow: 0px 1.67px 0px 0px #ffffff40 inset,
-    0px -1.67px 0px 0px #00000040 inset, 0px 0.84px 2.92px 0px #00000040,
-    0px 2px 0px 0px #0000001a;
+  ${shadow("full")};
 `;
