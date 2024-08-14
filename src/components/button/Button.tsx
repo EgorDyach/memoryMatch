@@ -12,7 +12,13 @@ export interface ButtonProps extends PropsWithChildren {
   className?: string;
 }
 
-export type ButtonType = "pink" | "yellow" | "blue" | "default" | "danger";
+export type ButtonType =
+  | "pink"
+  | "yellow"
+  | "blue"
+  | "default"
+  | "danger"
+  | "red";
 
 const RawButton: FC<ButtonProps> = ({
   children,

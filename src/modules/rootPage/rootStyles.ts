@@ -11,6 +11,7 @@ export const Wrapper = styled(Flex)`
   background: url(${bg}), ${gradients.mainBg};
   height: 100%;
   position: relative;
+  min-height: 100vh;
   padding: 60px 19px 100px;
 `;
 

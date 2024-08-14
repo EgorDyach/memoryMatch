@@ -1,5 +1,6 @@
 import { MainLayout } from "@layouts/mainLayout/MainLayout";
 import { RootPage } from "@modules/rootPage/RootPage";
+import { ShopPage } from "@modules/shopPage/ShopPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const routerConfig = createBrowserRouter([
@@ -18,7 +19,7 @@ export const routerConfig = createBrowserRouter([
       },
       {
         path: "/shop",
-        element: "shop",
+        element: <ShopPage />,
       },
       {
         path: "/tasks",
