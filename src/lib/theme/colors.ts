@@ -3,6 +3,9 @@ export const background = {
   yellowBg: "#FEBC01",
   blueBg: "#52A4DB",
   redBg: "#FB0059",
+  dangerBg: "#EC4343",
+  white: "#fff",
+  backdrop: "rgba(0,0,0,0.6)",
 };
 
 export const shadows = {

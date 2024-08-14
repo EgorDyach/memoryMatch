@@ -25,7 +25,7 @@ const StyledIconButton = styled.button<{
       case "blue":
         return background.blueBg;
       case "danger":
-        return background.pinkBg;
+        return background.dangerBg;
       case "default":
         return "transparent";
       default:
