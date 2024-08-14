@@ -15,7 +15,7 @@ export const getFont = (
     font-family: '${name}';
     src: 
       url(${pathPrefix + fileName}.woff2) format('woff2'),
-      url(${pathPrefix + fileName}.ttf) format('ttf');
+      url(${pathPrefix + fileName}.woff) format('woff');
     font-weight: ${weight};
     font-style: ${style};
 }`;

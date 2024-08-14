@@ -1,4 +1,5 @@
 import { MainLayout } from "@layouts/mainLayout/MainLayout";
+import { RootPage } from "@modules/rootPage/RootPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const routerConfig = createBrowserRouter([
@@ -9,7 +10,7 @@ export const routerConfig = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: "main",
+        element: <RootPage />,
       },
       {
         path: "/map",

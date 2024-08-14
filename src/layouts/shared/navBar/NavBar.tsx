@@ -14,6 +14,7 @@ const NavBarWrapper = styled.nav`
   display: flex;
   background: ${gradients.navBar};
   border-top: 2px solid ${borders.navBar};
+  z-index: 1000;
 `;
 
 const NavBarItem = styled.button<{ $isActive: boolean }>`
@@ -32,7 +33,7 @@ const NavBarItem = styled.button<{ $isActive: boolean }>`
   &:active {
     outline: none;
   }
-  z-index: 1;
+  z-index: 1000;
   transition: flex-basis 0.3s ease;
   svg {
     transition: color 0.3s ease;

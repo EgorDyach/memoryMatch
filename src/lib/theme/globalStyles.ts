@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     background-color: #eeeeee;
-    font-family: "Geologica", sans-serif;
+    font-family: "panton", sans-serif;
     ${getFontSizes("default")}
   }
 
