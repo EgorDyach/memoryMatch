@@ -6,12 +6,16 @@ import { withIndentStyles } from "@hocs/withIndentStyles";
 import { ItemTitle } from "./Typography";
 import PinkStarIcon from "./icons/PinkStarIcon";
 import RedStarIcon from "./icons/RedStarIcon";
-import { textShadow } from "@lib/theme/shadow";
+import { shadowWithTitle, textShadow } from "@lib/theme/shadow";
 
 interface TitleProps extends PropsWithChildren {
-  type: ButtonType;
+  type?: ButtonType;
   hasStars?: boolean;
   className?: string;
+  customColor?: Record<
+    "color" | "backgroundColor" | "borderTop" | "shadowColor",
+    string
+  >;
 }
 
 const coloredStars: Record<ButtonType, ReactNode> = {
@@ -23,7 +27,13 @@ const coloredStars: Record<ButtonType, ReactNode> = {
   red: <RedStarIcon size={22} />,
 };
 
-const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
+const TitleWrapper = styled(Flex)<{
+  $type?: ButtonType;
+  $customColor?: Record<
+    "color" | "backgroundColor" | "borderTop" | "shadowColor",
+    string
+  >;
+}>`
   width: 100%;
   padding: 8px 11px 5px;
   justify-content: space-between;
@@ -35,8 +45,8 @@ const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
     color: #fff;
     background-color: #E360EA;
     border-top: 1px solid #C73CDC;
-    box-shadow: 0px 2px 0px 0px #C73CDC, 0px 4.19px 0px 0px #00000040;
-    ${textShadow("#C73CDC", 2, 1)};
+    ${shadowWithTitle("#C73CDC")};
+    ${textShadow("#C73CDC")};
     `}
   ${({ $type }) =>
     $type === "red" &&
@@ -45,7 +55,7 @@ const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
   background-color: #FB0059;
   border-top: 1px solid #B7134D;
   box-shadow: 0px 2px 0px 0px #B7134D, 0px 4.19px 0px 0px #00000040;  
-  ${textShadow("#B7134D", 2, 1)};
+  ${textShadow("#B7134D")};
   `}
   ${({ $type }) =>
     $type === "default" &&
@@ -54,21 +64,31 @@ const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
   background-color: #19547B;
   border-top: 1px solid #072234;
   box-shadow: 0px 2px 0px 0px #072234, 0px 4.19px 0px 0px #00000040;
-  ${textShadow("#072234", 2, 1)};
+  ${textShadow("#072234")};
+  `}
+  ${({ $customColor }) =>
+    $customColor &&
+    `
+    color: ${$customColor.color};
+    background-color: ${$customColor.backgroundColor};
+    border-top: ${$customColor.borderTop};
+    ${shadowWithTitle($customColor.shadowColor)};
+    ${textShadow($customColor.shadowColor)};
   `}
 `;
 
 const RawTitle: FC<TitleProps> = ({
   children,
-  type = "pink",
+  type,
   hasStars,
   className,
+  customColor,
 }) => {
   return (
-    <TitleWrapper className={className} $type={type}>
-      {hasStars ? coloredStars[type] : <div></div>}
+    <TitleWrapper className={className} $type={type} $customColor={customColor}>
+      {hasStars && type ? coloredStars[type] : <div></div>}
       <ItemTitle>{children}</ItemTitle>
-      {hasStars ? coloredStars[type] : <div></div>}
+      {hasStars && type ? coloredStars[type] : <div></div>}
     </TitleWrapper>
   );
 };

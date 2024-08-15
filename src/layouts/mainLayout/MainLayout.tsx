@@ -17,11 +17,12 @@ const Wrapper = styled(Flex)`
 `;
 
 export const TopBlur = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 57px;
+  z-index: 10000;
   background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 86.85%);
 `;
 

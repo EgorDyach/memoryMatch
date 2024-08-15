@@ -3,6 +3,9 @@ const shadowType = {
   min: "0px 2px 0px 0px #0000001a, 0px -1.67px 0px 0px #00000040 inset",
 };
 
+export const shadowWithTitle = (color: string) =>
+  `0px 2px 0px 0px ${color}, 0px 4.19px 0px 0px #00000040;`;
+
 export const shadow = (
   type: keyof typeof shadowType | "custom",
   customShadow?: string

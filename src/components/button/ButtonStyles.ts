@@ -57,6 +57,7 @@ export const StyledButton = styled.button<{
     props.$type === "default" ? `1px solid #cfd6dd` : "none"};
 
   ${({ $shadowType }) => $shadowType === "full" && shadow("full")}
+  ${({ $shadowType }) => $shadowType === "min" && shadow("min")}
 
   & svg {
     transition: transform 0.3s ease;

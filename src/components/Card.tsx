@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 import styled from "styled-components";
 import Flex from "./Flex";
 import { ItemTitle } from "./Typography";
@@ -7,10 +7,11 @@ import { withIndentStyles } from "@hocs/withIndentStyles";
 import { ShadowType } from "./button/ButtonStyles";
 
 interface CardProps extends PropsWithChildren {
-  title?: string;
+  title?: ReactNode;
   backgroundColor: string;
   contentColor: string;
-  titleColor: string;
+  titleColor?: string;
+  titleShadowColor?: string;
   className?: string;
   borderRadius?: number;
   padding?: string;
@@ -41,10 +42,10 @@ const Content = styled(Flex)<{
   ${(props) => shadow(props.$shadow || "full")};
 `;
 
-const StyledItemTitle = styled(ItemTitle)<{ $color: string }>`
-  color: #fff;
+const StyledItemTitle = styled(ItemTitle)<{ $color: string; $shadow?: string }>`
+  color: ${(props) => props.$color};
   font-size: 25px;
-  ${(props) => textShadow(props.$color, 2, 1)};
+  ${(props) => props.$shadow && textShadow(props.$shadow, 2, 1)};
 `;
 
 const RawCard: FC<CardProps> = ({
@@ -52,7 +53,8 @@ const RawCard: FC<CardProps> = ({
   title,
   backgroundColor,
   contentColor,
-  titleColor,
+  titleShadowColor,
+  titleColor = "#fff",
   className,
   padding,
   shadow,
@@ -68,7 +70,11 @@ const RawCard: FC<CardProps> = ({
       $padding={padding}
       $shadow={shadow}
     >
-      {title && <StyledItemTitle $color={titleColor}>{title}</StyledItemTitle>}
+      {title && (
+        <StyledItemTitle $shadow={titleShadowColor} $color={titleColor}>
+          {title}
+        </StyledItemTitle>
+      )}
       <Content
         direction="column"
         $bgColor={contentColor}

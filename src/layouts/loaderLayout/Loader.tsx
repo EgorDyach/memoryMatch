@@ -15,7 +15,8 @@ import { textShadow } from "@lib/theme/shadow";
 import { LoaderButton } from "./LoaderButton";
 import { LoadedProgressBar } from "./LoaderProgressBar";
 const LoaderWrapper = styled(Flex)<{ $isOpen: boolean }>`
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: ${(props) => (props.$isOpen ? 1000000 : -1)};
   opacity: ${(props) => (props.$isOpen ? 1 : 0)};
   height: ${(props) => (props.$isOpen ? "unset" : 0)};
@@ -35,6 +36,7 @@ const StyledContent = styled(Flex)`
   z-index: 1000001;
   padding: 120px 0 40px;
   height: 100vh;
+  position: fixed;
 `;
 
 const StyledBlur = styled(TopBlur)`
