@@ -1,6 +1,6 @@
 import InstIcon from "@components/icons/InstIcon";
 import TelegramIcon from "@components/icons/TelegramIcon";
-import VkIcon from "@components/icons/VKIcon";
+import VkIcon from "@components/icons/VkIcontemp";
 import XIcon from "@components/icons/XIcon";
 
 export const socials = [
