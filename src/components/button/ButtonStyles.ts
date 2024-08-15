@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { indent } from "@lib/theme/sizes";
 import { background } from "@lib/theme/colors";
 import { ButtonType } from "./Button";
-import { shadow } from "@lib/theme/shadow";
+import { shadow, textShadow } from "@lib/theme/shadow";
 
 export type ShadowType = "full" | "min" | "custom";
 
@@ -31,22 +31,24 @@ export const StyledButton = styled.button<{
     switch (props.$type) {
       case "pink":
         return `
+          ${textShadow("#623378")};
           background-color: ${background.pinkBg};
-        `;
+          `;
       case "yellow":
         return `
-          background-color: ${background.yellowBg};
-        `;
+            ${textShadow("#E0622C")};
+            background-color: ${background.yellowBg};
+            `;
       case "blue":
         return `
-          background-color: ${background.blueBg};
-        `;
+              ${textShadow("#092E46")};
+              background-color: ${background.blueBg};
+              `;
       case "danger":
         return `
-          background-color: ${background.dangerBg};
-        `;
-      case "default":
-        return "transparent";
+                background-color: ${background.dangerBg};
+                `;
+
       default:
         return "transparent";
     }
@@ -63,5 +65,11 @@ export const StyledButton = styled.button<{
       `
       transform: rotate(135deg);
     `}
+  }
+
+  &:disabled {
+    background-color: ${background.disabled};
+    ${textShadow("#5C5C5C")};
+    ${shadow("min")}
   }
 `;

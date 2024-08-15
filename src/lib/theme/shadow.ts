@@ -13,10 +13,17 @@ export const shadow = (
   `;
 };
 
+export interface TextShadowProps {
+  color: string;
+  shadowSize?: number;
+  strokeWidth?: number;
+}
+
 export const textShadow = (
   color: string,
   shadowSize?: number,
   strokeWidth?: number
-): string => `-webkit-text-stroke: ${strokeWidth || 0.81}px ${color};
+): string => `
+  -webkit-text-stroke: ${strokeWidth || 1}px ${color};
   text-shadow: 0px ${shadowSize || 2}px ${color};
 `;

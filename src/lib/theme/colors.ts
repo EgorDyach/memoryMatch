@@ -10,6 +10,7 @@ export const background = {
   dangerBg: "#EC4343",
   white: "#fff",
   backdrop: "rgba(0,0,0,0.6)",
+  disabled: "#707070",
 };
 
 export const shadows = {

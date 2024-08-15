@@ -1,5 +1,3 @@
-import { Indent } from "@type/common";
-
 export type RadiusSizes = keyof typeof radius;
 
 export const radius = {
@@ -10,7 +8,7 @@ export const radius = {
   circle: "50%",
 };
 
-export const indent: Record<Indent, string> = {
+export const indent: Record<string, string> = {
   none: "0",
   xsmall: "4px",
   small: "8px",

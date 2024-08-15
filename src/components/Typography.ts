@@ -2,6 +2,7 @@ import { withIndentStyles } from "@hocs/withIndentStyles";
 import styled from "styled-components";
 import { FontSize } from "@type/common";
 import { getFontSizes } from "@lib/theme/fonts";
+import { textShadow, TextShadowProps } from "@lib/theme/shadow";
 
 export const Header = withIndentStyles(styled.h1``);
 
@@ -22,8 +23,17 @@ export const Bold = withIndentStyles(
 );
 
 export const Text = withIndentStyles(
-  styled.div<{ $size?: FontSize; $color?: string; $weight?: number }>(
-    ({ $size, $color, $weight }) => `
+  styled.div<{
+    $size?: FontSize;
+    $color?: string;
+    $weight?: number;
+    $shadow?: TextShadowProps;
+  }>(
+    ({ $size, $color, $weight, $shadow }) => `
+    ${
+      $shadow &&
+      textShadow($shadow.color, $shadow?.shadowSize, $shadow?.strokeWidth)
+    };
     ${getFontSizes($size || "default")}
     color: ${$color || "#fff"};
     ${$weight && `font-weight: ${$weight};`}

@@ -3,30 +3,9 @@ import IconButton from "@components/button/IconButton";
 import Flex from "@components/Flex";
 import Image from "@components/Image";
 import { SubHeader } from "@components/Typography";
-import { gradients, shadows } from "@lib/theme/colors";
+import { shadows } from "@lib/theme/colors";
 import styled from "styled-components";
-import bg from "@assets/bg.svg";
 import { shadow, textShadow } from "@lib/theme/shadow";
-
-export const Wrapper = styled(Flex)`
-  background: url(${bg}), ${gradients.mainBg};
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  height: 100%;
-  position: relative;
-  min-height: 100vh;
-  padding: 70px 0px 125px;
-`;
-
-export const TopBlur = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 57px;
-  background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 86.85%);
-`;
 
 export const HealthWrapper = styled(Flex)`
   margin-top: 18px;

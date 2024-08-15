@@ -11,8 +11,6 @@ import AdIcon from "@components/icons/AdIcon";
 import NewsIcon from "@components/icons/NewsIcon";
 import aztec from "/img/planets/aztec.png";
 import {
-  Wrapper,
-  TopBlur,
   Content,
   HealthWrapper,
   ActionButton,
@@ -32,8 +30,7 @@ import { formatNumber } from "@lib/utils/formatNumber";
 export const RootPage = () => {
   const [openModal] = useModal();
   return (
-    <Wrapper direction="column">
-      <TopBlur />
+    <>
       <Content>
         <RootControls>
           <Flex basis="50%" gap="12px" wrap="wrap">
@@ -87,6 +84,6 @@ export const RootPage = () => {
           </StyledButton>
         </StyledButtonShadow>
       </Content>
-    </Wrapper>
+    </>
   );
 };

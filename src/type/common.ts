@@ -11,8 +11,8 @@ export type Indent =
   | "vlarge";
 
 export interface IndentStylesProps {
-  $top?: Indent;
-  $left?: Indent;
+  $top?: string;
+  $left?: string;
 }
 
 export type FontSize =
