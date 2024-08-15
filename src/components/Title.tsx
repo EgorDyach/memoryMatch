@@ -43,9 +43,18 @@ const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
     `
   color: #fff;
   background-color: #FB0059;
-  border-top: 1px solid #B7134D
+  border-top: 1px solid #B7134D;
   box-shadow: 0px 2px 0px 0px #B7134D, 0px 4.19px 0px 0px #00000040;  
   ${textShadow("#B7134D", 2, 1)};
+  `}
+  ${({ $type }) =>
+    $type === "default" &&
+    `
+  color: #fff;
+  background-color: #19547B;
+  border-top: 1px solid #072234;
+  box-shadow: 0px 2px 0px 0px #072234, 0px 4.19px 0px 0px #00000040;
+  ${textShadow("#072234", 2, 1)};
   `}
 `;
 
@@ -57,9 +66,9 @@ const RawTitle: FC<TitleProps> = ({
 }) => {
   return (
     <TitleWrapper className={className} $type={type}>
-      {hasStars && coloredStars[type]}
+      {hasStars ? coloredStars[type] : <div></div>}
       <ItemTitle>{children}</ItemTitle>
-      {hasStars && coloredStars[type]}
+      {hasStars ? coloredStars[type] : <div></div>}
     </TitleWrapper>
   );
 };

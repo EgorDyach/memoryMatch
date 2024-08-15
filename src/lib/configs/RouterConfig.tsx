@@ -3,6 +3,7 @@ import { PaddingLayout } from "@layouts/mainLayout/PaddingLayout";
 import { RootPage } from "@modules/rootPage/RootPage";
 import { ShopPage } from "@modules/shopPage/ShopPage";
 import { TasksPage } from "@modules/tasksPage/TasksPage";
+import { VersusPage } from "@modules/versusPage/VersusPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const routerConfig = createBrowserRouter([
@@ -41,7 +42,11 @@ export const routerConfig = createBrowserRouter([
       },
       {
         path: "/versus",
-        element: "versus",
+        element: (
+          <PaddingLayout>
+            <VersusPage />
+          </PaddingLayout>
+        ),
       },
     ],
   },

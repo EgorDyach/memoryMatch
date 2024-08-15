@@ -24,7 +24,7 @@ import {
   RootControls,
 } from "./rootStyles";
 import { useModal } from "@hooks/useModal";
-import { showBattlePass, showSettings } from "./constants";
+import { showBattlePass, showNews, showSettings } from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { showModal } from "@lib/utils/modal";
 
@@ -67,7 +67,11 @@ export const RootPage = () => {
               Battle pass
             </ButtonPass>
             <StyledIconButton type="blue" icon={<AdIcon size={33} />} />
-            <StyledIconButton type="blue" icon={<NewsIcon size={33} />} />
+            <StyledIconButton
+              onClick={() => showModal(showNews)}
+              type="blue"
+              icon={<NewsIcon size={33} />}
+            />
             <StyledIconButton
               onClick={() => openModal(showSettings)}
               type="blue"

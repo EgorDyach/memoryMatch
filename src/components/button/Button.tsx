@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, ReactNode } from "react";
-import { StyledButton } from "./ButtonStyles";
+import { ShadowType, StyledButton } from "./ButtonStyles";
 import { withIndentStyles } from "@hocs/withIndentStyles";
 
 export interface ButtonProps extends PropsWithChildren {
@@ -10,6 +10,7 @@ export interface ButtonProps extends PropsWithChildren {
   borderRadius?: number;
   padding?: string;
   className?: string;
+  shadow?: ShadowType;
 }
 
 export type ButtonType =
@@ -29,6 +30,7 @@ const RawButton: FC<ButtonProps> = ({
   borderRadius = 10,
   padding,
   className,
+  shadow,
 }) => (
   <StyledButton
     className={className}
@@ -38,6 +40,7 @@ const RawButton: FC<ButtonProps> = ({
     disabled={disabled}
     icon={icon}
     padding={padding}
+    $shadowType={shadow}
   >
     {icon}
     {children}
