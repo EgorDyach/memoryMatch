@@ -4,6 +4,7 @@ export type Indent =
   | "small"
   | "xmedium"
   | "medium"
+  | "slarge"
   | "large"
   | "xlarge"
   | "xxlarge"

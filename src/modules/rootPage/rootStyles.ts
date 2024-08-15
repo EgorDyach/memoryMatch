@@ -10,10 +10,13 @@ import { shadow, textShadow } from "@lib/theme/shadow";
 
 export const Wrapper = styled(Flex)`
   background: url(${bg}), ${gradients.mainBg};
+  background-repeat: no-repeat;
+  background-size: cover;
+
   height: 100%;
   position: relative;
   min-height: 100vh;
-  padding: 60px 19px 100px;
+  padding: 70px 0px 125px;
 `;
 
 export const TopBlur = styled.div`
@@ -27,7 +30,7 @@ export const TopBlur = styled.div`
 
 export const HealthWrapper = styled(Flex)`
   margin-top: 18px;
-  padding: 7px 10px 7px 50px;
+  padding: 4px 10px 5px 51px;
   background-color: rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;
@@ -39,13 +42,14 @@ export const HealthWrapper = styled(Flex)`
 export const ActionButton = styled(IconButton)`
   position: absolute;
   left: 0;
+  top: -2px;
+  padding: 7px 6px 5px;
 `;
-
 export const ButtonPass = styled(Button)`
   ${textShadow(shadows.yellow)}
-  font-size: 20px;
   ${shadow("full")}
-  padding: 6px 40px;
+  font-size: 20px;
+  padding: 2px 42px 0;
 `;
 
 export const StyledIconButton = styled(IconButton)`
@@ -55,18 +59,22 @@ export const StyledIconButton = styled(IconButton)`
 
 export const PlanetImage = styled(Image)`
   position: absolute;
-  z-index: 0;
-  top: 0;
+  z-index: -1;
+  top: -52%;
   left: 0;
   right: 0;
-  max-width: 450px;
   margin: 0 auto;
 `;
 
-export const PlanetClick = styled.div`
+export const RootControls = styled(Flex)`
+  flex-direction: column;
+  padding: 0 24px;
+`;
+
+export const PlanetClick = styled(Flex)`
   width: 100%;
-  max-width: 450px;
-  aspect-ratio: 1/1.1;
+  position: relative;
+  aspect-ratio: 1/1;
 `;
 
 export const Content = styled(Flex)`
@@ -78,11 +86,12 @@ export const StyledSubHeader = styled(SubHeader)`
   color: #fff;
   -webkit-text-stroke: 0.81px #623378;
   text-shadow: 0px 1.62px #623378;
-  margin: 0 auto;
+  margin: 10px auto 0px;
 `;
 
 export const StyledButton = styled(Button)`
   font-size: 29.13px;
+  line-height: 36.5px;
   -webkit-text-stroke: 0.81px #623378;
   text-shadow: 0px 1.62px #623378;
   border: 0.81px solid #623378;
@@ -102,7 +111,7 @@ export const StyledButton = styled(Button)`
 export const StyledButtonShadow = styled.div`
   background: #0000004d;
   border-radius: 10px;
-  margin: 0 auto;
+  margin: 4px auto 0;
   padding: 4px;
   box-shadow: 0px 1.62px 0px 0px #00000040 inset,
     0px -0.81px 0px 0px #ffffff40 inset;

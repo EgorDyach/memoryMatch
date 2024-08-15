@@ -16,6 +16,7 @@ export const indent: Record<Indent, string> = {
   small: "8px",
   xmedium: "14px",
   medium: "16px",
+  slarge: "19px",
   large: "24px",
   xlarge: "32px",
   xxlarge: "40px",

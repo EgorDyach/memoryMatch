@@ -22,6 +22,7 @@ const NavBarWrapper = styled.nav`
 const NavBarItem = styled.button<{ $isActive: boolean }>`
   height: 100%;
   flex-basis: ${(props) => (props.$isActive ? "25%" : "18.75%")};
+  width: ${(props) => (props.$isActive ? "25%" : "18.75%")};
   padding: 0;
   background-color: transparent;
   outline: none;

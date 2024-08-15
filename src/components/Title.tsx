@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 import { ButtonType } from "./button/Button";
 import Flex from "./Flex";
 import styled from "styled-components";
@@ -14,9 +14,18 @@ interface TitleProps extends PropsWithChildren {
   className?: string;
 }
 
+const coloredStars: Record<ButtonType, ReactNode> = {
+  pink: <PinkStarIcon size={22} />,
+  yellow: "",
+  blue: "",
+  default: "",
+  danger: "",
+  red: <RedStarIcon size={22} />,
+};
+
 const TitleWrapper = styled(Flex)<{ $type: ButtonType }>`
   width: 100%;
-  padding: 10px;
+  padding: 8px 11px 5px;
   justify-content: space-between;
   align-items: center;
   border-radius: 10px;
@@ -48,11 +57,9 @@ const RawTitle: FC<TitleProps> = ({
 }) => {
   return (
     <TitleWrapper className={className} $type={type}>
-      {hasStars && type === "pink" && <PinkStarIcon size={26} />}
-      {hasStars && type === "red" && <RedStarIcon size={26} />}
+      {hasStars && coloredStars[type]}
       <ItemTitle>{children}</ItemTitle>
-      {hasStars && type === "pink" && <PinkStarIcon size={26} />}
-      {hasStars && type === "red" && <RedStarIcon size={26} />}
+      {hasStars && coloredStars[type]}
     </TitleWrapper>
   );
 };
