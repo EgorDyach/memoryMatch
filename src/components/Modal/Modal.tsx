@@ -50,6 +50,7 @@ export const Modal: FC = () => {
           description={content?.description}
           visible={content?.visible}
           hideModal={content?.hideModal}
+          withCancel={content?.withCancel}
           isMarkup={content?.isMarkup}
         />
       </Portal>

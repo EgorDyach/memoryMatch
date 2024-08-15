@@ -24,8 +24,9 @@ import {
   RootControls,
 } from "./rootStyles";
 import { useModal } from "@hooks/useModal";
-import { showSettings } from "./constants";
+import { showBattlePass, showSettings } from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
+import { showModal } from "@lib/utils/modal";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -62,7 +63,9 @@ export const RootPage = () => {
             <Text $size="subtitle">11:11</Text>
           </HealthWrapper>
           <Flex gap="12px" $top="slarge" wrap="wrap" justify="space-between">
-            <ButtonPass type="yellow">Battle pass</ButtonPass>
+            <ButtonPass onClick={() => showModal(showBattlePass)} type="yellow">
+              Battle pass
+            </ButtonPass>
             <StyledIconButton type="blue" icon={<AdIcon size={33} />} />
             <StyledIconButton type="blue" icon={<NewsIcon size={33} />} />
             <StyledIconButton

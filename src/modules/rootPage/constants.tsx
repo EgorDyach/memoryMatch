@@ -1,17 +1,56 @@
 import { ShowModal } from "@components/Modal/types";
 import { Settings } from "./Settings";
 import { closeModal } from "@lib/utils/modal";
+import { Text } from "@components/Typography";
+import { content } from "@lib/theme/colors";
+import Flex from "@components/Flex";
 
 export const showSettings: ShowModal = {
   title: "Settings",
   description: <Settings />,
-  hideModal: () => closeModal(),
+  hideModal: closeModal,
   isMarkup: false,
+  withCancel: true,
+};
+
+export const showBattlePass: ShowModal = {
+  title: "Battle Pass",
+  description: (
+    <Flex style={{ margin: "0 auto" }} align="center">
+      <Text
+        $size="header"
+        $shadow={{ color: content.secondary, shadowSize: 2, strokeWidth: 0.81 }}
+      >
+        Coming soon
+      </Text>
+    </Flex>
+  ),
+  hideModal: closeModal,
+  isMarkup: false,
+  withCancel: true,
+};
+
+export const showNews: ShowModal = {
+  title: "News",
+  description: (
+    <Flex style={{ margin: "0 auto" }} align="center">
+      <Text
+        $size="header"
+        $shadow={{ color: content.secondary, shadowSize: 2, strokeWidth: 0.81 }}
+      >
+        Coming soon
+      </Text>
+    </Flex>
+  ),
+  hideModal: closeModal,
+  isMarkup: false,
+  withCancel: true,
 };
 
 export const showPrivacy: ShowModal = {
   title: "Privacy",
   isMarkup: true,
+  withCancel: true,
   description: ` <h1>Data Collection</h1>
     <p>We may collect the following types of data:</p>
 
@@ -71,7 +110,7 @@ export const showPrivacy: ShowModal = {
         <li>Within partnership programs that support the operation of the Game (e.g., analytics and hosting services);</li>
         <li>In the event of a sale or reorganization of our company, if necessary to ensure the continued operation of the Game.</li>
     </ul>`,
-  hideModal: () => closeModal(),
+  hideModal: closeModal,
 };
 
 export const settingsLanguages = [

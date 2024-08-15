@@ -28,7 +28,7 @@ const CancelContainer = styled.div`
   box-shadow: 0px 2.29px 0px 0px #092e46;
 `;
 
-const MarkupWrapper = styled(Flex)`
+const ContentWrapper = styled(Flex)`
   background-color: #ddeaee;
   ${shadow("full")}
   padding: 25px 15px;
@@ -38,7 +38,8 @@ const MarkupWrapper = styled(Flex)`
 `;
 
 export const ModalView: FC<ModalViewProps> = (props) => {
-  const { title, description, hideModal, visible, isMarkup } = props;
+  const { title, description, hideModal, visible, isMarkup, withCancel } =
+    props;
   return (
     <StyledModalWrap $visible={visible}>
       <StyledModalContent>
@@ -46,22 +47,24 @@ export const ModalView: FC<ModalViewProps> = (props) => {
           <Flex>
             <ModalTitle $top="small">{title}</ModalTitle>
           </Flex>
-          <CancelContainer>
-            <CancelButton
-              type="danger"
-              onClick={() => hideModal && hideModal()}
-              icon={<CrossIcon size={10} />}
-            />
-          </CancelContainer>
+          {withCancel && (
+            <CancelContainer>
+              <CancelButton
+                type="danger"
+                onClick={() => hideModal && hideModal()}
+                icon={<CrossIcon size={10} />}
+              />
+            </CancelContainer>
+          )}
         </Flex>
-        {isMarkup && (
-          <MarkupWrapper>
+        <ContentWrapper>
+          {isMarkup && (
             <div
               dangerouslySetInnerHTML={{ __html: String(description) }}
             ></div>
-          </MarkupWrapper>
-        )}
-        {!isMarkup && description}
+          )}
+          {!isMarkup && description}
+        </ContentWrapper>
       </StyledModalContent>
     </StyledModalWrap>
   );

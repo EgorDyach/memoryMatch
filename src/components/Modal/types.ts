@@ -11,6 +11,7 @@ export type OpenModal = {
   hideModal: VoidFunction;
   description?: ReactNode;
   isMarkup: boolean;
+  withCancel?: boolean;
 };
 
 export type ShowModal = Omit<OpenModal, "visible">;

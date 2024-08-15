@@ -6,4 +6,5 @@ export interface ModalViewProps {
   description: ReactNode;
   visible?: boolean;
   isMarkup?: boolean;
+  withCancel?: boolean;
 }
