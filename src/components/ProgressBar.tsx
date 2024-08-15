@@ -8,6 +8,9 @@ interface RawProgressBarProps {
   color1: string;
   color2: string;
   bgColor: string;
+  speed?: number;
+  itemWidth?: number;
+  height?: string | number;
   className?: string;
 }
 import { keyframes, css } from "styled-components";
@@ -47,9 +50,9 @@ const gradientStriped = (
 `;
 
 // Animations
-const progressBarAnimate = keyframes`
+const progressBarAnimate = ($itemWidth: number) => keyframes`
   from {
-    background-position: 40px 0;
+    background-position: ${$itemWidth}px 0;
   }
   to {
     background-position: 0 0;
@@ -57,9 +60,13 @@ const progressBarAnimate = keyframes`
 `;
 
 // Styled components
-export const Progress = styled.div<{ $bgColor: string }>`
+export const Progress = styled.div<{
+  $bgColor: string;
+  $height: string | number;
+}>`
   overflow: hidden;
-  height: 7px;
+  height: ${({ $height }) =>
+    typeof $height === "string" ? $height : `${$height}px`};
   border-radius: 10px;
   width: 100%;
   background: ${(props) => props.$bgColor};
@@ -70,20 +77,24 @@ export const StyledProgressBar = styled.div<{
   $color2: string;
   $speed: number;
   $widthPercent: number;
+  $itemWidth: number;
 }>`
   width: ${(props) => props.$widthPercent}%;
   height: 100%;
   float: left;
   box-sizing: border-box;
   background-color: #79b;
-  background-size: 20px 20px;
+  background-size: ${(props) => props.$itemWidth}px
+    ${(props) => props.$itemWidth}px;
   border-radius: 10px;
   ${(props) => gradientStriped(props.$color1, props.$color2)}
   ${transition("width 200ms ease")}
 
-  -webkit-animation: ${progressBarAnimate} ${(props) =>
-    props.$speed}s linear infinite;
-  animation: ${progressBarAnimate} ${(props) => props.$speed}s linear infinite;
+  -webkit-animation: ${(props) => progressBarAnimate(props.$itemWidth)} ${(
+    props
+  ) => props.$speed}s linear infinite;
+  animation: ${(props) => progressBarAnimate(props.$itemWidth)}
+    ${(props) => props.$speed}s linear infinite;
 `;
 
 const RawProgressBar: FC<RawProgressBarProps> = ({
@@ -93,13 +104,17 @@ const RawProgressBar: FC<RawProgressBarProps> = ({
   color2,
   bgColor,
   className,
+  speed = 1.5,
+  itemWidth = 20,
+  height = 7,
 }) => {
   return (
-    <Progress $bgColor={bgColor} className={className}>
+    <Progress $height={height} $bgColor={bgColor} className={className}>
       <StyledProgressBar
+        $itemWidth={itemWidth}
         $color1={color1}
         $color2={color2}
-        $speed={1.5}
+        $speed={speed}
         $widthPercent={(active / total) * 100}
       />
     </Progress>
