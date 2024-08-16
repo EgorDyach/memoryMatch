@@ -23,3 +23,29 @@ export type Season = {
     progressBarBgColor: string;
   };
 };
+
+export type Map = {
+  id: number;
+  title: string;
+  colors: {
+    percentBackgroundColor: string;
+    backgroundColor: string;
+    titleColor: string;
+    titleShadowColor?: string;
+    percentShadowColor?: string;
+  };
+  levels: MapLevel[];
+};
+
+export type MapLevel = {
+  id: number;
+  positionX: number;
+  positionY: number;
+  reward: MapReward | null;
+};
+
+type MapReward = {
+  placement: "top" | "left" | "bottom" | "right";
+  type: "coin" | "diamond" | "fragment";
+  count: number;
+};

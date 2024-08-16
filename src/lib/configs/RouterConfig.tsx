@@ -7,6 +7,7 @@ import { TasksPage } from "@modules/tasksPage/TasksPage";
 import { VersusPage } from "@modules/versusPage/VersusPage";
 import { createBrowserRouter } from "react-router-dom";
 import { SeasonsPage } from "@modules/seasonsPage/SeasonsPage";
+import { MapPage } from "@modules/mapPage/MapPage";
 
 export const routerConfig = createBrowserRouter([
   {
@@ -25,16 +26,16 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/map",
         element: (
-          <FixedLayout>
+          <PaddingLayout>
             <SeasonsPage />
-          </FixedLayout>
+          </PaddingLayout>
         ),
       },
       {
         path: "/map/:seasonId",
         element: (
           <FixedLayout>
-            <SeasonsPage />
+            <MapPage />
           </FixedLayout>
         ),
       },

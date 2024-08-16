@@ -3,31 +3,32 @@ import MapIcon from "@components/icons/MapIcon";
 import ShopIcon from "@components/icons/ShopIcon";
 import TasksIcon from "@components/icons/TasksIcon";
 import VersusIcon from "@components/icons/VersusIcon";
+import { seasons } from "@modules/seasonsPage/constants";
 
 export const navBarLinks = [
   {
     icon: (color: string) => <MapIcon color={color} size={30} />,
     text: "MAP",
-    link: "/map/:courseId",
+    links: ["/map", ...seasons.map((item) => `/map/${item.id}`)],
   },
   {
     icon: (color: string) => <ShopIcon color={color} size={30} />,
     text: "SHOP",
-    link: "/shop",
+    links: ["/shop"],
   },
   {
     icon: (color: string) => <HomeIcon color={color} size={30} />,
     text: "HOME",
-    link: "/",
+    links: ["/"],
   },
   {
     icon: (color: string) => <TasksIcon color={color} size={30} />,
     text: "TASKS",
-    link: "/tasks",
+    links: ["/tasks"],
   },
   {
     icon: (color: string) => <VersusIcon color={color} size={30} />,
     text: "1 vs 1",
-    link: "/versus",
+    links: ["/versus"],
   },
 ];

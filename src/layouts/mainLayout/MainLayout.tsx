@@ -1,8 +1,8 @@
 import Flex from "@components/Flex";
 import { NavBar } from "@layouts/shared/navBar/NavBar";
 import { gradients } from "@lib/theme/colors";
-import { FC, PropsWithChildren } from "react";
-import { Outlet } from "react-router-dom";
+import { FC, PropsWithChildren, useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import bg from "@assets/bg.svg";
 
@@ -27,6 +27,11 @@ export const TopBlur = styled.div`
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <>
       <Wrapper direction="column">

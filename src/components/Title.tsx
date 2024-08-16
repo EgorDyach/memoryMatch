@@ -11,6 +11,7 @@ import { shadowWithTitle, textShadow } from "@lib/theme/shadow";
 interface TitleProps extends PropsWithChildren {
   type?: ButtonType;
   hasStars?: boolean;
+  actionButton?: ReactNode;
   className?: string;
   customColor?: Record<
     "color" | "backgroundColor" | "borderTop" | "shadowColor",
@@ -83,12 +84,14 @@ const RawTitle: FC<TitleProps> = ({
   hasStars,
   className,
   customColor,
+  actionButton,
 }) => {
   return (
     <TitleWrapper className={className} $type={type} $customColor={customColor}>
       {hasStars && type ? coloredStars[type] : <div></div>}
       <ItemTitle>{children}</ItemTitle>
       {hasStars && type ? coloredStars[type] : <div></div>}
+      {actionButton}
     </TitleWrapper>
   );
 };

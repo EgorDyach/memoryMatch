@@ -93,7 +93,9 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setActiveIndex(navBarLinks.findIndex(({ link }) => pathname === link));
+    setActiveIndex(
+      navBarLinks.findIndex(({ links }) => links.includes(pathname))
+    );
   }, [pathname, setActiveIndex]);
 
   return (
@@ -102,15 +104,17 @@ export const NavBar = () => {
         <ActiveBg $translateX={activeIndex} />
         {navBarLinks.map((item, index) => (
           <NavBarItem
-            $isActive={item.link === pathname}
+            $isActive={item.links.includes(pathname)}
             key={index}
             onClick={() => {
-              navigate(item.link);
+              navigate(item.links[0]);
             }}
           >
             <Flex direction="column" align="center" justify="center" gap="6px">
-              {item.icon(item.link === pathname ? "#fff" : "#6B82AE")}
-              <NavItem $isActive={item.link === pathname}>{item.text}</NavItem>
+              {item.icon(item.links.includes(pathname) ? "#fff" : "#6B82AE")}
+              <NavItem $isActive={item.links.includes(pathname)}>
+                {item.text}
+              </NavItem>
             </Flex>
           </NavBarItem>
         ))}

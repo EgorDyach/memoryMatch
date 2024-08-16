@@ -13,11 +13,12 @@ import styled from "styled-components";
 
 const Wrapper = styled(Flex)<{ $padding: string }>`
   padding: ${(props) => props.$padding};
+  position: relative;
 `;
 
 const FixedFlex = styled(Flex)`
-  /* position: fixed; */
-  /* top: 70px; */
+  position: fixed;
+  top: 70px;
 `;
 
 interface FixedLayoutProps extends PropsWithChildren {
