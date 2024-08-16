@@ -31,7 +31,9 @@ const statusColor: Record<
 const StyledTooltip = styled(MapTooltip)<{
   $placement: "top" | "left" | "bottom" | "right";
 }>`
-  align-self: center;
+  /* position: fixed;
+  z-index: unset;
+  align-self: center; */
 `;
 
 const StyledButton = styled.button<{
@@ -41,8 +43,6 @@ const StyledButton = styled.button<{
   height: 100%;
   border-radius: 10px;
   border: none;
-  z-index: 2;
-  position: relative;
   background-color: ${(props) => statusColor.background[props.$status]};
   ${shadow("full")};
 `;

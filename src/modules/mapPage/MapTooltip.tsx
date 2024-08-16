@@ -15,106 +15,103 @@ interface MapTooltipProps {
   count: number;
 }
 
-const Slide = ($placement: "top" | "left" | "right" | "bottom") => keyframes`
-   0% {
-      ${
-        $placement === "top" &&
-        `
-      transform: translate(0, 0);
-      `
-      }
+// const Slide = ($placement: "top" | "left" | "right" | "bottom") => keyframes`
+//    0% {
+//       ${
+//         $placement === "top" &&
+//         `
+//       transform: translate(0, 0);
+//       `
+//       }
 
-      ${
-        $placement === "bottom" &&
-        `
-      transform: translate(0, 0);
-      `
-      }
+//       ${
+//         $placement === "bottom" &&
+//         `
+//       transform: translate(0, 0);
+//       `
+//       }
 
-    ${
-      $placement === "left" &&
-      `
-      transform: translate(0, -0%);
-      `
-    }
-    ${
-      $placement === "right" &&
-      `
-      transform: translate(0, -0%);
-      `
-    }
-    }
-    50% {
-      ${
-        $placement === "top" &&
-        `
-      transform: translate(0, -25%);
-      `
-      }
+//     ${
+//       $placement === "left" &&
+//       `
+//       transform: translate(0, -0%);
+//       `
+//     }
+//     ${
+//       $placement === "right" &&
+//       `
+//       transform: translate(0, -0%);
+//       `
+//     }
+//     }
+//     50% {
+//       ${
+//         $placement === "top" &&
+//         `
+//       transform: translate(0, -25%);
+//       `
+//       }
 
-      ${
-        $placement === "bottom" &&
-        `
-      transform: translate(-0%, 25%);
-      `
-      }
+//       ${
+//         $placement === "bottom" &&
+//         `
+//       transform: translate(-0%, 25%);
+//       `
+//       }
 
-    ${
-      $placement === "left" &&
-      `
-      transform: translate(-25%, -0%);
-      `
-    }
-    ${
-      $placement === "right" &&
-      `
-      transform: translate(20%, -0%);
-      `
-    }
-    }
-      100% {
-      ${
-        $placement === "top" &&
-        `
-      transform: translate(-0%, 0);
-      `
-      }
+//     ${
+//       $placement === "left" &&
+//       `
+//       transform: translate(-25%, -0%);
+//       `
+//     }
+//     ${
+//       $placement === "right" &&
+//       `
+//       transform: translate(20%, -0%);
+//       `
+//     }
+//     }
+//       100% {
+//       ${
+//         $placement === "top" &&
+//         `
+//       transform: translate(-0%, 0);
+//       `
+//       }
 
-      ${
-        $placement === "bottom" &&
-        `
-      transform: translate(-0%, 0);
-      `
-      }
+//       ${
+//         $placement === "bottom" &&
+//         `
+//       transform: translate(-0%, 0);
+//       `
+//       }
 
-    ${
-      $placement === "left" &&
-      `
-      transform: translate(0, -0%);
-      `
-    }
-    ${
-      $placement === "right" &&
-      `
-      transform: translate(0, -0%);
-      `
-    }
-    }
-`;
+//     ${
+//       $placement === "left" &&
+//       `
+//       transform: translate(0, -0%);
+//       `
+//     }
+//     ${
+//       $placement === "right" &&
+//       `
+//       transform: translate(0, -0%);
+//       `
+//     }
+//     }
+// `;
 
 const StyledMapTooltip = styled(Flex)<{
   $placement: "top" | "left" | "right" | "bottom";
 }>`
-  keyframes slide {
-  }
   height: calc(100% - 25px);
   width: calc(100% - 15px);
   border-radius: 4.6px;
   border: 0.77px solid #698cad;
   box-shadow: 0px 1.02px 0px 0px #0000001a, 0px 0.51px 0px 0px #698cad;
   background: ${gradients.shopCard};
-  animation: ${(props) => Slide(props.$placement)} ${Math.random() + 1}s ease
-    infinite;
+  /* infinite; */
   ${(props) =>
     props.$placement === "top" &&
     `
@@ -137,14 +134,13 @@ const StyledMapTooltip = styled(Flex)<{
     `
       right: -5px;
       `}
-  position: relative;
   &::after {
     content: "";
     position: absolute;
     ${(props) =>
       props.$placement === "top" &&
       `
-      top: 100%; /* At the bottom of the tooltip */
+      top: 68%; /* At the bottom of the tooltip */
       left: 50%;
       transform: translateX(-50%);
       border-color: #d9d9d9 transparent transparent transparent;
@@ -153,7 +149,7 @@ const StyledMapTooltip = styled(Flex)<{
     ${(props) =>
       props.$placement === "bottom" &&
       `
-      bottom: 100%; /* At the bottom of the tooltip */
+      bottom: 68%; /* At the bottom of the tooltip */
       left: 50%;
       transform: translateX(-50%);
       border-color: transparent #d9d9d9  transparent transparent;
@@ -163,14 +159,14 @@ const StyledMapTooltip = styled(Flex)<{
       props.$placement === "left" &&
       `
       bottom: 50%; /* At the bottom of the tooltip */
-      left: 100%;
-      border-color: transparent #d9d9d9 transparent  transparent;
+      left: 68%;
+      border-color: transparent #d9d9d9 transparent  #d9d9d9;
       `}
     ${(props) =>
       props.$placement === "right" &&
       `
       bottom: 50%; /* At the bottom of the tooltip */
-      right: 100%;;
+      right: 68%;;
       border-color: transparent #d9d9d9 transparent transparent;
       `}
     border-width: 5px;
