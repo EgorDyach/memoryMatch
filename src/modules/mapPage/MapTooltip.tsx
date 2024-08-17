@@ -4,9 +4,9 @@ import { gradients } from "@lib/theme/colors";
 import { textShadow } from "@lib/theme/shadow";
 import { FC } from "react";
 import styled, { keyframes } from "styled-components";
-import coin from "@assets/coin.svg";
-import diamond from "@assets/diamond.svg";
-import fragment from "@assets/fragment.svg";
+import coin from "/img/coin.svg";
+import diamond from "/img/diamond.svg";
+import fragment from "/img/fragment.svg";
 interface MapTooltipProps {
   placement?: "top" | "left" | "right" | "bottom";
   className?: string;
