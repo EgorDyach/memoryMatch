@@ -8,7 +8,7 @@ import { IndicatorItem } from "@components/IndicatorItem";
 import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
-import { FC, PropsWithChildren, useEffect } from "react";
+import { FC, PropsWithChildren } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled(Flex)<{ $padding: string; $overflow?: boolean }>`
@@ -28,11 +28,6 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
   overflow,
   padding = "0 24px",
 }) => {
-  useEffect(() => {
-    setTimeout(() => {
-      document.body.style.overflow = "visible";
-    });
-  }, []);
   return (
     <Wrapper $overflow={overflow} $padding={padding} direction="column">
       <Flex basis="50%" gap="12px" wrap="wrap">
