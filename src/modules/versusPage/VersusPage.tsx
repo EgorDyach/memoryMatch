@@ -16,8 +16,9 @@ export const VersusPage = () => {
             Field Size
           </Text>
         </Flex>
-        {fieldSizes.map((item) => (
+        {fieldSizes.map((item, index) => (
           <Button
+            key={index}
             shadow="full"
             type="blue"
             $top="medium"

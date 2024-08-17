@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@lib/configs/routes";
 import LockIcon from "@components/icons/LockIcon";
 import { shadow } from "@lib/theme/shadow";
-import InstIcon from "@components/icons/InstIcon";
 
 const StyledImage = styled(Image)`
   border-radius: 6.6px;
@@ -153,7 +152,6 @@ export const SeasonsPage = () => {
             </Button>
             {!item.has_access && (
               <StyledBlur direction="column">
-                <InstIcon size={48} color={item.colors.titleShadowColor} />
                 <LockIcon size={48} color={item.colors.titleShadowColor} />
                 <Text
                   $size={"subtitle"}

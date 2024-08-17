@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const StyledIcon = styled.svg<{ $color: string }>`
   filter: drop-shadow(0px 2px 0px ${(props) => props.$color});
+  -webkit-ffilter: drop-shadow(0px 2px 0px ${(props) => props.$color});
 `;
 
 const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
@@ -15,7 +16,7 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g filter="url(#filter0_d_0_319)">
+    <g>
       <path
         d="M28 14H26V10C26 4.48 21.52 0 16 0C10.48 0 6 4.48 6 10V14H4C1.79 14 0 15.79 0 18V38C0 40.21 1.79 42 4 42H28C30.21 42 32 40.21 32 38V18C32 15.79 30.21 14 28 14ZM16 32C13.79 32 12 30.21 12 28C12 25.79 13.79 24 16 24C18.21 24 20 25.79 20 28C20 30.21 18.21 32 16 32ZM22.2 14H9.8V10C9.8 6.58 12.58 3.8 16 3.8C19.42 3.8 22.2 6.58 22.2 10V14Z"
         fill="white"

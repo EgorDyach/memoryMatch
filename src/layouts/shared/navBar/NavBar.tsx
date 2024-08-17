@@ -47,7 +47,7 @@ const NavBarItem = styled.button<{ $isActive: boolean }>`
     transition: color 0.3s ease;
   }
   path {
-    transition: stroke 0.3s ease, stroke-width 0.3s ease;
+    transition: stroke 0.3s ease, strokeWidth 0.3s ease;
     ${(props) =>
       props.$isActive &&
       `

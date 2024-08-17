@@ -112,8 +112,9 @@ export const TasksPage = () => {
               bgColor="#440A1F"
             />
             <RewardsWrapper>
-              {progressData.rewards.map((item) => (
+              {progressData.rewards.map((item, index) => (
                 <Reward
+                  key={index}
                   align="center"
                   gap="2px"
                   $leftPercent={item.percent >= 95 ? 95 : item.percent}

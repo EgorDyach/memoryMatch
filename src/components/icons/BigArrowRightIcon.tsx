@@ -30,7 +30,7 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
         width="20.0002"
         height="19.98"
         filterUnits="userSpaceOnUse"
-        colorInterpolationfilters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix

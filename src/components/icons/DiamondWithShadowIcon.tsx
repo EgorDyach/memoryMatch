@@ -13,7 +13,7 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
       <path
         d="M0.646446 8.35355C0.451184 8.15829 0.451184 7.84171 0.646446 7.64645L7.64644 0.646447C7.74021 0.552679 7.86739 0.5 8 0.5C8.13261 0.5 8.25978 0.552679 8.35355 0.646447L15.3536 7.64645C15.4473 7.74021 15.5 7.86739 15.5 8C15.5 8.13261 15.4473 8.25978 15.3536 8.35355L8.35355 15.3536C8.15829 15.5488 7.84171 15.5488 7.64644 15.3536L0.646446 8.35355Z"
         stroke="#092E46"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </g>
     <circle cx="9.94493" cy="9.75133" r="0.194444" fill="#2594E4" />
@@ -28,8 +28,8 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M7.90185 1.97314L5.27686 7.61203"
       stroke="#88CDFF"
-      stroke-width="0.178721"
-      stroke-linecap="round"
+      strokeWidth="0.178721"
+      strokeLinecap="round"
     />
     <path d="M4.5 8L8 15L0.999999 8L8 1L4.5 8Z" fill="#46CAF3" />
     <path d="M2.55555 8L8 15L0.999999 8L8 1L2.55555 8Z" fill="#C1E9FF" />
@@ -42,8 +42,8 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
     <path
       d="M4.69415 4.69653L1.97192 7.6132"
       stroke="white"
-      stroke-width="0.178721"
-      stroke-linecap="round"
+      strokeWidth="0.178721"
+      strokeLinecap="round"
     />
     <defs>
       <filter
@@ -53,7 +53,7 @@ const Icon: FC = (props: SVGProps<SVGSVGElement>) => (
         width="16"
         height="17.0345"
         filterUnits="userSpaceOnUse"
-        colorInterpolationfilters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix

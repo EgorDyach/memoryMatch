@@ -160,7 +160,7 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
         </filter>
       </defs>
       {points.map((point, index) => (
-        <>
+        <g key={index}>
           {point.reward && (
             <foreignObject
               x={
@@ -193,7 +193,6 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
             </foreignObject>
           )}
           <foreignObject
-            key={index}
             x={point.positionX}
             y={point.positionY}
             width={45}
@@ -208,7 +207,7 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
               </StyledTitle>
             </StyledButton>
           </foreignObject>
-        </>
+        </g>
       ))}
     </svg>
   );
