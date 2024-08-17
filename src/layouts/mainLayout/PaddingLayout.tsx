@@ -8,25 +8,33 @@ import { IndicatorItem } from "@components/IndicatorItem";
 import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 import styled from "styled-components";
 
-const Wrapper = styled(Flex)<{ $padding: string }>`
+const Wrapper = styled(Flex)<{ $padding: string; $overflow?: boolean }>`
   padding: ${(props) => props.$padding};
+  overflow-y: ${(props) => (props.$overflow ? "auto" : "hidden")};
 `;
 
 interface PaddingLayoutProps extends PropsWithChildren {
   showHealth?: boolean;
   padding?: string;
+  overflow?: boolean;
 }
 
 export const PaddingLayout: FC<PaddingLayoutProps> = ({
   children,
   showHealth,
+  overflow,
   padding = "0 24px",
 }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      document.body.style.overflow = "visible";
+    });
+  }, []);
   return (
-    <Wrapper $padding={padding} direction="column">
+    <Wrapper $overflow={overflow} $padding={padding} direction="column">
       <Flex basis="50%" gap="12px" wrap="wrap">
         <IndicatorItem
           action={() => console.log("click")}

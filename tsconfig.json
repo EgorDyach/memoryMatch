@@ -22,6 +22,7 @@
       "@hocs/*": ["src/hocs/*"],
       "@layouts/*": ["src/layouts/*"],
       "@assets/*": ["src/assets/*"],
+      "@constants/*": ["src/constants/*"],
       "@public/*": ["public/*"]
     },
     /* Linting */

@@ -13,14 +13,21 @@ const SettingsWrapper = styled(Flex)`
 
 const SettingsControls = styled(Flex)`
   background-color: #ddeaee;
-  padding: 16px 16px 24px;
   border-radius: 10px 10px 0 0;
 `;
 
 const Links = styled(Flex)`
   background-color: #ddeaee;
-  padding: 20px 16px 16px;
   border-radius: 0 0 10px 10px;
+`;
+
+const RowLine = styled(Flex)`
+  position: absolute;
+  width: 100%;
+  top: 315px;
+  left: 0;
+  height: 5px;
+  background-color: #64697b;
 `;
 
 const ButtonLink = styled(Button)`
@@ -52,6 +59,8 @@ export const Settings = () => {
         </Flex>
         <LanguageSwiper languages={settingsLanguages} $top="large" />
       </SettingsControls>
+      <RowLine />
+      <Flex $top="53px"></Flex>
       <Links basis="50%" gap="6px" wrap="wrap">
         <ButtonLink type="blue">Support</ButtonLink>
         <ButtonLink onClick={() => showModal(showPrivacy)} type="blue">

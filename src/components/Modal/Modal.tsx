@@ -31,7 +31,6 @@ export const Modal: FC = () => {
         setContent(null);
       }
     };
-    document.body.style.overflow = content?.visible ? "hidden" : "unset";
     document.addEventListener("keydown", onKeyDown, false);
     return () => {
       document.removeEventListener("keydown", onKeyDown, false);

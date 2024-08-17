@@ -26,7 +26,7 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/map",
         element: (
-          <PaddingLayout>
+          <PaddingLayout overflow>
             <SeasonsPage />
           </PaddingLayout>
         ),
@@ -42,7 +42,7 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/shop",
         element: (
-          <PaddingLayout showHealth>
+          <PaddingLayout showHealth overflow>
             <ShopPage />
           </PaddingLayout>
         ),

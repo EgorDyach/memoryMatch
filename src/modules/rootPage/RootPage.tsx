@@ -9,7 +9,7 @@ import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
 import SettingsIcon from "@components/icons/SettingsIcon";
 import AdIcon from "@components/icons/AdIcon";
 import NewsIcon from "@components/icons/NewsIcon";
-import aztec from "/img/planets/aztec.png";
+import aztec from "/img/planets/aztec.webp";
 import {
   Content,
   HealthWrapper,
@@ -27,9 +27,13 @@ import { useModal } from "@hooks/useModal";
 import { showBattlePass, showNews, showSettings } from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { showModal } from "@lib/utils/modal";
+import { useEffect } from "react";
 
 export const RootPage = () => {
   const [openModal] = useModal();
+  useEffect(() => {
+    setTimeout(() => (document.body.style.overflow = "hidden"));
+  }, []);
   return (
     <>
       <Content>
@@ -62,7 +66,7 @@ export const RootPage = () => {
             </Flex>
             <Text $size="subtitle">11:11</Text>
           </HealthWrapper>
-          <Flex gap="12px" $top="slarge" wrap="wrap" justify="space-between">
+          <Flex gap="12px" $top="slarge" justify="space-between">
             <ButtonPass onClick={() => showModal(showBattlePass)} type="yellow">
               Battle pass
             </ButtonPass>
@@ -80,7 +84,7 @@ export const RootPage = () => {
           </Flex>
         </RootControls>
         <PlanetClick onClick={() => console.log("clicked on planet")}>
-          <PlanetImage src={aztec} width={"100%"} />
+          <PlanetImage src={aztec} />
         </PlanetClick>
         <StyledSubHeader>1 Season • 1 Level</StyledSubHeader>
         <StyledButtonShadow>

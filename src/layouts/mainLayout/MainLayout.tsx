@@ -10,20 +10,10 @@ const Wrapper = styled(Flex)`
   background: url(${bg}), ${gradients.mainBg};
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
+  height: 100vh;
   position: relative;
   min-height: 100vh;
-  padding: 70px 0 125px;
-`;
-
-export const TopBlur = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 57px;
-  z-index: 10000;
-  background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 86.85%);
+  padding: 20px 0 120px;
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -34,10 +24,7 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Wrapper direction="column">
-        <TopBlur />
-        {children || <Outlet />}
-      </Wrapper>
+      <Wrapper direction="column">{children || <Outlet />}</Wrapper>
       <NavBar />
     </>
   );

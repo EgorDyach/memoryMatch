@@ -12,7 +12,7 @@ import IconButton from "@components/button/IconButton";
 import BigArrowRightIcon from "@components/icons/BigArrowRightIcon";
 const StyledTitle = styled(Title)`
   position: fixed;
-  top: 130px;
+  top: 60px;
   left: 24px;
   right: 24px;
   width: auto;

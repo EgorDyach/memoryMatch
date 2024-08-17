@@ -8,17 +8,19 @@ import { IndicatorItem } from "@components/IndicatorItem";
 import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled(Flex)<{ $padding: string }>`
   padding: ${(props) => props.$padding};
   position: relative;
+  overflow: auto;
 `;
 
 const FixedFlex = styled(Flex)`
   position: fixed;
-  top: 70px;
+  width: calc(100% - 48px);
+  top: 20px;
 `;
 
 interface FixedLayoutProps extends PropsWithChildren {
@@ -31,6 +33,9 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
   showHealth,
   padding = "0px 24px 0",
 }) => {
+  useEffect(() => {
+    setTimeout(() => {});
+  }, []);
   return (
     <Wrapper $padding={padding} direction="column">
       <FixedFlex basis="50%" gap="12px" wrap="wrap">

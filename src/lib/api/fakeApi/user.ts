@@ -15,7 +15,7 @@ export const fakeRequestUser = (
         health: Math.floor(Math.random() * 7),
         health_time: Math.floor(Math.random() * 1200),
         activeLevel: 25,
-        activeSeasonId: 1,
+        activeSeasonId: 0,
         username: "username",
         id: Math.floor(Math.random() * 1000000),
       });

@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 import { radius } from "@lib/theme/radius";
 import { ItemTitle } from "@components/Typography";
 import Flex from "@components/Flex";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
 
 const NavBarWrapper = styled.nav`
   position: fixed;
   height: 100px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -3px;
   display: flex;
   background: ${gradients.navBar};
   border-top: 2px solid ${borders.navBar};
@@ -88,10 +90,11 @@ const NavItem = styled(ItemTitle)<{ $isActive: boolean }>`
   transition: opacity 0.3s ease;
 `;
 export const NavBar = () => {
+  const user = useSelector(uiSelectors.getUser);
   const [activeIndex, setActiveIndex] = useState(2);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+  const userMapLink = `/map/${user?.activeSeasonId}`;
   useEffect(() => {
     setActiveIndex(
       navBarLinks.findIndex(({ links }) => links.includes(pathname))
@@ -107,7 +110,7 @@ export const NavBar = () => {
             $isActive={item.links.includes(pathname)}
             key={index}
             onClick={() => {
-              navigate(item.links[0]);
+              navigate(item.links[0] === "/map" ? userMapLink : item.links[0]);
             }}
           >
             <Flex direction="column" align="center" justify="center" gap="6px">

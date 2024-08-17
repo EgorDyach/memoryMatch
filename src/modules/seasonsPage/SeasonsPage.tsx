@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@lib/configs/routes";
 import LockIcon from "@components/icons/LockIcon";
 import { shadow } from "@lib/theme/shadow";
+import InstIcon from "@components/icons/InstIcon";
 
 const StyledImage = styled(Image)`
   border-radius: 6.6px;
@@ -33,6 +34,7 @@ const StyledBlur = styled(Flex)`
   position: absolute;
   inset: 0;
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   ${shadow("min")}
 
   border-radius: 10px;
@@ -44,8 +46,9 @@ export const SeasonsPage = () => {
   const navigate = useNavigate();
   return (
     <Flex $top="large" direction="column" gap="26px">
-      {seasons.map((item) => (
+      {seasons.map((item, index) => (
         <Card
+          key={index}
           shadow="full"
           title={item.title}
           titleColor={item.colors.titleColor}
@@ -150,6 +153,7 @@ export const SeasonsPage = () => {
             </Button>
             {!item.has_access && (
               <StyledBlur direction="column">
+                <InstIcon size={48} color={item.colors.titleShadowColor} />
                 <LockIcon size={48} color={item.colors.titleShadowColor} />
                 <Text
                   $size={"subtitle"}

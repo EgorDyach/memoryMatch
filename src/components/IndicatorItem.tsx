@@ -12,7 +12,7 @@ interface IndicatorItemProps {
 }
 
 const IndicatorWrapper = styled(Flex)<{ $isAction?: boolean }>`
-  padding: ${(props) => (props.$isAction ? "3px 50px 0px" : "7px 14px")};
+  padding: ${(props) => (props.$isAction ? "3px 10px 0px" : "7px 14px")};
   background-color: rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;

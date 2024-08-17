@@ -37,12 +37,21 @@ export const StyledIconButton = styled(IconButton)`
 `;
 
 export const PlanetImage = styled(Image)`
-  position: absolute;
   z-index: -1;
-  top: -52%;
+  position: absolute;
+  top: 0%;
   left: 0;
   right: 0;
   margin: 0 auto;
+  height: 100vh;
+  width: 100%;
+  transform: translateY(-26%);
+  object-fit: cover;
+  @media (max-height: 810px) {
+    position: absolute;
+    object-fit: contain;
+    transform: translateY(-27%);
+  }
 `;
 
 export const RootControls = styled(Flex)`
@@ -51,9 +60,13 @@ export const RootControls = styled(Flex)`
 `;
 
 export const PlanetClick = styled(Flex)`
-  width: 100%;
   position: relative;
-  aspect-ratio: 1/1;
+  height: 45vh;
+  /* aspect-ratio: 1/0.95; */
+  @media (max-height: 810px) {
+    height: 43vh;
+    /* aspect-ratio: 1/0.9; */
+  }
 `;
 
 export const Content = styled(Flex)`

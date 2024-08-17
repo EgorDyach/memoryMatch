@@ -9,6 +9,7 @@ const aliasFolders = [
   "modules",
   "store",
   "hooks",
+  "constants",
   "hocs",
   "assets",
   "layouts",

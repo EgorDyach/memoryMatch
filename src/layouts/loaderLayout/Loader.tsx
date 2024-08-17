@@ -10,7 +10,6 @@ import preview from "/img/loader_preview.webp";
 import { enqueueSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
 import { uiActions } from "@store/ui";
-import { TopBlur } from "@layouts/mainLayout/MainLayout";
 import { textShadow } from "@lib/theme/shadow";
 import { LoaderButton } from "./LoaderButton";
 import { LoadedProgressBar } from "./LoaderProgressBar";
@@ -36,11 +35,8 @@ const StyledContent = styled(Flex)`
   z-index: 1000001;
   padding: 120px 0 40px;
   height: 100vh;
+  width: 100%;
   position: fixed;
-`;
-
-const StyledBlur = styled(TopBlur)`
-  z-index: 10000001;
 `;
 
 const StyledTitle = styled.h1`
@@ -104,7 +100,6 @@ export const Loader: FC<LoaderProps> = ({ isOpen }) => {
 
   return (
     <LoaderWrapper $isOpen={isOpen}>
-      <StyledBlur />
       <StyledImage image={image} preview={preview} />
       <StyledContent justify="space-between" direction="column" align="center">
         <StyledTitle>Memory Match</StyledTitle>
