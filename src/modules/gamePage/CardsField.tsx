@@ -14,12 +14,11 @@ import { ThemeType } from "@store/ui/types";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-const CardsWrapper = styled.div<{ $size: number }>`
+const CardsWrapper = styled(Flex)`
   margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(${(props) => props.$size}, 1fr);
-  grid-template-rows: repeat(${(props) => props.$size}, 1fr);
-  gap: 10px;
+  display: flex;
+  /* grid-template-columns: repeat(${(props) => props.$size}, 1fr); */
+  /* grid-template-rows: repeat(${(props) => props.$size}, 1fr); */
 `;
 
 const Card = styled(Flex)`
@@ -270,7 +269,12 @@ export const CardsField: FC<CardsFieldProps> = ({
 }) => {
   const theme = useSelector(uiSelectors.getTheme);
   return (
-    <CardsWrapper $size={size}>
+    <CardsWrapper
+      justify="space-between"
+      basis={`${90 / size}%`}
+      gap="10px"
+      wrap="wrap"
+    >
       {fields.map((item) => {
         return (
           <Card key={item.id} onClick={() => onClick(item)}>
