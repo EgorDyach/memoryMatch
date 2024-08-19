@@ -52,7 +52,7 @@ export const ShopPage = () => {
   return (
     <>
       <Title $top="slarge" type="pink" hasStars>
-        Sales
+        <ItemTitle>Sales</ItemTitle>
       </Title>
       <CardsWrapper basis="30%" wrap="wrap" justify="space-between">
         {shopSales.map((item, index) => (
@@ -67,7 +67,7 @@ export const ShopPage = () => {
         ))}
       </CardsWrapper>
       <Title $top="xlarge" type="red" hasStars>
-        Crystall
+        <ItemTitle>Crystall</ItemTitle>
       </Title>
       <Flex $top="large" basis="33%" wrap="wrap" justify="space-between">
         {shopCrystall.map((item, index) => (

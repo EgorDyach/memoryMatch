@@ -21,14 +21,14 @@ export const Modal: FC = () => {
 
     return () => {
       emitterNode.removeEventListener(MODAL_EVENT_NAME, showModalHandler);
-      setContent(null);
+      content?.hideModal();
     };
   });
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && content?.visible === true) {
-        setContent(null);
+        content?.hideModal();
       }
     };
     document.addEventListener("keydown", onKeyDown, false);

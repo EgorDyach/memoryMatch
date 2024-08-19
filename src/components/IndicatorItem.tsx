@@ -1,11 +1,11 @@
 import { FC, ReactNode } from "react";
-import Flex from "./Flex";
+import Flex, { FlexProps } from "./Flex";
 import styled from "styled-components";
 import { Text } from "./Typography";
 import IconButton from "./button/IconButton";
 import PlusIcon from "./icons/PlusIcon";
 
-interface IndicatorItemProps {
+interface IndicatorItemProps extends FlexProps {
   value: number | string;
   icon: ReactNode;
   action?: VoidFunction;
@@ -43,10 +43,11 @@ export const IndicatorItem: FC<IndicatorItemProps> = ({
   value,
   action,
   icon,
+  ...props
 }) => {
   if (action)
     return (
-      <IndicatorWrapper $isAction={true}>
+      <IndicatorWrapper {...props} $isAction={true}>
         <ActionButton
           icon={<PlusIcon size={20} color="#fff" />}
           onClick={action}
@@ -56,7 +57,7 @@ export const IndicatorItem: FC<IndicatorItemProps> = ({
       </IndicatorWrapper>
     );
   return (
-    <IndicatorWrapper>
+    <IndicatorWrapper {...props}>
       <Text $size="subtitle">{value}</Text>
       <NoActionIcon>{icon}</NoActionIcon>
     </IndicatorWrapper>

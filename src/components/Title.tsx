@@ -3,7 +3,6 @@ import { ButtonType } from "./button/Button";
 import Flex from "./Flex";
 import styled from "styled-components";
 import { withIndentStyles } from "@hocs/withIndentStyles";
-import { ItemTitle } from "./Typography";
 import PinkStarIcon from "./icons/PinkStarIcon";
 import RedStarIcon from "./icons/RedStarIcon";
 import { shadowWithTitle, textShadow } from "@lib/theme/shadow";
@@ -89,7 +88,7 @@ const RawTitle: FC<TitleProps> = ({
   return (
     <TitleWrapper className={className} $type={type} $customColor={customColor}>
       {hasStars && type ? coloredStars[type] : <div></div>}
-      <ItemTitle>{children}</ItemTitle>
+      {children}
       {hasStars && type ? coloredStars[type] : <div></div>}
       {actionButton}
     </TitleWrapper>

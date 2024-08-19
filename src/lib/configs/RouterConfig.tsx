@@ -8,8 +8,20 @@ import { VersusPage } from "@modules/versusPage/VersusPage";
 import { createBrowserRouter } from "react-router-dom";
 import { SeasonsPage } from "@modules/seasonsPage/SeasonsPage";
 import { MapPage } from "@modules/mapPage/MapPage";
+import { GameLayout } from "@layouts/gameLayout/GameLayout";
+import { GamePage } from "@modules/gamePage/GamePage";
 
 export const routerConfig = createBrowserRouter([
+  {
+    path: "/game",
+    element: <GameLayout />,
+    children: [
+      {
+        path: "/game",
+        element: <GamePage />,
+      },
+    ],
+  },
   {
     path: "/",
     element: <MainLayout />,

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { uiStateName } from "./types";
+import { ThemeType, uiStateName } from "./types";
 import { uiInitialState } from "./constants";
 import { User } from "@type/user";
 
@@ -21,6 +21,9 @@ const uiSlice = createSlice({
     },
     setLoader(state, { payload }: PayloadAction<boolean>) {
       state.isLoaderOpen = payload;
+    },
+    setTheme(state, { payload }: PayloadAction<ThemeType>) {
+      state.theme = payload;
     },
   },
 });

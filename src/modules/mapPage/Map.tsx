@@ -4,6 +4,7 @@ import { MapLevel } from "@type/map";
 import { FC } from "react";
 import styled from "styled-components";
 import { MapTooltip } from "./MapTooltip";
+import { useNavigate } from "react-router-dom";
 
 interface MapProps {
   points: MapLevel[];
@@ -54,8 +55,9 @@ const getStatusLevel = (point: MapLevel, currentLevel: number): PointStatus => {
 };
 
 export const Map: FC<MapProps> = ({ points, currentLevel }) => {
-  const handleClick = (id: number) => {
-    console.log(id);
+  const navigate = useNavigate();
+  const handleClick = (level: MapLevel) => {
+    navigate(level.startRoot);
   };
   return (
     <svg
@@ -200,7 +202,7 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
           >
             <StyledButton
               $status={getStatusLevel(point, currentLevel)}
-              onClick={() => handleClick(point.id)}
+              onClick={() => handleClick(point)}
             >
               <StyledTitle $status={getStatusLevel(point, currentLevel)}>
                 {point.id}

@@ -8,6 +8,7 @@ import { content } from "@lib/theme/colors";
 interface ToggleProps {
   values: string[];
   activeValue?: string;
+  lowPadding?: boolean;
   onChange?: (activeVal: string) => void;
 }
 
@@ -35,9 +36,9 @@ const ToggleBg = styled.span<{ $activeIndex: number }>`
   border-radius: 12px;
 `;
 
-const ToggleItem = styled(Flex)`
+const ToggleItem = styled(Flex)<{ $lowPadding: boolean }>`
   z-index: 1;
-  padding: 17px 45px;
+  padding: ${(props) => (props.$lowPadding ? "13px 45px" : "17px 45px")};
   border-radius: 12px;
 `;
 
@@ -45,7 +46,12 @@ const ToggleText = styled(Text)`
   ${textShadow(content.secondary, 2.46, 0.99)}
 `;
 
-export const Toggle: FC<ToggleProps> = ({ values, activeValue, onChange }) => {
+export const Toggle: FC<ToggleProps> = ({
+  values,
+  activeValue,
+  onChange,
+  lowPadding = true,
+}) => {
   const [activeIndex, setActiveIndex] = useState(
     values.findIndex((item) => item === activeValue) || 0
   );
@@ -64,7 +70,7 @@ export const Toggle: FC<ToggleProps> = ({ values, activeValue, onChange }) => {
     <ToggleWrapper onClick={onClick} basis="50%">
       <ToggleBg $activeIndex={activeIndex} />
       {values.map((item, index) => (
-        <ToggleItem key={index}>
+        <ToggleItem $lowPadding={lowPadding} key={index}>
           <ToggleText>{item}</ToggleText>
         </ToggleItem>
       ))}

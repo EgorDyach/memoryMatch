@@ -6,7 +6,7 @@ import {
   socialButtonContent,
   socials as socialsConst,
 } from "./constants";
-import { Text } from "@components/Typography";
+import { ItemTitle, Text } from "@components/Typography";
 import { content } from "@lib/theme/colors";
 import { ProgressBar } from "@components/ProgressBar";
 import { useState } from "react";
@@ -28,7 +28,7 @@ export const TasksPage = () => {
   return (
     <>
       <Title $top="35px" type="pink" hasStars>
-        Socials
+        <ItemTitle>Socials</ItemTitle>
       </Title>
       <Card
         $top="large"

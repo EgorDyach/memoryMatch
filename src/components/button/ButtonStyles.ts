@@ -46,6 +46,7 @@ export const StyledButton = styled.button<{
               `;
       case "danger":
         return `
+                ${textShadow("#B92222", 2.5)};
                 background-color: ${background.dangerBg};
                 `;
 
@@ -61,11 +62,6 @@ export const StyledButton = styled.button<{
 
   & svg {
     transition: transform 0.3s ease;
-    ${(props) =>
-      props.$type === "danger" &&
-      `
-      transform: rotate(135deg);
-    `}
   }
 
   &:disabled {

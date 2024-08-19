@@ -4,4 +4,5 @@ export const uiInitialState: UIState = {
   requests: {},
   user: null,
   isLoaderOpen: false,
+  theme: "default",
 };

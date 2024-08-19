@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { maps } from "./constants";
 import { Title } from "@components/Title";
 import styled from "styled-components";
-import { Text } from "@components/Typography";
+import { ItemTitle, Text } from "@components/Typography";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
 import Flex from "@components/Flex";
@@ -57,7 +57,7 @@ export const MapPage = () => {
         }}
       >
         <Flex align="center">
-          {map.title}
+          <ItemTitle>{map.title}</ItemTitle>
           <StyledPercent
             $left="small"
             $bg={map.colors.percentBackgroundColor}

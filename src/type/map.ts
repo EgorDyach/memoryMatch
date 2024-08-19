@@ -42,6 +42,7 @@ export type MapLevel = {
   positionX: number;
   positionY: number;
   reward: MapReward | null;
+  startRoot: string;
 };
 
 type MapReward = {
