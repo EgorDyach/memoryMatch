@@ -17,8 +17,6 @@ import styled from "styled-components";
 const CardsWrapper = styled(Flex)`
   margin-top: 20px;
   display: flex;
-  /* grid-template-columns: repeat(${(props) => props.$size}, 1fr); */
-  /* grid-template-rows: repeat(${(props) => props.$size}, 1fr); */
 `;
 
 const Card = styled(Flex)`
