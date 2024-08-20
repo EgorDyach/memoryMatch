@@ -1,0 +1,52 @@
+import { ButtonType } from "./../components/button/Button";
+export type Season = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  has_access: boolean;
+  current_level: number;
+  rewards: {
+    coins: number;
+    diamonds: number;
+  };
+  colors: {
+    backgroundColor: string;
+    contentColor: string;
+    descriptionColor: string;
+    descriptionShadowColor?: string;
+    titleColor: string;
+    titleShadowColor?: string;
+    ButtonType: ButtonType;
+    progressBarColor1: string;
+    progressBarColor2: string;
+    progressBarBgColor: string;
+  };
+};
+
+export type Map = {
+  id: number;
+  title: string;
+  colors: {
+    percentBackgroundColor: string;
+    backgroundColor: string;
+    titleColor: string;
+    titleShadowColor?: string;
+    percentShadowColor?: string;
+  };
+  levels: MapLevel[];
+};
+
+export type MapLevel = {
+  id: number;
+  positionX: number;
+  positionY: number;
+  reward: MapReward | null;
+  startRoot: string;
+};
+
+type MapReward = {
+  placement: "top" | "left" | "bottom" | "right";
+  type: "coin" | "diamond" | "fragment";
+  count: number;
+};
