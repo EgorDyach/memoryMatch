@@ -4,7 +4,8 @@ import { MapLevel } from "@type/map";
 import { FC } from "react";
 import styled from "styled-components";
 import { MapTooltip } from "./MapTooltip";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { startGame$ } from "@lib/api/game";
 
 interface MapProps {
   points: MapLevel[];
@@ -56,7 +57,14 @@ const getStatusLevel = (point: MapLevel, currentLevel: number): PointStatus => {
 
 export const Map: FC<MapProps> = ({ points, currentLevel }) => {
   const navigate = useNavigate();
-  const handleClick = (level: MapLevel) => {
+  const { seasionId = "" } = useParams();
+  const handleClick = async (level: MapLevel) => {
+    try {
+      const res = await startGame$(level.id, seasionId);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
     navigate(level.startRoot);
   };
   return (

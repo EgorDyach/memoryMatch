@@ -8,7 +8,9 @@ import { IndicatorItem } from "@components/IndicatorItem";
 import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
+import { uiSelectors } from "@store/ui";
 import { FC, PropsWithChildren } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Wrapper = styled(Flex)<{ $padding: string; $overflow?: boolean }>`
@@ -28,20 +30,23 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
   overflow,
   padding = "0 24px",
 }) => {
+  const user = useSelector(uiSelectors.getUser);
   return (
     <Wrapper $overflow={overflow} $padding={padding} direction="column">
-      <Flex basis="50%" gap="12px" wrap="wrap">
-        <IndicatorItem
-          action={() => console.log("click")}
-          value={formatNumber(11111111)}
-          icon={<CoinIcon size={43} />}
-        />
-        <IndicatorItem
-          action={() => console.log("click")}
-          value={formatNumber(11111111)}
-          icon={<DiamondIcon size={43} />}
-        />
-      </Flex>
+      {user && (
+        <Flex basis="50%" $top="6px" gap="12px" wrap="wrap">
+          <IndicatorItem
+            action={() => console.log("click")}
+            value={formatNumber(user.gold)}
+            icon={<CoinIcon size={43} />}
+          />
+          <IndicatorItem
+            action={() => console.log("click")}
+            value={formatNumber(user.gem)}
+            icon={<DiamondIcon size={43} />}
+          />
+        </Flex>
+      )}
       {showHealth && (
         <HealthWrapper>
           <ActionButton

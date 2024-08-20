@@ -1,10 +1,22 @@
 export type User = {
-  coins: number;
-  diamods: number;
-  health: number;
-  health_time: number;
-  activeSeasonId: number;
-  activeLevel: number;
-  username: string;
   id: number;
+  gold: number;
+  gem: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  boosts: UserBoost[];
+  locations: Location[];
+};
+
+export type UserBoost = {
+  type: number;
+  count: number;
+};
+
+export type Location = {
+  id: number;
+  number: number;
+  name: string;
+  isAvailable: boolean;
 };

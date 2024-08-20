@@ -37,6 +37,10 @@ export const MapPage = () => {
   const map = maps.find((el) => el.id === Number(seasonId));
   const navigate = useNavigate();
   if (!map || !user) return;
+  const currentLocation = user.locations.find(
+    (el) => el.id === Number(seasonId)
+  );
+  if (!currentLocation || !currentLocation.isAvailable) return;
   return (
     <>
       <StyledTitle
@@ -57,18 +61,18 @@ export const MapPage = () => {
         }}
       >
         <Flex align="center">
-          <ItemTitle>{map.title}</ItemTitle>
+          <ItemTitle>{currentLocation.name}</ItemTitle>
           <StyledPercent
             $left="small"
             $bg={map.colors.percentBackgroundColor}
             $shadow={map.colors.percentShadowColor || "transparent"}
           >
-            {Math.ceil((user.activeLevel / map.levels.length) * 100)}%
+            {Math.ceil((currentLocation.number / 40) * 100)}%
           </StyledPercent>
         </Flex>
       </StyledTitle>
       <Flex $top="100px">
-        <Map points={map.levels} currentLevel={user.activeLevel} />
+        <Map points={map.levels} currentLevel={currentLocation.number} />
       </Flex>
     </>
   );

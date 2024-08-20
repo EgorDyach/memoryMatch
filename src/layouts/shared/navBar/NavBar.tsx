@@ -94,7 +94,11 @@ export const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const userMapLink = `/map/${user?.activeSeasonId}`;
+  const userMapLink = `/map/${
+    user && user.locations.filter((el) => el.isAvailable).at(-1)
+      ? user.locations.filter((el) => el.isAvailable).at(-1)!.id
+      : ""
+  }`;
   useEffect(() => {
     setActiveIndex(
       navBarLinks.findIndex(({ links }) => links.includes(pathname))

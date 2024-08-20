@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { gameStateName } from "./types";
-import { gameInitialState } from "./constants";
+import { localGameStateName } from "./types";
+import { localGameInitialState } from "./constants";
 
-const gameSlice = createSlice({
-  name: gameStateName,
-  initialState: gameInitialState,
+const localGameSlice = createSlice({
+  name: localGameStateName,
+  initialState: localGameInitialState,
   reducers: {
     setMoves(state, { payload }: PayloadAction<number>) {
       state.moves = payload;
@@ -27,4 +27,4 @@ const gameSlice = createSlice({
   },
 });
 
-export const { name, reducer, actions } = gameSlice;
+export const { name, reducer, actions } = localGameSlice;

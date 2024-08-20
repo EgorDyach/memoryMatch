@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@lib/configs/routes";
 import LockIcon from "@components/icons/LockIcon";
 import { shadow } from "@lib/theme/shadow";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
 
 const StyledImage = styled(Image)`
   border-radius: 6.6px;
@@ -43,13 +45,17 @@ const StyledBlur = styled(Flex)`
 
 export const SeasonsPage = () => {
   const navigate = useNavigate();
+  const user = useSelector(uiSelectors.getUser);
+  if (!user) return;
   return (
     <Flex $top="large" direction="column" gap="26px">
       {seasons.map((item, index) => (
         <Card
           key={index}
           shadow="full"
-          title={item.title}
+          title={
+            user.locations.find((el) => el.id === item.id)?.name || "World"
+          }
           titleColor={item.colors.titleColor}
           titleShadowColor={item.colors.titleShadowColor}
           contentColor={item.colors.contentColor}
@@ -112,13 +118,18 @@ export const SeasonsPage = () => {
               >
                 0
               </Text>
-              {item.has_access && (
+              {user?.locations.find((el) => el.id === item.id)?.isAvailable && (
                 <StyledCurrent
-                  $left={(item.current_level / TOTAL_LEVELS) * 100}
+                  $left={
+                    ((user.locations.find((el) => el.id === item.id)?.number ||
+                      0) /
+                      TOTAL_LEVELS) *
+                    100
+                  }
                   type="yellow"
                   padding="10px 16px"
                 >
-                  {item.current_level}
+                  {user.locations.find((el) => el.id === item.id)?.number || 0}
                 </StyledCurrent>
               )}
               <Text
@@ -133,7 +144,9 @@ export const SeasonsPage = () => {
             </StyledProgressValues>
             <ProgressBar
               $top="10px"
-              active={item.current_level}
+              active={
+                user.locations.find((el) => el.id === item.id)?.number || 0
+              }
               total={TOTAL_LEVELS}
               color1={item.colors.progressBarColor1}
               color2={item.colors.progressBarColor2}
@@ -145,12 +158,14 @@ export const SeasonsPage = () => {
               type={item.colors.ButtonType}
               shadow="min"
               $top="medium"
-              disabled={!item.has_access}
+              disabled={
+                !user?.locations.find((el) => el.id === item.id)?.isAvailable
+              }
               onClick={() => navigate(AppRoutes.mapWithId(item.id))}
             >
               <Text $size="subtitle">Continue</Text>
             </Button>
-            {!item.has_access && (
+            {!user?.locations.find((el) => el.id === item.id)?.isAvailable && (
               <StyledBlur direction="column">
                 <LockIcon size={48} color={item.colors.titleShadowColor} />
                 <Text

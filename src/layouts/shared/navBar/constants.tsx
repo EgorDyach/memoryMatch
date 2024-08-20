@@ -9,7 +9,7 @@ export const navBarLinks = [
   {
     icon: (color: string) => <MapIcon color={color} size={30} />,
     text: "MAP",
-    links: ["/map", ...seasons.map((item) => `/map/${item.id}`)],
+    links: ["/map", "/map/", ...seasons.map((item) => `/map/${item.id}`)],
   },
   {
     icon: (color: string) => <ShopIcon color={color} size={30} />,

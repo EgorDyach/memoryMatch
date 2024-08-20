@@ -2,7 +2,7 @@ import { BlurryLoadingImage } from "@components/BlurryLoadingImage";
 import Flex from "@components/Flex";
 import { requestMapData$ } from "@lib/api/map";
 import { requestShopData$ } from "@lib/api/shop";
-import { requestUser$ } from "@lib/api/user";
+import { requestLogin$ } from "@lib/api/login";
 import { FC, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import image from "/img/loader.webp";
@@ -13,6 +13,7 @@ import { uiActions } from "@store/ui";
 import { textShadow } from "@lib/theme/shadow";
 import { LoaderButton } from "./LoaderButton";
 import { LoadedProgressBar } from "./LoaderProgressBar";
+import { requestUser$ } from "@lib/api/user";
 const LoaderWrapper = styled(Flex)<{ $isOpen: boolean }>`
   position: absolute;
   inset: 0;
@@ -58,36 +59,44 @@ export const Loader: FC<LoaderProps> = ({ isOpen }) => {
     setTimeout(() => {
       document.body.style.overflow = "hidden";
     });
-    (async () => {
-      dispatch(uiActions.setRequestStarted("user"));
-      dispatch(uiActions.setRequestStarted("map"));
-      dispatch(uiActions.setRequestStarted("shop"));
-      await requestUser$(123)
-        .then((res) => {
-          dispatch(uiActions.setUser(res));
-          dispatch(uiActions.setRequestFinished("user"));
-          console.log("finish");
-        })
-        .catch((e) => {
-          setError(e);
-        });
-      await requestShopData$(123)
-        .then(() => {
-          console.log("finish");
-          dispatch(uiActions.setRequestFinished("shop"));
-        })
-        .catch((e) => {
-          setError(e);
-        });
-      await requestMapData$(123)
-        .then(() => {
-          console.log("finish");
-          dispatch(uiActions.setRequestFinished("map"));
-        })
-        .catch((e) => {
-          setError(e);
-        });
-    })();
+    if (isOpen)
+      (async () => {
+        dispatch(uiActions.setRequestStarted("login"));
+        dispatch(uiActions.setRequestStarted("map"));
+        dispatch(uiActions.setRequestStarted("shop"));
+        dispatch(uiActions.setRequestStarted("user"));
+        await requestLogin$()
+          .then(() => {
+            dispatch(uiActions.setRequestFinished("login"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestUser$()
+          .then((res) => {
+            dispatch(uiActions.setUser(res));
+            dispatch(uiActions.setRequestFinished("user"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestShopData$(123)
+          .then(() => {
+            console.log("finish");
+            dispatch(uiActions.setRequestFinished("shop"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestMapData$(123)
+          .then(() => {
+            console.log("finish");
+            dispatch(uiActions.setRequestFinished("map"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+      })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

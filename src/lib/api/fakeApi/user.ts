@@ -1,23 +1,75 @@
 import { User } from "@type/user";
 
-export const fakeRequestUser = (
-  userId: string | number,
-  isError?: boolean
-): Promise<User> => {
+export const fakeRequestUser = (isError?: boolean): Promise<User> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(userId);
       if (isError)
         reject(new Error("Ошибка загрузки информации о пользователе"));
       resolve({
-        coins: Math.floor(Math.random() * 1000000),
-        diamods: Math.floor(Math.random() * 1000000),
-        health: Math.floor(Math.random() * 7),
-        health_time: Math.floor(Math.random() * 1200),
-        activeLevel: 25,
-        activeSeasonId: 0,
+        gold: Math.floor(Math.random() * 1000000),
+        gem: Math.floor(Math.random() * 1000000),
         username: "username",
         id: Math.floor(Math.random() * 1000000),
+        firstName: "Egor",
+        lastName: "Dyachenko",
+        boosts: [
+          {
+            type: 0,
+            count: 10,
+          },
+          {
+            type: 1,
+            count: 999,
+          },
+          {
+            type: 2,
+            count: 2,
+          },
+        ],
+        locations: [
+          {
+            id: 0,
+            number: 5,
+            name: "Cave world",
+            isAvailable: true,
+          },
+          {
+            id: 1,
+            number: 40,
+            name: "Aztec world",
+            isAvailable: true,
+          },
+          {
+            id: 2,
+            number: 23,
+            name: "Knight world",
+            isAvailable: true,
+          },
+          {
+            id: 3,
+            number: 2,
+            name: "Steam world",
+            isAvailable: true,
+          },
+          {
+            id: 4,
+            number: 0,
+            name: "Today world",
+            isAvailable: true,
+          },
+          {
+            id: 5,
+            number: 0,
+            name: "Cyber world",
+            isAvailable: true,
+          },
+          {
+            id: 6,
+            number: 0,
+            name: "End world",
+            isAvailable: true,
+          },
+        ],
       });
     }, 600);
   });

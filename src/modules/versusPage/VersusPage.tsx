@@ -5,7 +5,7 @@ import Button from "@components/button/Button";
 import { Title } from "@components/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { gameActions } from "@store/game";
+import { gameActions } from "@store/levelGame";
 
 export const VersusPage = () => {
   const navigate = useNavigate();

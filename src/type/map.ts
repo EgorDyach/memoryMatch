@@ -4,8 +4,6 @@ export type Season = {
   title: string;
   description: string;
   image: string;
-  has_access: boolean;
-  current_level: number;
   rewards: {
     coins: number;
     diamonds: number;

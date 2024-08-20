@@ -1,6 +1,6 @@
 import { usePathParam } from "@hooks/usePathParam";
 import { useShuffle } from "@hooks/useShuffle";
-import { gameActions } from "@store/game";
+import { gameActions } from "@store/levelGame";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Flex from "@components/Flex";
@@ -19,7 +19,7 @@ import { HealthWrapper } from "@modules/rootPage/rootStyles";
 import { Text } from "@components/Typography";
 import { Title } from "@components/Title";
 import { useSelector } from "react-redux";
-import { gameSelectors } from "@store/game";
+import { gameSelectors } from "@store/levelGame";
 import { formatTime } from "@lib/utils/formatTime";
 import InfiniteIcon from "@components/icons/InfiniteIcon";
 import { useModal } from "@hooks/useModal";
