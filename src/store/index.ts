@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { uiReducer, uiStoreName } from "./ui";
-import { gameReducer, gameStoreName } from "./levelGame";
+import { levelGameReducer, levelGameStoreName } from "./levelGame";
+import { localGameReducer, localGameStoreName } from "./localGame";
 
 export const store = configureStore({
   reducer: {
     [uiStoreName]: uiReducer,
-    [gameStoreName]: gameReducer,
+    [levelGameStoreName]: levelGameReducer,
+    [localGameStoreName]: localGameReducer,
   },
 });
 

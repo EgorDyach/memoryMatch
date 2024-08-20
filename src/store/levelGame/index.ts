@@ -1,9 +1,9 @@
-import * as gameSelectors from "./selectors";
+import * as levelGameSelectors from "./selectors";
 
 export {
-  name as gameStoreName,
-  reducer as gameReducer,
-  actions as gameActions,
+  name as levelGameStoreName,
+  reducer as levelGameReducer,
+  actions as levelGameActions,
 } from "./store";
 
-export { gameSelectors };
+export { levelGameSelectors };
