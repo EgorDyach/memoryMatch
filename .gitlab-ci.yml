@@ -1,0 +1,39 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - cd /root/frontend
+    - docker build -t ${CI_REGISTRY_IMAGE}/app:${CI_COMMIT_SHORT_SHA} .
+    - docker push ${CI_REGISTRY_IMAGE}/app:${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+
+prod:
+  stage: deploy
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - cd /root/backend/eng
+    - docker-compose up -d
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  tags:
+    - prod-app
+
+dev:
+  stage: deploy
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - cd /root/backend/eng
+    - docker-compose -f docker-compose.dev.yml up -d
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+  tags:
+    - dev
