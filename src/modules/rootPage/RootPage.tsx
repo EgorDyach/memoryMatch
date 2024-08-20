@@ -28,28 +28,33 @@ import { showBattlePass, showNews, showSettings } from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { showModal } from "@lib/utils/modal";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
 
 export const RootPage = () => {
   const [openModal] = useModal();
   useEffect(() => {
-    setTimeout(() => (document.body.style.overflow = "hidden"));
+    document.body.style.overflow = "hidden";
   }, []);
+  const user = useSelector(uiSelectors.getUser);
   return (
     <>
       <Content>
         <RootControls>
-          <Flex basis="50%" gap="12px" wrap="wrap">
-            <IndicatorItem
-              action={() => console.log("click")}
-              value={formatNumber(11111111)}
-              icon={<CoinIcon size={43} />}
-            />
-            <IndicatorItem
-              action={() => console.log("click")}
-              value={formatNumber(11111111)}
-              icon={<DiamondIcon size={43} />}
-            />
-          </Flex>
+          {user && (
+            <Flex basis="50%" gap="12px" wrap="wrap">
+              <IndicatorItem
+                action={() => console.log("click")}
+                value={formatNumber(11111111)}
+                icon={<CoinIcon size={43} />}
+              />
+              <IndicatorItem
+                action={() => console.log("click")}
+                value={formatNumber(11111111)}
+                icon={<DiamondIcon size={43} />}
+              />
+            </Flex>
+          )}
           <HealthWrapper>
             <ActionButton
               icon={<PlusIcon size={20} color="#fff" />}

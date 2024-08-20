@@ -1,6 +1,6 @@
 import { usePathParam } from "@hooks/usePathParam";
 import { useShuffle } from "@hooks/useShuffle";
-import { gameActions } from "@store/levelGame";
+import { localGameActions, localGameSelectors } from "@store/localGame";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Flex from "@components/Flex";
@@ -19,13 +19,11 @@ import { HealthWrapper } from "@modules/rootPage/rootStyles";
 import { Text } from "@components/Typography";
 import { Title } from "@components/Title";
 import { useSelector } from "react-redux";
-import { gameSelectors } from "@store/levelGame";
 import { formatTime } from "@lib/utils/formatTime";
 import InfiniteIcon from "@components/icons/InfiniteIcon";
 import { useModal } from "@hooks/useModal";
 import { FailedModal } from "@modules/gamePage/failModal/constants";
 import { pauseModal } from "@modules/gamePage/pauseModal/constants";
-
 import { Card, CardsField } from "./CardsField";
 import { items, pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
 import { WinModal } from "./winModal/constants";
@@ -81,9 +79,9 @@ export const GamePage = () => {
   const getSize = usePathParam();
   const shuffle = useShuffle();
   const dispatch = useDispatch();
-  const moves = useSelector(gameSelectors.getMoves);
-  const pairs = useSelector(gameSelectors.getPairs);
-  const initialTime = useSelector(gameSelectors.getTime);
+  const moves = useSelector(localGameSelectors.getMoves);
+  const pairs = useSelector(localGameSelectors.getPairs);
+  const initialTime = useSelector(localGameSelectors.getTime);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -120,7 +118,7 @@ export const GamePage = () => {
   }, [shuffle, size]);
 
   useEffect(() => {
-    dispatch(gameActions.setPairs(fields.length / 2));
+    dispatch(localGameActions.setPairs(fields.length / 2));
   }, [dispatch, fields.length]);
 
   useEffect(() => {
@@ -145,24 +143,24 @@ export const GamePage = () => {
       );
       setActive1(null);
       setActive2(null);
-      dispatch(gameActions.setPairsMinusOne());
-      dispatch(gameActions.setMovesMinusOne());
+      dispatch(localGameActions.setPairsMinusOne());
+      dispatch(localGameActions.setMovesMinusOne());
     } else if (active1 && active2) {
       setTimeout(() => {
         setActive1(null);
         setActive2(null);
       }, 750);
-      dispatch(gameActions.setMovesMinusOne());
+      dispatch(localGameActions.setMovesMinusOne());
     }
   }, [active1, active2, dispatch, fields]);
 
   const onRestart = useCallback(() => {
     closeModal();
-    dispatch(gameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(gameActions.setPairs(fields.length / 2));
-    dispatch(gameActions.setSize(Number(getPath("size") || 4)));
+    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
+    dispatch(localGameActions.setPairs(fields.length / 2));
+    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
     dispatch(
-      gameActions.setTimer(
+      localGameActions.setTimer(
         isNaN(Number(getPath("timer") || null))
           ? null
           : Number(getPath("timer") || null)
@@ -188,8 +186,8 @@ export const GamePage = () => {
   }, [closeModal, dispatch, fields.length, getPath, shuffle, size]);
 
   const onExit = useCallback(() => {
-    dispatch(gameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(gameActions.setPairs(fields.length / 2));
+    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
+    dispatch(localGameActions.setPairs(fields.length / 2));
     navigate(getPath("backpath") || "/");
   }, [dispatch, fields.length, getPath, navigate]);
 
@@ -204,10 +202,10 @@ export const GamePage = () => {
   }, [onCancel, onExit, openModal, onRestart]);
 
   useEffect(() => {
-    dispatch(gameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(gameActions.setSize(Number(getPath("size") || 4)));
+    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
+    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
     dispatch(
-      gameActions.setTimer(
+      localGameActions.setTimer(
         isNaN(Number(getPath("timer") || null))
           ? null
           : Number(getPath("timer") || null)

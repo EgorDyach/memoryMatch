@@ -7,6 +7,6 @@ export type LevelGameState = {
   size: number;
 };
 
-export type StoreWithGameState = {
+export type StoreWithLevelGameState = {
   [levelGameStateName]: LevelGameState;
 };

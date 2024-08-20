@@ -4,7 +4,6 @@ import CoinIcon from "@components/icons/CoinIcon";
 import DiamondIcon from "@components/icons/DiamondIcon";
 import LogoutIcon from "@components/icons/LogoutIcon";
 import PlayIcon from "@components/icons/PlayIcon";
-import RestartIcon from "@components/icons/RestartIcon";
 import WinStarIcon from "@components/icons/WinStarIcon";
 import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";

@@ -5,7 +5,7 @@ import Button from "@components/button/Button";
 import { Title } from "@components/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { gameActions } from "@store/levelGame";
+import { localGameActions } from "@store/localGame";
 
 export const VersusPage = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const VersusPage = () => {
             $top="medium"
             disabled={!item.active}
             onClick={() => {
-              dispatch(gameActions.setTimer(null));
+              dispatch(localGameActions.setTimer(null));
               navigate(
                 `/game?size=${item.size}&backpath=${pathname}&moves=${item.moves}&timer=${item.timer}`
               );
