@@ -12,7 +12,6 @@ import { ProgressBar } from "@components/ProgressBar";
 import { useState } from "react";
 import CheckIcon from "@components/icons/CheckIcon";
 import { formatNumber } from "@lib/utils/formatNumber";
-
 import DiamondWithShadowIcon from "@components/icons/DiamondWithShadowIcon";
 import {
   SocialIconWrapper,
@@ -21,10 +20,13 @@ import {
   StyledCurrent,
   RewardsWrapper,
   Reward,
+  StyledText,
 } from "./tasksStyles";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 
 export const TasksPage = () => {
   const [socials, setSocials] = useState(socialsConst);
+  const soundSfx = usePlaySFx();
   return (
     <>
       <Title $top="35px" type="pink" hasStars>
@@ -38,7 +40,7 @@ export const TasksPage = () => {
         titleShadowColor="#092E46"
       >
         <>
-          <Flex justify="space-between" basis="21%">
+          <Flex justify="space-between" gap="10px">
             {socials
               .sort((a, b) => a.id - b.id)
               .map((item, index) => (
@@ -46,7 +48,7 @@ export const TasksPage = () => {
                   <SocialIconWrapper align="center" justify="center">
                     {item.icon}
                   </SocialIconWrapper>
-                  <Text
+                  <StyledText
                     $top="5px"
                     $shadow={{
                       color: content.secondary,
@@ -55,14 +57,15 @@ export const TasksPage = () => {
                     }}
                   >
                     {item.title}
-                  </Text>
+                  </StyledText>
                   <StyledButton
-                    onClick={() =>
+                    onClick={() => {
+                      soundSfx();
                       setSocials([
                         ...socials.filter((el) => el.id !== item.id),
                         { ...item, is_done: true },
-                      ])
-                    }
+                      ]);
+                    }}
                     $top="3px"
                     type="yellow"
                     disabled={item.is_done}

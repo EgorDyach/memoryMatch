@@ -6,10 +6,12 @@ import { Title } from "@components/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { localGameActions } from "@store/localGame";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 
 export const VersusPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const soundSfx = usePlaySFx();
   const { pathname } = useLocation();
   return (
     <>
@@ -31,6 +33,7 @@ export const VersusPage = () => {
             disabled={!item.active}
             onClick={() => {
               dispatch(localGameActions.setTimer(null));
+              soundSfx();
               navigate(
                 `/game?size=${item.size}&backpath=${pathname}&moves=${item.moves}&timer=${item.timer}`
               );

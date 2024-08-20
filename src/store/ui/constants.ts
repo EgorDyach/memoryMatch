@@ -5,4 +5,6 @@ export const uiInitialState: UIState = {
   user: null,
   isLoaderOpen: true,
   theme: "default",
+  isAudioPlaying: false,
+  isSfxActive: true,
 };

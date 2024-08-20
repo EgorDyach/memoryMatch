@@ -25,6 +25,12 @@ const uiSlice = createSlice({
     setTheme(state, { payload }: PayloadAction<ThemeType>) {
       state.theme = payload;
     },
+    setIsAudioPlaying(state, { payload }: PayloadAction<boolean>) {
+      state.isAudioPlaying = payload;
+    },
+    setIsSfxActive(state, { payload }: PayloadAction<boolean>) {
+      state.isSfxActive = payload;
+    },
   },
 });
 

@@ -1,7 +1,8 @@
 import { StyledButton } from "@modules/rootPage/rootStyles";
 import { StyledButtonShadow } from "@modules/rootPage/rootStyles";
-import { uiActions, uiSelectors } from "@store/ui";
-import { useDispatch, useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
+import { FC } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const MyButton = styled(StyledButtonShadow)<{ $opacity: boolean }>`
@@ -10,13 +11,13 @@ const MyButton = styled(StyledButtonShadow)<{ $opacity: boolean }>`
   transition: opacity 0.3s ease;
 `;
 
-export const LoaderButton = () => {
+interface LoaderButtonProps {
+  handleClick: VoidFunction;
+}
+
+export const LoaderButton: FC<LoaderButtonProps> = ({ handleClick }) => {
   const requests = useSelector(uiSelectors.getRequests);
-  const dispatch = useDispatch();
-  const handlePlay = () => {
-    dispatch(uiActions.setLoader(false));
-    document.body.style.overflow = "scroll";
-  };
+
   return (
     <MyButton
       $opacity={
@@ -24,7 +25,7 @@ export const LoaderButton = () => {
         Object.values(requests).length
       }
     >
-      <StyledButton onClick={handlePlay} padding="24px 100px" type="pink">
+      <StyledButton onClick={handleClick} padding="24px 100px" type="pink">
         <div>
           <div>PLAY</div>
         </div>

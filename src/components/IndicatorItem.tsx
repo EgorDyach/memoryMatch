@@ -52,7 +52,7 @@ export const IndicatorItem: FC<IndicatorItemProps> = ({
           icon={<PlusIcon size={20} color="#fff" />}
           onClick={action}
         />
-        <Text $size="subtitle">{value}</Text>
+        <Text>{value}</Text>
         <ActionIcon>{icon}</ActionIcon>
       </IndicatorWrapper>
     );

@@ -29,6 +29,7 @@ import { items, pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
 import { WinModal } from "./winModal/constants";
 import { uiActions, uiSelectors } from "@store/ui";
 import { isKeyOfObject } from "@lib/utils/isKeyInObj";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 
 const FlexFullWidth = styled(Flex)`
   width: 100%;
@@ -79,9 +80,11 @@ export const GamePage = () => {
   const getSize = usePathParam();
   const shuffle = useShuffle();
   const dispatch = useDispatch();
+  const soundSfx = usePlaySFx();
   const moves = useSelector(localGameSelectors.getMoves);
   const pairs = useSelector(localGameSelectors.getPairs);
   const initialTime = useSelector(localGameSelectors.getTime);
+  const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -143,6 +146,12 @@ export const GamePage = () => {
       );
       setActive1(null);
       setActive2(null);
+      if (isSfxActive) {
+        const audio = new Audio();
+        audio.src = "/correctCardSfx.mp3";
+        audio.volume = 0.2;
+        audio.play();
+      }
       dispatch(localGameActions.setPairsMinusOne());
       dispatch(localGameActions.setMovesMinusOne());
     } else if (active1 && active2) {
@@ -152,10 +161,11 @@ export const GamePage = () => {
       }, 750);
       dispatch(localGameActions.setMovesMinusOne());
     }
-  }, [active1, active2, dispatch, fields]);
+  }, [active1, active2, dispatch, fields, isSfxActive]);
 
   const onRestart = useCallback(() => {
     closeModal();
+    soundSfx();
     dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
     dispatch(localGameActions.setPairs(fields.length / 2));
     dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
@@ -166,6 +176,9 @@ export const GamePage = () => {
           : Number(getPath("timer") || null)
       )
     );
+    setIsPause(false);
+    setActive1(null);
+    setActive2(null);
     setTime(
       isNaN(Number(getPath("timer") || null))
         ? null
@@ -183,23 +196,26 @@ export const GamePage = () => {
         isOpen: false,
       }))
     );
-  }, [closeModal, dispatch, fields.length, getPath, shuffle, size]);
+  }, [closeModal, dispatch, fields.length, getPath, shuffle, size, soundSfx]);
 
   const onExit = useCallback(() => {
     dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
     dispatch(localGameActions.setPairs(fields.length / 2));
     navigate(getPath("backpath") || "/");
-  }, [dispatch, fields.length, getPath, navigate]);
+    soundSfx();
+  }, [dispatch, fields.length, getPath, navigate, soundSfx]);
 
   const onCancel = useCallback(() => {
     setIsPause(false);
+    soundSfx();
     closeModal(pauseModal(onExit, onCancel, onRestart));
-  }, [closeModal, onExit, onRestart]);
+  }, [closeModal, onExit, onRestart, soundSfx]);
 
   const handlePause = useCallback(() => {
     setIsPause(true);
+    soundSfx();
     openModal(pauseModal(onExit, onCancel, onRestart));
-  }, [onCancel, onExit, openModal, onRestart]);
+  }, [soundSfx, openModal, onExit, onCancel, onRestart]);
 
   useEffect(() => {
     dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
@@ -237,9 +253,15 @@ export const GamePage = () => {
   useEffect(() => {
     if (pairs === 0) {
       setIsPause(true);
+      if (isSfxActive) {
+        const audio = new Audio();
+        audio.src = "/cardWinSfx.mp3";
+        audio.volume = 0.2;
+        audio.play();
+      }
       openModal(WinModal(onExit, onRestart));
     }
-  }, [onExit, onRestart, openModal, pairs]);
+  }, [isSfxActive, onExit, onRestart, openModal, pairs]);
 
   return (
     <>
@@ -330,6 +352,12 @@ export const GamePage = () => {
         active2={active2}
         onClick={(item: Card) => {
           if ((active1 && active2) || item.isOpen) return;
+          if (isSfxActive) {
+            const audio = new Audio();
+            audio.src = "/cardSfx.mp3";
+            audio.volume = 0.2;
+            audio.play();
+          }
           if (active1 && active1.id !== item.id) {
             setActive2(item);
             return;

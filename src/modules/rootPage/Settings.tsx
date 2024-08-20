@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { settingsLanguages, showPrivacy } from "./constants";
 import Button from "@components/button/Button";
 import { showModal } from "@lib/utils/modal";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions, uiSelectors } from "@store/ui";
 
 const SettingsWrapper = styled(Flex)`
   width: 100%;
@@ -42,6 +44,9 @@ const ButtonLink = styled(Button)`
 `;
 
 export const Settings = () => {
+  const isAudioPlaying = useSelector(uiSelectors.getIsAudioPlaying);
+  const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
+  const dispatch = useDispatch();
   return (
     <SettingsWrapper $top="small" gap="5px" direction="column">
       <SettingsControls direction="column">
@@ -49,13 +54,27 @@ export const Settings = () => {
           <Text $color="#092E46" $size="subtitle">
             Music
           </Text>
-          <Toggle values={["On", "Off"]} onChange={(v) => console.log(v)} />
+          <Toggle
+            values={["On", "Off"]}
+            activeValue={isAudioPlaying ? "On" : "Off"}
+            onChange={(v) => {
+              if (v === "On") dispatch(uiActions.setIsAudioPlaying(true));
+              if (v === "Off") dispatch(uiActions.setIsAudioPlaying(false));
+            }}
+          />
         </Flex>
         <Flex $top="medium" align="center" justify="space-between">
           <Text $color="#092E46" $size="subtitle">
             SFx
           </Text>
-          <Toggle values={["On", "Off"]} onChange={(v) => console.log(v)} />
+          <Toggle
+            values={["On", "Off"]}
+            activeValue={isSfxActive ? "On" : "Off"}
+            onChange={(v) => {
+              if (v === "On") dispatch(uiActions.setIsSfxActive(true));
+              if (v === "Off") dispatch(uiActions.setIsSfxActive(false));
+            }}
+          />
         </Flex>
         <LanguageSwiper languages={settingsLanguages} $top="large" />
       </SettingsControls>

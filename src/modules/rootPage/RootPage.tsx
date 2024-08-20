@@ -9,7 +9,6 @@ import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
 import SettingsIcon from "@components/icons/SettingsIcon";
 import AdIcon from "@components/icons/AdIcon";
 import NewsIcon from "@components/icons/NewsIcon";
-import aztec from "/img/planets/aztec.webp";
 import {
   Content,
   HealthWrapper,
@@ -22,14 +21,18 @@ import {
   StyledButton,
   PlanetImage,
   RootControls,
+  StyledFlex,
 } from "./rootStyles";
 import { useModal } from "@hooks/useModal";
-import { showBattlePass, showNews, showSettings } from "./constants";
+import { planets, showBattlePass, showNews, showSettings } from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { showModal } from "@lib/utils/modal";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
+import { useUserLocation } from "@hooks/useUserLocation";
+import { usePlaySFx } from "@hooks/usePlaySFx";
+import { useNavigate } from "react-router-dom";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -37,20 +40,29 @@ export const RootPage = () => {
     document.body.style.overflow = "hidden";
   }, []);
   const user = useSelector(uiSelectors.getUser);
+  const location = useUserLocation();
+  const soundSfx = usePlaySFx();
+  const navigate = useNavigate();
   return (
     <>
       <Content>
         <RootControls>
           {user && (
-            <Flex basis="50%" gap="12px" wrap="wrap">
+            <Flex basis="50%" gap="6px" wrap="wrap">
               <IndicatorItem
-                action={() => console.log("click")}
-                value={formatNumber(11111111)}
+                action={() => {
+                  soundSfx();
+                  navigate("/shop");
+                }}
+                value={formatNumber(user.gold)}
                 icon={<CoinIcon size={43} />}
               />
               <IndicatorItem
-                action={() => console.log("click")}
-                value={formatNumber(11111111)}
+                action={() => {
+                  soundSfx();
+                  navigate("/shop");
+                }}
+                value={formatNumber(user.gem)}
                 icon={<DiamondIcon size={43} />}
               />
             </Flex>
@@ -58,7 +70,10 @@ export const RootPage = () => {
           <HealthWrapper>
             <ActionButton
               icon={<PlusIcon size={20} color="#fff" />}
-              onClick={() => console.log(123)}
+              onClick={() => {
+                soundSfx();
+                navigate("/shop");
+              }}
             />
             <Flex gap="5px">
               <ActiveHeartIcon size={21} />
@@ -72,33 +87,51 @@ export const RootPage = () => {
             <Text $size="subtitle">11:11</Text>
           </HealthWrapper>
           <Flex gap="12px" $top="slarge" justify="space-between">
-            <ButtonPass onClick={() => showModal(showBattlePass)} type="yellow">
+            <ButtonPass
+              onClick={() => {
+                soundSfx();
+                showModal(showBattlePass);
+              }}
+              type="yellow"
+            >
               Battle pass
             </ButtonPass>
             <StyledIconButton type="blue" icon={<AdIcon size={33} />} />
             <StyledIconButton
-              onClick={() => showModal(showNews)}
+              onClick={() => {
+                soundSfx();
+                showModal(showNews);
+              }}
               type="blue"
               icon={<NewsIcon size={33} />}
             />
             <StyledIconButton
-              onClick={() => openModal(showSettings)}
+              onClick={() => {
+                soundSfx();
+                openModal(showSettings);
+              }}
               type="blue"
               icon={<SettingsIcon size={33} />}
             />
           </Flex>
         </RootControls>
         <PlanetClick onClick={() => console.log("clicked on planet")}>
-          <PlanetImage src={aztec} />
+          {location && <PlanetImage src={planets[location.id]} />}
         </PlanetClick>
-        <StyledSubHeader>1 Season • 1 Level</StyledSubHeader>
-        <StyledButtonShadow>
-          <StyledButton padding="24px 100px" type="pink">
-            <div>
-              <div>PLAY</div>
-            </div>
-          </StyledButton>
-        </StyledButtonShadow>
+        <StyledFlex>
+          {location && (
+            <StyledSubHeader>
+              {location.id + 1} Season • {location.number} Level
+            </StyledSubHeader>
+          )}
+          <StyledButtonShadow>
+            <StyledButton onClick={soundSfx} padding="24px 100px" type="pink">
+              <div>
+                <div>PLAY</div>
+              </div>
+            </StyledButton>
+          </StyledButtonShadow>
+        </StyledFlex>
       </Content>
     </>
   );

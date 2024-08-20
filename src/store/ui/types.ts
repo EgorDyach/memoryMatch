@@ -18,6 +18,8 @@ export type UIState = {
   user: User | null;
   isLoaderOpen: boolean;
   theme: ThemeType;
+  isAudioPlaying: boolean;
+  isSfxActive: boolean;
 };
 
 export type StoreWithUIState = {

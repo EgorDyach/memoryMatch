@@ -50,11 +50,13 @@ const StyledTitle = styled.h1`
 
 interface LoaderProps {
   isOpen: boolean;
+  handleClick: VoidFunction;
 }
 
-export const Loader: FC<LoaderProps> = ({ isOpen }) => {
+export const Loader: FC<LoaderProps> = ({ isOpen, handleClick }) => {
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       document.body.style.overflow = "hidden";
@@ -112,7 +114,7 @@ export const Loader: FC<LoaderProps> = ({ isOpen }) => {
       <StyledImage image={image} preview={preview} />
       <StyledContent justify="space-between" direction="column" align="center">
         <StyledTitle>Memory Match</StyledTitle>
-        <LoaderButton />
+        <LoaderButton handleClick={handleClick} />
         <LoadedProgressBar />
       </StyledContent>
     </LoaderWrapper>

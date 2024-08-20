@@ -18,6 +18,7 @@ import LockIcon from "@components/icons/LockIcon";
 import { shadow } from "@lib/theme/shadow";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 
 const StyledImage = styled(Image)`
   border-radius: 6.6px;
@@ -45,6 +46,7 @@ const StyledBlur = styled(Flex)`
 
 export const SeasonsPage = () => {
   const navigate = useNavigate();
+  const soundSfx = usePlaySFx();
   const user = useSelector(uiSelectors.getUser);
   if (!user) return;
   return (
@@ -161,7 +163,10 @@ export const SeasonsPage = () => {
               disabled={
                 !user?.locations.find((el) => el.id === item.id)?.isAvailable
               }
-              onClick={() => navigate(AppRoutes.mapWithId(item.id))}
+              onClick={() => {
+                soundSfx();
+                navigate(AppRoutes.mapWithId(item.id));
+              }}
             >
               <Text $size="subtitle">Continue</Text>
             </Button>

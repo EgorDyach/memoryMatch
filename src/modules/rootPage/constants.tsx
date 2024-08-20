@@ -4,6 +4,13 @@ import { closeModal } from "@lib/utils/modal";
 import { Text } from "@components/Typography";
 import { content } from "@lib/theme/colors";
 import Flex from "@components/Flex";
+import cave from "/img/planets/planet_cave.webp";
+import aztec from "/img/planets/planet_aztec.webp";
+import knight from "/img/planets/planet_knight.webp";
+import steam from "/img/planets/planet_steam.webp";
+import today from "/img/planets/planet_today.webp";
+import cyber from "/img/planets/planet_cyber.webp";
+import end from "/img/planets/planet_end.webp";
 
 export const showSettings: ShowModal = {
   title: "Settings",
@@ -130,3 +137,5 @@ export const settingsLanguages = [
   "தமிழ்",
   "Italiano",
 ];
+
+export const planets = [cave, aztec, knight, steam, today, cyber, end];

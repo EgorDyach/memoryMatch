@@ -1,5 +1,6 @@
 import Button from "@components/button/Button";
 import Flex from "@components/Flex";
+import { Text } from "@components/Typography";
 import { gradients } from "@lib/theme/colors";
 import { shadow } from "@lib/theme/shadow";
 import styled from "styled-components";
@@ -21,7 +22,17 @@ export const StyledButton = styled(Button)`
   width: 100%;
 
   &:disabled {
-    font-size: 13px;
+    font-size: 10px;
+  }
+`;
+
+export const StyledText = styled(Text)`
+  font-size: 16px;
+  @media (max-width: 410px) {
+    font-size: 14px;
+  }
+  @media (max-width: 370px) {
+    font-size: 12px;
   }
 `;
 

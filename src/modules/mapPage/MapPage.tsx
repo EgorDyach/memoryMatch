@@ -10,6 +10,7 @@ import Flex from "@components/Flex";
 import { shadow, textShadow } from "@lib/theme/shadow";
 import IconButton from "@components/button/IconButton";
 import BigArrowRightIcon from "@components/icons/BigArrowRightIcon";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 const StyledTitle = styled(Title)`
   position: fixed;
   top: 60px;
@@ -34,8 +35,9 @@ const StyledPercent = styled(Text)<{ $bg: string; $shadow: string }>`
 export const MapPage = () => {
   const user = useSelector(uiSelectors.getUser);
   const { seasonId = 0 } = useParams();
-  const map = maps.find((el) => el.id === Number(seasonId));
   const navigate = useNavigate();
+  const soundSfx = usePlaySFx();
+  const map = maps.find((el) => el.id === Number(seasonId));
   if (!map || !user) return;
   const currentLocation = user.locations.find(
     (el) => el.id === Number(seasonId)
@@ -46,7 +48,10 @@ export const MapPage = () => {
       <StyledTitle
         actionButton={
           <ActionButton
-            onClick={() => navigate("/map")}
+            onClick={() => {
+              soundSfx();
+              navigate("/map");
+            }}
             icon={<BigArrowRightIcon size={18} />}
             type="yellow"
           />

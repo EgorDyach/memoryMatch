@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { MapTooltip } from "./MapTooltip";
 import { useNavigate, useParams } from "react-router-dom";
 import { startGame$ } from "@lib/api/game";
+import { usePlaySFx } from "@hooks/usePlaySFx";
 
 interface MapProps {
   points: MapLevel[];
@@ -57,15 +58,16 @@ const getStatusLevel = (point: MapLevel, currentLevel: number): PointStatus => {
 
 export const Map: FC<MapProps> = ({ points, currentLevel }) => {
   const navigate = useNavigate();
+  const soundSfx = usePlaySFx();
   const { seasionId = "" } = useParams();
   const handleClick = async (level: MapLevel) => {
     try {
-      const res = await startGame$(level.id, seasionId);
-      console.log(res);
+      await startGame$(level.id, seasionId);
+      soundSfx();
+      navigate(level.startRoot);
     } catch (error) {
       console.error(error);
     }
-    navigate(level.startRoot);
   };
   return (
     <svg

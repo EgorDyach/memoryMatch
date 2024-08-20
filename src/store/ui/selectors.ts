@@ -19,3 +19,9 @@ export const getIsLoaderOpen = (s: StoreWithUIState): boolean =>
   getState(s).isLoaderOpen;
 
 export const getTheme = (s: StoreWithUIState): ThemeType => getState(s).theme;
+
+export const getIsAudioPlaying = (s: StoreWithUIState): boolean =>
+  getState(s).isAudioPlaying;
+
+export const getIsSfxActive = (s: StoreWithUIState): boolean =>
+  getState(s).isSfxActive;

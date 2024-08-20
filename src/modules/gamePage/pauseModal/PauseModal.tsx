@@ -5,7 +5,9 @@ import PlayIcon from "@components/icons/PlayIcon";
 import RestartIcon from "@components/icons/RestartIcon";
 import { Toggle } from "@components/Toggle";
 import { Text } from "@components/Typography";
+import { uiActions, uiSelectors } from "@store/ui";
 import { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface PauseModalProps {
@@ -33,6 +35,10 @@ export const PauseModal: FC<PauseModalProps> = ({
   onCancel,
   onRestart,
 }) => {
+  const isMusicPlaying = useSelector(uiSelectors.getIsAudioPlaying);
+  const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
+
+  const dispatch = useDispatch();
   return (
     <StyledFlex direction="column">
       <StyledButton type="yellow" onClick={onCancel} shadow="full">
@@ -49,11 +55,25 @@ export const PauseModal: FC<PauseModalProps> = ({
       </StyledButton>
       <Flex align="center" $top="xlarge" justify="space-between">
         <Text $color="secondary">Music</Text>
-        <Toggle values={["On", "Off"]} />
+        <Toggle
+          values={["On", "Off"]}
+          activeValue={isMusicPlaying ? "On" : "Off"}
+          onChange={(v) => {
+            if (v === "On") dispatch(uiActions.setIsAudioPlaying(true));
+            if (v === "Off") dispatch(uiActions.setIsAudioPlaying(false));
+          }}
+        />
       </Flex>
       <Flex align="center" $top="small" justify="space-between">
         <Text $color="secondary">SFx</Text>
-        <Toggle values={["On", "Off"]} />
+        <Toggle
+          values={["On", "Off"]}
+          activeValue={isSfxActive ? "On" : "Off"}
+          onChange={(v) => {
+            if (v === "On") dispatch(uiActions.setIsSfxActive(true));
+            if (v === "Off") dispatch(uiActions.setIsSfxActive(false));
+          }}
+        />
       </Flex>
       <StyledButton onClick={onExit} $top="medium" type="danger" shadow="full">
         <StyledRestartIcon>

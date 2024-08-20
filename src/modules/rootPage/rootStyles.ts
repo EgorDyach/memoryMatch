@@ -28,7 +28,8 @@ export const ButtonPass = styled(Button)`
   ${textShadow(shadows.yellow)}
   ${shadow("full")}
   font-size: 20px;
-  padding: 2px 42px 0;
+  flex: 1;
+  padding: 2px 5px 0;
 `;
 
 export const StyledIconButton = styled(IconButton)`
@@ -107,4 +108,14 @@ export const StyledButtonShadow = styled.div`
   padding: 4px;
   box-shadow: 0px 1.62px 0px 0px #00000040 inset,
     0px -0.81px 0px 0px #ffffff40 inset;
+`;
+
+export const StyledFlex = styled(Flex)`
+  flex-direction: column;
+  @media (max-height: 730px) {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
