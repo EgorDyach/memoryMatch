@@ -17,6 +17,7 @@ const StyledTitle = styled(Title)`
   left: 24px;
   right: 24px;
   width: auto;
+  z-index: 2;
 `;
 const ActionButton = styled(IconButton)`
   position: absolute;
@@ -33,15 +34,16 @@ const StyledPercent = styled(Text)<{ $bg: string; $shadow: string }>`
 `;
 
 export const MapPage = () => {
-  const user = useSelector(uiSelectors.getUser);
+  const locations = useSelector(uiSelectors.getLocations);
   const { seasonId = 0 } = useParams();
   const navigate = useNavigate();
   const soundSfx = usePlaySFx();
   const map = maps.find((el) => el.id === Number(seasonId));
-  if (!map || !user) return;
-  const currentLocation = user.locations.find(
+  if (!map) return;
+  const currentLocation = locations.find(
     (el) => el.id === Number(seasonId)
   );
+  console.log(currentLocation)
   if (!currentLocation || !currentLocation.isAvailable) return;
   return (
     <>
@@ -72,7 +74,7 @@ export const MapPage = () => {
             $bg={map.colors.percentBackgroundColor}
             $shadow={map.colors.percentShadowColor || "transparent"}
           >
-            {Math.ceil((currentLocation.number / 40) * 100)}%
+            {Math.ceil(((currentLocation.number-1) / 40) * 100)}%
           </StyledPercent>
         </Flex>
       </StyledTitle>

@@ -1,4 +1,4 @@
-import { User } from "@type/user";
+import { Location, User } from "@type/user";
 import {
   RequestState,
   StoreWithUIState,
@@ -25,3 +25,6 @@ export const getIsAudioPlaying = (s: StoreWithUIState): boolean =>
 
 export const getIsSfxActive = (s: StoreWithUIState): boolean =>
   getState(s).isSfxActive;
+
+export const getLocations = (s: StoreWithUIState): Location[] =>
+  getState(s).locations;

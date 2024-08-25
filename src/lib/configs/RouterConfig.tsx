@@ -10,6 +10,7 @@ import { SeasonsPage } from "@modules/seasonsPage/SeasonsPage";
 import { MapPage } from "@modules/mapPage/MapPage";
 import { GameLayout } from "@layouts/gameLayout/GameLayout";
 import { GamePage } from "@modules/gamePage/GamePage";
+import { VersusGamePage } from "@modules/versusGamePage/VersusGamePage";
 
 export const routerConfig = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/game",
         element: <GamePage />,
+      },
+      {
+        path: "/game/versus",
+        element: <VersusGamePage />,
       },
     ],
   },

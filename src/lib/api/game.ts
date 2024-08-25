@@ -1,7 +1,7 @@
 import { GameResponse } from "@type/game";
 import { fakeStartGame } from "./fakeApi/game";
 
-export const startGame$ = async (
+export const requestStartGame$ = async (
   levelNumber: number | string,
   seasonId: number | string
 ): GameResponse => {

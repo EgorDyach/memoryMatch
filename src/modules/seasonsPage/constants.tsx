@@ -1,14 +1,19 @@
 import { Season } from "@type/map";
-import aztec from "/img/seasons/aztec.jpg";
-import next from "/img/seasons/next.jpg";
+import cave from "/img/backgrounds/cave.webp";
+import aztec from "/img/backgrounds/aztec.webp";
+import knight from "/img/backgrounds/knight.webp";
+import steam from "/img/backgrounds/steam.webp";
+import today from "/img/backgrounds/today.webp";
+import cyber from "/img/backgrounds/cyber.webp";
+import end from "/img/backgrounds/end.webp";
 
 export const TOTAL_LEVELS = 40;
 
 export const seasons: Season[] = [
   {
-    id: 0,
+    id: 1,
     title: "Cave world",
-    image: aztec,
+    image: cave,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -29,9 +34,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 1,
+    id: 2,
     title: "Aztec world",
-    image: next,
+    image: aztec,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -51,9 +56,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 2,
+    id: 3,
     title: "Knight world",
-    image: next,
+    image: knight,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -73,9 +78,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 3,
+    id: 4,
     title: "Steam world",
-    image: next,
+    image: steam,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -95,9 +100,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 4,
+    id: 5,
     title: "Today world",
-    image: next,
+    image: today,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -118,9 +123,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 5,
+    id: 6,
     title: "Cyber world",
-    image: next,
+    image: cyber,
     rewards: {
       coins: 5,
       diamonds: 10,
@@ -141,9 +146,9 @@ export const seasons: Season[] = [
     },
   },
   {
-    id: 6,
+    id: 7,
     title: "End world",
-    image: next,
+    image: end,
     rewards: {
       coins: 5,
       diamonds: 10,

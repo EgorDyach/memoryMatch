@@ -1,8 +1,13 @@
 import { LevelGameState } from "./types";
 
 export const levelGameInitialState: LevelGameState = {
-  moves: 10,
-  pairs: 99,
-  timer: 10,
-  size: 4,
+  pairs: null,
+  maxMoves: null,
+  movesUsed: null,
+  gameLevelId: null,
+  id: null,
+  cards: [],
+  initialTimer: null,
+  seasonId: null,
+  backpath: "/",
 };

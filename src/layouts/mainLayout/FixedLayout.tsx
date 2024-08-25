@@ -17,13 +17,25 @@ const Wrapper = styled(Flex)<{ $padding: string }>`
   padding: ${(props) => props.$padding};
   position: relative;
   overflow: auto;
+  
 `;
 
 const FixedFlex = styled(Flex)`
   position: fixed;
   width: calc(100% - 48px);
   top: 20px;
+  z-index: 2;
 `;
+
+const TopBlur = styled.div`
+  height: 140px;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0) 100%);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+`
 
 interface FixedLayoutProps extends PropsWithChildren {
   showHealth?: boolean;
@@ -37,6 +49,8 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
 }) => {
   const user = useSelector(uiSelectors.getUser);
   return (
+    <>
+      <TopBlur />
     <Wrapper $padding={padding} direction="column">
       {user && (
         <FixedFlex basis="50%" gap="12px" wrap="wrap">
@@ -72,5 +86,6 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
       )}
       {children}
     </Wrapper>
+    </>
   );
 };

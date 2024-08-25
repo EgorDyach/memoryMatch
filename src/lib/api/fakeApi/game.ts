@@ -1,222 +1,103 @@
 import { Game, GameResponse } from "@type/game";
 
 const fakeResponse: Game = {
-  id: 0,
-  number: 0,
-  currentIteration: 0,
-  maxIterations: 0,
-  duration: "string",
+  id: 10,
+  gameLevelId: 1,
+  state: 0,
+  movesUsed: 0,
+  maxMoves: 20,
+  startTimestamp: "2024-08-24T23:17:29.715265+00:00",
+  endTimestamp: "2024-08-24T23:22:29.715305+00:00",
   cards: [
-    {
-      id: 0,
-      gameId: 0,
-      game: {
-        id: 0,
-        currentIteration: 0,
-        endTimeStamp: "2024-08-20T14:50:01.209Z",
-        pauseTimeStamp: "2024-08-20T14:50:01.209Z",
-        state: 0,
-        firstSelectedCardId: 0,
-        firstSelectedCard: "string",
-        gameLevelId: 0,
-        gameLevel: {
-          id: 0,
-          number: 0,
-          maxIterations: 0,
-          duration: "string",
-          levelPrize: {
-            id: 0,
-            count: 0,
-            levelPrizeType: 0,
-          },
-          locationId: 0,
-          location: {
-            id: 0,
-            number: 0,
-            name: "string",
-            gameLevels: ["string"],
-            users: [
-              {
-                userId: 0,
-                user: "string",
-                locationId: 0,
-                location: "string",
-                isAvailable: true,
-              },
-            ],
-            cardTypes: ["string"],
-          },
-          fieldSizeId: 0,
-          fieldSize: {
-            id: 0,
-            rows: 0,
-            columns: 0,
-            gameLevels: ["string"],
-          },
-          games: ["string"],
-        },
-        userId: 0,
-        user: {
-          id: 0,
-          gold: 0,
-          gem: 0,
-          firstName: "string",
-          lastName: "string",
-          username: "string",
-          boosts: [
-            {
-              type: 0,
-              count: "string",
-            },
-          ],
-          games: ["string"],
-          locations: [
-            {
-              userId: 0,
-              user: "string",
-              locationId: 0,
-              location: "string",
-              isAvailable: true,
-            },
-          ],
-        },
-        cards: ["string"],
+    [
+      {
+        id: 145,
+        isFlipped: false,
+        cardTypeId: 1,
       },
-      row: 0,
-      column: 0,
-      isVisible: true,
-      cardTypeId: 0,
-      cardType: {
-        id: 0,
-        name: "string",
-        cards: ["string"],
-        locationId: 0,
-        location: {
-          id: 0,
-          number: 0,
-          name: "string",
-          gameLevels: ["string"],
-          users: [
-            {
-              userId: 0,
-              user: "string",
-              locationId: 0,
-              location: "string",
-              isAvailable: true,
-            },
-          ],
-          cardTypes: ["string"],
-        },
+      {
+        id: 146,
+        isFlipped: false,
+        cardTypeId: 2,
       },
-    },
-    {
-      id: 0,
-      gameId: 0,
-      game: {
-        id: 0,
-        currentIteration: 0,
-        endTimeStamp: "2024-08-20T14:50:01.209Z",
-        pauseTimeStamp: "2024-08-20T14:50:01.209Z",
-        state: 0,
-        firstSelectedCardId: 0,
-        firstSelectedCard: "string",
-        gameLevelId: 0,
-        gameLevel: {
-          id: 0,
-          number: 0,
-          maxIterations: 0,
-          duration: "string",
-          levelPrize: {
-            id: 0,
-            count: 0,
-            levelPrizeType: 0,
-          },
-          locationId: 0,
-          location: {
-            id: 0,
-            number: 0,
-            name: "string",
-            gameLevels: ["string"],
-            users: [
-              {
-                userId: 0,
-                user: "string",
-                locationId: 0,
-                location: "string",
-                isAvailable: true,
-              },
-            ],
-            cardTypes: ["string"],
-          },
-          fieldSizeId: 0,
-          fieldSize: {
-            id: 0,
-            rows: 0,
-            columns: 0,
-            gameLevels: ["string"],
-          },
-          games: ["string"],
-        },
-        userId: 0,
-        user: {
-          id: 0,
-          gold: 0,
-          gem: 0,
-          firstName: "string",
-          lastName: "string",
-          username: "string",
-          boosts: [
-            {
-              type: 0,
-              count: "string",
-            },
-          ],
-          games: ["string"],
-          locations: [
-            {
-              userId: 0,
-              user: "string",
-              locationId: 0,
-              location: "string",
-              isAvailable: true,
-            },
-          ],
-        },
-        cards: ["string"],
+      {
+        id: 147,
+        isFlipped: false,
+        cardTypeId: 3,
       },
-      row: 0,
-      column: 0,
-      isVisible: true,
-      cardTypeId: 0,
-      cardType: {
-        id: 0,
-        name: "string",
-        cards: ["string"],
-        locationId: 0,
-        location: {
-          id: 0,
-          number: 0,
-          name: "string",
-          gameLevels: ["string"],
-          users: [
-            {
-              userId: 0,
-              user: "string",
-              locationId: 0,
-              location: "string",
-              isAvailable: true,
-            },
-          ],
-          cardTypes: ["string"],
-        },
+      {
+        id: 148,
+        isFlipped: false,
+        cardTypeId: 4,
       },
-    },
+    ],
+    [
+      {
+        id: 149,
+        isFlipped: false,
+        cardTypeId: 1,
+      },
+      {
+        id: 150,
+        isFlipped: false,
+        cardTypeId: 8,
+      },
+      {
+        id: 151,
+        isFlipped: false,
+        cardTypeId: 3,
+      },
+      {
+        id: 152,
+        isFlipped: false,
+        cardTypeId: 5,
+      },
+    ],
+    [
+      {
+        id: 153,
+        isFlipped: false,
+        cardTypeId: 5,
+      },
+      {
+        id: 154,
+        isFlipped: false,
+        cardTypeId: 6,
+      },
+      {
+        id: 155,
+        isFlipped: false,
+        cardTypeId: 7,
+      },
+      {
+        id: 156,
+        isFlipped: false,
+        cardTypeId: 2,
+      },
+    ],
+    [
+      {
+        id: 157,
+        isFlipped: false,
+        cardTypeId: 8,
+      },
+      {
+        id: 158,
+        isFlipped: false,
+        cardTypeId: 7,
+      },
+      {
+        id: 159,
+        isFlipped: false,
+        cardTypeId: 4,
+      },
+      {
+        id: 160,
+        isFlipped: false,
+        cardTypeId: 6,
+      },
+    ],
   ],
-  levelPrize: {
-    id: 0,
-    count: 0,
-    levelPrizeType: 0,
-  },
 };
 
 export const fakeStartGame = async (

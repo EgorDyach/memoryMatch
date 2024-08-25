@@ -40,11 +40,16 @@ export type MapLevel = {
   positionX: number;
   positionY: number;
   reward: MapReward | null;
-  startRoot: string;
 };
 
 type MapReward = {
   placement: "top" | "left" | "bottom" | "right";
   type: "coin" | "diamond" | "fragment";
   count: number;
+};
+
+export type ShortLevel = {
+  id: number;
+  number: number;
+  isCompleted: boolean;
 };

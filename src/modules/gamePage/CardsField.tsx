@@ -9,20 +9,33 @@ import cyberBg from "/img/cardbgs/cyberCardBg.webp";
 import Flex from "@components/Flex";
 import Image from "@components/Image";
 import { Text } from "@components/Typography";
-import { uiSelectors } from "@store/ui";
-import { ThemeType } from "@store/ui/types";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { Card } from "@type/game";
+import { levelGameSelectors } from "@store/levelGame";
+
+const seasonName = [
+  "default",
+  "cave",
+  "aztec",
+  "knight",
+  "steam",
+  "today",
+  "cyber",
+  "end",
+];
 const CardsWrapper = styled(Flex)`
   margin-top: 20px;
   display: flex;
+  height: 100%;
 `;
 
-const Card = styled(Flex)`
+const StyledCard = styled(Flex)`
   aspect-ratio: 88/ 121;
   cursor: pointer;
   position: relative;
+  height: min-content;
 `;
 
 const CardContent = styled(Flex)`
@@ -37,7 +50,7 @@ const CardContent = styled(Flex)`
 
 const FrontCard = styled(CardContent)<{
   $isActive: boolean;
-  $theme: ThemeType;
+  $seasonId: number;
   $randomNum: number;
 }>`
   display: flex;
@@ -55,9 +68,9 @@ const FrontCard = styled(CardContent)<{
   box-shadow: 0px 3px 0px 0px #00000040;
   background-position: 100px 100px;
   position: relative;
-  ${({ $theme, $randomNum }) => {
-    switch ($theme) {
-      case "aztec":
+  ${({ $seasonId, $randomNum }) => {
+    switch ($seasonId) {
+      case 2:
         return `&::after {
           content: '';
           position: absolute;
@@ -80,7 +93,7 @@ const FrontCard = styled(CardContent)<{
           & > div {
             border-color: #033E3A;
             }`;
-      case "cave":
+      case 1:
         return `background: url(${caveCardBg}),#FDB446;
         background-position: ${$randomNum * 50}% ${$randomNum * 50}%;
           & div {
@@ -90,7 +103,7 @@ const FrontCard = styled(CardContent)<{
         & > div {
           border-color: #452C04;
           }`;
-      case "cyber":
+      case 6:
         return `&::after {
           content: '';
           position: absolute;
@@ -113,7 +126,7 @@ const FrontCard = styled(CardContent)<{
         background: #C521D3;
           & > div {
         }`;
-      case "end":
+      case 7:
         return `&::after {
           content: '';
           position: absolute;
@@ -140,7 +153,7 @@ const FrontCard = styled(CardContent)<{
             }
         background: #FFD029;
           `;
-      case "knight":
+      case 3:
         return `background: url(${knightBg}), #3BCECA;
           background-position: center;
           background-size: contain;
@@ -151,7 +164,7 @@ const FrontCard = styled(CardContent)<{
           & > div {
           border-color: #0A5954;
         }`;
-      case "steam":
+      case 4:
         return `background: #2a7eb9;
         &::after {
           content: '';
@@ -175,7 +188,7 @@ const FrontCard = styled(CardContent)<{
             border-color: #FFCF52;
             }
          `;
-      case "today":
+      case 5:
         return `&::after {
           content: '';
           position: absolute;
@@ -242,65 +255,66 @@ const StyledImage = styled(Image)`
   height: 100%;
 `;
 
-export type Card = {
-  id: number;
-  random: number;
-  content: string;
-  isOpen: boolean;
-  img: string;
-};
-
 interface CardsFieldProps {
-  size: number;
   active1: Card | null;
   active2: Card | null;
-  fields: Card[];
-  onClick: (card: Card) => void;
+  fields: GameCard[][];
+  onClick: (card: GameCard) => void;
 }
 
+export type GameCard = { random: number } & Card;
+
 export const CardsField: FC<CardsFieldProps> = ({
-  size,
   fields,
   active1,
   active2,
   onClick,
 }) => {
-  const theme = useSelector(uiSelectors.getTheme);
+  const seasonId = useSelector(levelGameSelectors.getSeasonId);
+
   return (
     <CardsWrapper
       justify="space-between"
-      basis={`${90 / size}%`}
+      basis={`${90 / fields.length}%`}
       gap="10px"
       wrap="wrap"
     >
-      {fields.map((item) => {
-        return (
-          <Card key={item.id} onClick={() => onClick(item)}>
-            <FrontCard
-              $theme={theme}
-              $randomNum={item.random}
-              $isActive={
-                active1?.id === item.id ||
-                active2?.id === item.id ||
-                item.isOpen
-              }
-            >
-              <Flex justify="center" align="center">
-                <StyledFrontText $size={size}>M</StyledFrontText>
-              </Flex>
-            </FrontCard>
-            <BackCard
-              $isActive={
-                active1?.id === item.id ||
-                active2?.id === item.id ||
-                item.isOpen
-              }
-            >
-              <StyledImage src={item.img} />
-            </BackCard>
-          </Card>
-        );
-      })}
+      {fields.map((fieldRow) => (
+        <>
+          {fieldRow.map((item) => {
+            return (
+              <StyledCard key={item.id} onClick={() => onClick(item)}>
+                <FrontCard
+                  $seasonId={seasonId || 0}
+                  $randomNum={item.random}
+                  $isActive={
+                    active1?.id === item.id ||
+                    active2?.id === item.id ||
+                    item.isFlipped
+                  }
+                >
+                  <Flex justify="center" align="center">
+                    <StyledFrontText $size={fields.length}>M</StyledFrontText>
+                  </Flex>
+                </FrontCard>
+                <BackCard
+                  $isActive={
+                    active1?.id === item.id ||
+                    active2?.id === item.id ||
+                    item.isFlipped
+                  }
+                >
+                  <StyledImage
+                    src={`/img/cards/${seasonName[seasonId || 1]}/card${
+                      item.cardTypeId
+                    }.webp`}
+                  />
+                </BackCard>
+              </StyledCard>
+            );
+          })}
+        </>
+      ))}
     </CardsWrapper>
   );
 };

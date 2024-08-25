@@ -35,7 +35,7 @@ export const VersusPage = () => {
               dispatch(localGameActions.setTimer(null));
               soundSfx();
               navigate(
-                `/game?size=${item.size}&backpath=${pathname}&moves=${item.moves}&timer=${item.timer}`
+                `/game/versus?size=${item.size}&backpath=${pathname}&moves=${item.moves}&timer=${item.timer}`
               );
             }}
           >

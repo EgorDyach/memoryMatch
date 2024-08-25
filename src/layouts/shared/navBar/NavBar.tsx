@@ -90,13 +90,13 @@ const NavItem = styled(ItemTitle)<{ $isActive: boolean }>`
   transition: opacity 0.3s ease;
 `;
 export const NavBar = () => {
-  const user = useSelector(uiSelectors.getUser);
+  const locations = useSelector(uiSelectors.getLocations);
   const [activeIndex, setActiveIndex] = useState(2);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const userMapLink = `/map/${
-    user && user.locations.filter((el) => el.isAvailable).at(-1)
-      ? user.locations.filter((el) => el.isAvailable).at(-1)!.id
+     locations.filter((el) => el.isAvailable).at(-1)
+      ? locations.filter((el) => el.isAvailable).at(-1)!.id
       : ""
   }`;
   useEffect(() => {

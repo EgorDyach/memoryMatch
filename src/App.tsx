@@ -30,6 +30,7 @@ declare global {
         };
         expand: () => void;
         enableClosingConfirmation: () => void;
+        disableVerticalSwipes: VoidFunction;
         initData: string; // Добавлено
         initDataUnsafe: {
           hash: string;
@@ -63,6 +64,7 @@ function App() {
   useEffect(() => {
     window.Telegram.WebApp.expand();
     window.Telegram.WebApp.enableClosingConfirmation();
+    window.Telegram.WebApp.disableVerticalSwipes();
     if (
       window.Telegram != null &&
       window.Telegram.WebApp != null &&

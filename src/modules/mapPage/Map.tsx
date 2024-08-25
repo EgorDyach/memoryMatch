@@ -4,9 +4,10 @@ import { MapLevel } from "@type/map";
 import { FC } from "react";
 import styled from "styled-components";
 import { MapTooltip } from "./MapTooltip";
-import { useNavigate, useParams } from "react-router-dom";
-import { startGame$ } from "@lib/api/game";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { usePlaySFx } from "@hooks/usePlaySFx";
+import { fetchStartGame } from "@store/levelGame/thunks";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 interface MapProps {
   points: MapLevel[];
@@ -57,14 +58,17 @@ const getStatusLevel = (point: MapLevel, currentLevel: number): PointStatus => {
 };
 
 export const Map: FC<MapProps> = ({ points, currentLevel }) => {
-  const navigate = useNavigate();
   const soundSfx = usePlaySFx();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
   const { seasionId = "" } = useParams();
   const handleClick = async (level: MapLevel) => {
+    if (level.id !== currentLevel) return;
     try {
-      await startGame$(level.id, seasionId);
+      navigate(`/game`);
+      dispatch(fetchStartGame(level.id, seasionId, pathname));
       soundSfx();
-      navigate(level.startRoot);
     } catch (error) {
       console.error(error);
     }

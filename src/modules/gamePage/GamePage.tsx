@@ -1,10 +1,7 @@
-import { usePathParam } from "@hooks/usePathParam";
-import { useShuffle } from "@hooks/useShuffle";
-import { localGameActions, localGameSelectors } from "@store/localGame";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Flex from "@components/Flex";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { shadow, textShadow } from "@lib/theme/shadow";
 import { IndicatorItem } from "@components/IndicatorItem";
@@ -22,21 +19,21 @@ import { useSelector } from "react-redux";
 import { formatTime } from "@lib/utils/formatTime";
 import InfiniteIcon from "@components/icons/InfiniteIcon";
 import { useModal } from "@hooks/useModal";
-import { FailedModal } from "@modules/gamePage/failModal/constants";
-import { pauseModal } from "@modules/gamePage/pauseModal/constants";
-import { Card, CardsField } from "./CardsField";
-import { items, pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
-import { WinModal } from "./winModal/constants";
-import { uiActions, uiSelectors } from "@store/ui";
-import { isKeyOfObject } from "@lib/utils/isKeyInObj";
+import { FailedModal } from "@modules/failModal/constants";
+import { pauseModal } from "@modules/pauseModal/constants";
+import { CardsField, GameCard } from "./CardsField";
+import { pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
+import { WinModal } from "../winModal/constants";
+import { uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
-
+import { levelGameActions, levelGameSelectors } from "@store/levelGame";
+import { Loader } from "@layouts/loaderLayout/Loader";
 const FlexFullWidth = styled(Flex)`
   width: 100%;
 `;
 
 const StyledButton = styled(IconButton)<{
-  $activeGameType: keyof typeof pauseButtonShadowColor;
+  $activeGameType: number;
 }>`
   border-radius: 11px;
   background-color: ${(props) => pauseButtonBgColor[props.$activeGameType]};
@@ -67,7 +64,7 @@ const StyledTime = styled(Flex)`
 `;
 
 const StyledTitle = styled(Title)<{
-  $activeGameType: keyof typeof pauseButtonShadowColor;
+  $activeGameType: number;
 }>`
   position: relative;
   background-color: ${(props) => pauseButtonBgColor[props.$activeGameType]};
@@ -75,135 +72,52 @@ const StyledTitle = styled(Title)<{
 
 export const GamePage = () => {
   const [openModal, closeModal] = useModal();
-  const getPath = usePathParam();
   const navigate = useNavigate();
-  const getSize = usePathParam();
-  const shuffle = useShuffle();
   const dispatch = useDispatch();
   const soundSfx = usePlaySFx();
-  const moves = useSelector(localGameSelectors.getMoves);
-  const pairs = useSelector(localGameSelectors.getPairs);
-  const initialTime = useSelector(localGameSelectors.getTime);
+
+  const maxMoves = useSelector(levelGameSelectors.getMaxMoves);
+  const movesUsed = useSelector(levelGameSelectors.getMovesUsed);
+  const pairs = useSelector(levelGameSelectors.getPairs);
+  const initialTime = useSelector(levelGameSelectors.getInitialTimer);
+  const gameId = useSelector(levelGameSelectors.getGameId);
+  const gameLevelId = useSelector(levelGameSelectors.getGameLevelId);
+  const seasonId = useSelector(levelGameSelectors.getSeasonId);
+  const cards = useSelector(levelGameSelectors.getCards);
+  const backpath = useSelector(levelGameSelectors.getBackpath);
+
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
+  const requests = useSelector(uiSelectors.getRequests);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
-  const size = Number(getSize("size")) || 4;
-  const [fields, setFields] = useState<Card[]>(
-    shuffle<{ img: string; content: string }>([
-      ...items.slice(0, size ** 2 / 2),
-      ...items.slice(0, size ** 2 / 2),
-    ]).map((item, index) => ({
-      id: index,
-      random: Math.random() * 100,
-      img: item.img,
-      content: item.content,
-      isOpen: false,
-    }))
+  const isLoading = requests["startGame"] === "pending";
+  const [fields, setFields] = useState<GameCard[][]>(
+    cards.map((row) =>
+      row.map((item) => ({ ...item, random: Math.random() * 100 }))
+    )
   );
-  const [active1, setActive1] = useState<Card | null>(null);
-  const [active2, setActive2] = useState<Card | null>(null);
-  const theme = useSelector(uiSelectors.getTheme);
-
-  useEffect(() => {
-    setFields(
-      shuffle([
-        ...items.slice(0, size ** 2 / 2),
-        ...items.slice(0, size ** 2 / 2),
-      ]).map((item, index) => ({
-        id: index,
-        random: Math.random() * 100,
-        img: item.img,
-        content: item.content,
-        isOpen: false,
-      }))
-    );
-  }, [shuffle, size]);
-
-  useEffect(() => {
-    dispatch(localGameActions.setPairs(fields.length / 2));
-  }, [dispatch, fields.length]);
-
-  useEffect(() => {
-    const theme = getPath("theme") || "default";
-    dispatch(
-      uiActions.setTheme(
-        isKeyOfObject(theme, pauseButtonBgColor) ? theme : "default"
-      )
-    );
-  }, [dispatch, getPath]);
-
-  useEffect(() => {
-    if (active1 && active2 && active1.content === active2.content) {
-      setFields(
-        [
-          ...fields.filter(
-            (item) => item.id !== active1.id && item.id !== active2.id
-          ),
-          { ...active1, isOpen: true },
-          { ...active2, isOpen: true },
-        ].sort((a, b) => a.id - b.id)
-      );
-      setActive1(null);
-      setActive2(null);
-      if (isSfxActive) {
-        const audio = new Audio();
-        audio.src = "/correctCardSfx.mp3";
-        audio.volume = 0.2;
-        audio.play();
-      }
-      dispatch(localGameActions.setPairsMinusOne());
-      dispatch(localGameActions.setMovesMinusOne());
-    } else if (active1 && active2) {
-      setTimeout(() => {
-        setActive1(null);
-        setActive2(null);
-      }, 750);
-      dispatch(localGameActions.setMovesMinusOne());
-    }
-  }, [active1, active2, dispatch, fields, isSfxActive]);
+  const [active1, setActive1] = useState<GameCard | null>(null);
+  const [active2, setActive2] = useState<GameCard | null>(null);
 
   const onRestart = useCallback(() => {
     closeModal();
     soundSfx();
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setPairs(fields.length / 2));
-    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
-    dispatch(
-      localGameActions.setTimer(
-        isNaN(Number(getPath("timer") || null))
-          ? null
-          : Number(getPath("timer") || null)
-      )
-    );
+    dispatch(levelGameActions.setPairs(fields.length / 2));
     setIsPause(false);
     setActive1(null);
     setActive2(null);
-    setTime(
-      isNaN(Number(getPath("timer") || null))
-        ? null
-        : Number(getPath("timer") || null)
-    );
     setFields(
-      shuffle([
-        ...items.slice(0, size ** 2 / 2),
-        ...items.slice(0, size ** 2 / 2),
-      ]).map((item, index) => ({
-        id: index,
-        random: Math.random() * 100,
-        img: item.img,
-        content: item.content,
-        isOpen: false,
-      }))
+      cards.map((row) =>
+        row.map((item) => ({ ...item, random: Math.random() * 100 }))
+      )
     );
-  }, [closeModal, dispatch, fields.length, getPath, shuffle, size, soundSfx]);
+  }, [cards, closeModal, dispatch, fields.length, soundSfx]);
 
   const onExit = useCallback(() => {
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setPairs(fields.length / 2));
-    navigate(getPath("backpath") || "/");
+    navigate(backpath || "/");
     soundSfx();
-  }, [dispatch, fields.length, getPath, navigate, soundSfx]);
+  }, [backpath, navigate, soundSfx]);
 
   const onCancel = useCallback(() => {
     setIsPause(false);
@@ -217,18 +131,76 @@ export const GamePage = () => {
     openModal(pauseModal(onExit, onCancel, onRestart));
   }, [soundSfx, openModal, onExit, onCancel, onRestart]);
 
+  //
   useEffect(() => {
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
-    dispatch(
-      localGameActions.setTimer(
-        isNaN(Number(getPath("timer") || null))
-          ? null
-          : Number(getPath("timer") || null)
+    if (active1 && active2 && (active1.isFlipped || active2.isFlipped)) return;
+    if (
+      active1 &&
+      active2 &&
+      !active1.isFlipped &&
+      !active2.isFlipped &&
+      active1.cardTypeId === active2.cardTypeId
+    ) {
+      console.log(
+        fields.map((elem) => {
+          return elem
+            .map((item, i) => {
+              if (item.id === active2.id) {
+                elem.splice(i, 1, { ...active2, isFlipped: true });
+              }
+              if (item.id === active1.id) {
+                elem.splice(i, 1, { ...active1, isFlipped: true });
+              }
+              return item;
+            })
+            .sort((a, b) => a.id - b.id);
+        })
+      );
+      setFields(
+        fields.map((elem) => {
+          return elem
+            .map((item, i) => {
+              if (item.id === active2.id) {
+                elem.splice(i, 1, { ...active2, isFlipped: true });
+              }
+              if (item.id === active1.id) {
+                elem.splice(i, 1, { ...active1, isFlipped: true });
+              }
+              return item;
+            })
+            .sort((a, b) => a.id - b.id);
+        })
+      );
+      // setTimeout(() => {
+      setActive1(null);
+      setActive2(null);
+      // }, 750);
+      if (isSfxActive) {
+        const audio = new Audio();
+        audio.src = "/correctCardSfx.mp3";
+        audio.volume = 0.2;
+        audio.play();
+      }
+      dispatch(levelGameActions.setPairsMinusOne());
+      dispatch(levelGameActions.setMovesUsedPlusOne());
+    } else if (active1 && active2) {
+      setTimeout(() => {
+        setActive1(null);
+        setActive2(null);
+      }, 750);
+      dispatch(levelGameActions.setMovesUsedPlusOne());
+    }
+  }, [active1, active2, cards, dispatch, fields, isSfxActive]);
+
+  useEffect(() => {
+    setFields(
+      cards.map((row) =>
+        row.map((item) => ({ ...item, random: Math.random() * 100 }))
       )
     );
-  }, [dispatch, getPath]);
+  }, [cards]);
 
+  // TIME
   useEffect(() => {
     if (time && !isPause) {
       const timer = setInterval(() => {
@@ -242,14 +214,16 @@ export const GamePage = () => {
     setTime(initialTime);
   }, [initialTime]);
 
+  // LOSE
   useEffect(() => {
-    if (moves === 0 || time === 0) {
+    if (gameId && (maxMoves === movesUsed || time === 0)) {
       setActive1(null);
       setActive2(null);
       openModal(FailedModal(onExit, onRestart));
     }
-  }, [moves, onExit, openModal, time, onRestart]);
+  }, [onExit, openModal, time, onRestart, maxMoves, movesUsed, gameId]);
 
+  // WIN
   useEffect(() => {
     if (pairs === 0) {
       setIsPause(true);
@@ -262,6 +236,21 @@ export const GamePage = () => {
       openModal(WinModal(onExit, onRestart));
     }
   }, [isSfxActive, onExit, onRestart, openModal, pairs]);
+
+  if (isLoading) return <Loader isOpen={true} />;
+
+  if (!isLoading && !gameId) return <Navigate to={"/"} />;
+
+  if (
+    pairs === null ||
+    maxMoves === null ||
+    movesUsed === null ||
+    gameLevelId === null ||
+    gameId === null ||
+    seasonId === null ||
+    !cards.length
+  )
+    return "Не удалось запустить игру :(";
 
   return (
     <>
@@ -283,8 +272,10 @@ export const GamePage = () => {
             onClick={handlePause}
             $left="10px"
             padding="11px"
-            $activeGameType={theme}
-            icon={<PauseIcon color={pauseButtonShadowColor[theme]} size={21} />}
+            $activeGameType={seasonId}
+            icon={
+              <PauseIcon color={pauseButtonShadowColor[seasonId]} size={21} />
+            }
           />
         </Flex>
       </FlexFullWidth>
@@ -303,20 +294,20 @@ export const GamePage = () => {
         </Flex>
         <Text $size="subtitle">11:11</Text>
       </HealthWrapper>
-      <StyledTitle $activeGameType={theme} $top="medium" type="default">
+      <StyledTitle $activeGameType={seasonId} $top="medium" type="default">
         <FlexFullWidth justify="space-between">
           <Flex gap="11px" align="end">
             <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
+              $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="subtitle"
             >
               Moves
             </Text>
             <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
+              $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="title"
             >
-              {moves}
+              {maxMoves - movesUsed}
             </Text>
           </Flex>
           <StyledTime align="center" direction="column">
@@ -331,13 +322,13 @@ export const GamePage = () => {
           </StyledTime>
           <Flex gap="11px" align="end" direction="row-reverse">
             <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
+              $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="subtitle"
             >
               Pairs
             </Text>
             <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
+              $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="title"
             >
               {pairs}
@@ -347,11 +338,10 @@ export const GamePage = () => {
       </StyledTitle>
       <CardsField
         fields={fields}
-        size={size}
         active1={active1}
         active2={active2}
-        onClick={(item: Card) => {
-          if ((active1 && active2) || item.isOpen) return;
+        onClick={(item: GameCard) => {
+          if ((active1 && active2) || item.isFlipped) return;
           if (isSfxActive) {
             const audio = new Audio();
             audio.src = "/cardSfx.mp3";

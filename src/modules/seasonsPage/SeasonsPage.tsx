@@ -1,7 +1,7 @@
 import Flex from "@components/Flex";
 import { seasons, TOTAL_LEVELS } from "./constants";
 import { Card } from "@components/Card";
-import Image from "@components/Image";
+
 import { styled } from "styled-components";
 import { Text } from "@components/Typography";
 import CoinIcon from "@components/icons/CoinIcon";
@@ -20,12 +20,18 @@ import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 
-const StyledImage = styled(Image)`
+const StyledImage = styled.div<{ $src: string }>`
   border-radius: 6.6px;
+  width: 100px;
+  background-image: url(${(props) => props.$src});
+  background-size: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 `;
 
 const StyledText = styled(Text)`
   text-align: start;
+  width: calc(100% - 120px);
 `;
 
 const StyledContent = styled(Flex)`
@@ -47,8 +53,8 @@ const StyledBlur = styled(Flex)`
 export const SeasonsPage = () => {
   const navigate = useNavigate();
   const soundSfx = usePlaySFx();
-  const user = useSelector(uiSelectors.getUser);
-  if (!user) return;
+  const locations = useSelector(uiSelectors.getLocations);
+
   return (
     <Flex $top="large" direction="column" gap="26px">
       {seasons.map((item, index) => (
@@ -56,7 +62,7 @@ export const SeasonsPage = () => {
           key={index}
           shadow="full"
           title={
-            user.locations.find((el) => el.id === item.id)?.name || "World"
+            locations.find((el) => el.id === item.id)?.name || `Location ${index+1}`
           }
           titleColor={item.colors.titleColor}
           titleShadowColor={item.colors.titleShadowColor}
@@ -65,7 +71,7 @@ export const SeasonsPage = () => {
         >
           <StyledContent direction="column">
             <Flex gap="11px">
-              <StyledImage width={100} src={item.image} />
+              <StyledImage $src={item.image} />
               <StyledText
                 $color={item.colors.descriptionColor}
                 $shadow={{
@@ -120,10 +126,10 @@ export const SeasonsPage = () => {
               >
                 0
               </Text>
-              {user?.locations.find((el) => el.id === item.id)?.isAvailable && (
+              {locations.find((el) => el.id === item.id)?.isAvailable && (
                 <StyledCurrent
                   $left={
-                    ((user.locations.find((el) => el.id === item.id)?.number ||
+                    ((locations.find((el) => el.id === item.id)?.number ||
                       0) /
                       TOTAL_LEVELS) *
                     100
@@ -131,7 +137,7 @@ export const SeasonsPage = () => {
                   type="yellow"
                   padding="10px 16px"
                 >
-                  {user.locations.find((el) => el.id === item.id)?.number || 0}
+                  {locations.find((el) => el.id === item.id)?.number || 0}
                 </StyledCurrent>
               )}
               <Text
@@ -147,7 +153,7 @@ export const SeasonsPage = () => {
             <ProgressBar
               $top="10px"
               active={
-                user.locations.find((el) => el.id === item.id)?.number || 0
+                locations.find((el) => el.id === item.id)?.number || 0
               }
               total={TOTAL_LEVELS}
               color1={item.colors.progressBarColor1}
@@ -161,7 +167,7 @@ export const SeasonsPage = () => {
               shadow="min"
               $top="medium"
               disabled={
-                !user?.locations.find((el) => el.id === item.id)?.isAvailable
+                !locations.find((el) => el.id === item.id)?.isAvailable
               }
               onClick={() => {
                 soundSfx();
@@ -170,7 +176,7 @@ export const SeasonsPage = () => {
             >
               <Text $size="subtitle">Continue</Text>
             </Button>
-            {!user?.locations.find((el) => el.id === item.id)?.isAvailable && (
+            {!locations.find((el) => el.id === item.id)?.isAvailable && (
               <StyledBlur direction="column">
                 <LockIcon size={48} color={item.colors.titleShadowColor} />
                 <Text

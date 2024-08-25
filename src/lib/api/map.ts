@@ -1,8 +1,13 @@
-import { AnyObject } from "@type/common";
-import { fakeRequestMapData } from "./fakeApi/map";
+import { Location } from "@type/user";
+import { fakeRequestLocationLevels, fakeRequestLocations } from "./fakeApi/map";
+import { ShortLevel } from "@type/map";
 
-export const requestMapData$ = async (
-  userId: string | number
-): Promise<AnyObject> => {
-  return await fakeRequestMapData(userId);
+export const requestLocationLevels$ = async (
+  locationId: string | number
+): Promise<ShortLevel[]> => {
+  return await fakeRequestLocationLevels(locationId);
+};
+
+export const requestLocations$ = async (): Promise<Location[]> => {
+  return await fakeRequestLocations();
 };

@@ -1,117 +1,87 @@
-import beach from "/img/cards/today/beach.webp";
-import burger from "/img/cards/today/burger.webp";
-import cable from "/img/cards/today/cable.webp";
-import cafe from "/img/cards/today/cafe.webp";
-import cap from "/img/cards/today/cap.webp";
-import car from "/img/cards/today/car.webp";
-import cola from "/img/cards/today/cola.webp";
-import computerMouse from "/img/cards/today/computer-mouse.webp";
-import computer from "/img/cards/today/computer.webp";
-import container from "/img/cards/today/container.webp";
-import craditcard from "/img/cards/today/craditcard.webp";
-import gasStation from "/img/cards/today/gas-station.webp";
-import glasses from "/img/cards/today/glasses.webp";
-import helicopter from "/img/cards/today/helicopter.webp";
-import highway from "/img/cards/today/highway.webp";
-import modernHouse from "/img/cards/today/modern-house.webp";
-import modernWheel from "/img/cards/today/modern-wheel.webp";
-import pan from "/img/cards/today/pan.webp";
-import park from "/img/cards/today/park.webp";
-import phone from "/img/cards/today/phone.webp";
-import plane from "/img/cards/today/plane.webp";
-import plasmaTv from "/img/cards/today/plasma-tv.webp";
-import processor from "/img/cards/today/processor.webp";
-import rocket from "/img/cards/today/rocket.webp";
-import ship from "/img/cards/today/ship.webp";
-import skyscraper from "/img/cards/today/skyscraper.webp";
-import smartWatches from "/img/cards/today/smart-watches.webp";
-import sneakers from "/img/cards/today/sneakers.webp";
-import solarPanel from "/img/cards/today/solar-panel.webp";
-import speedboat from "/img/cards/today/speedboat.webp";
+import beach from "/img/cards/cave/card0.webp";
+import computerMouse from "/img/cards/cave/card8.webp";
+import computer from "/img/cards/cave/card9.webp";
+import container from "/img/cards/cave/card10.webp";
+import craditcard from "/img/cards/cave/card11.webp";
+import gasStation from "/img/cards/cave/card12.webp";
+import glasses from "/img/cards/cave/card13.webp";
+import helicopter from "/img/cards/cave/card14.webp";
+import highway from "/img/cards/cave/card15.webp";
+import modernHouse from "/img/cards/cave/card16.webp";
+import modernWheel from "/img/cards/cave/card17.webp";
+import pan from "/img/cards/cave/card18.webp";
+import park from "/img/cards/cave/card19.webp";
+import phone from "/img/cards/cave/card20.webp";
+import plane from "/img/cards/cave/card21.webp";
+import plasmaTv from "/img/cards/cave/card22.webp";
+import processor from "/img/cards/cave/card1.webp";
+import rocket from "/img/cards/cave/card7.webp";
+import ship from "/img/cards/cave/card6.webp";
+import skyscraper from "/img/cards/cave/card5.webp";
+import smartWatches from "/img/cards/cave/card4.webp";
+import sneakers from "/img/cards/cave/card3.webp";
+import solarPanel from "/img/cards/cave/card2.webp";
+import speedboat from "/img/cards/cave/card0.webp";
 
-import greenLeaves from "/img/cards/cave/3-green-leaves.webp";
-import aPrimitiveSpear from "/img/cards/cave/a-primitive-spear.webp";
-import ancientRockArt from "/img/cards/cave/ancient-rock-art.webp";
-import animalLeather from "/img/cards/cave/animal-leather.webp";
-import animalSkull from "/img/cards/cave/animal-skull.webp";
-import apple from "/img/cards/cave/apple.webp";
-import arrow from "/img/cards/cave/arrow.webp";
-import ash from "/img/cards/cave/ash.webp";
-import banana from "/img/cards/cave/banana.webp";
-import berrie from "/img/cards/cave/berrie.webp";
-import bluberrie from "/img/cards/cave/bluberrie.webp";
-import bone from "/img/cards/cave/bone.webp";
-import cave from "/img/cards/cave/cave.webp";
-import clayPot from "/img/cards/cave/clay-pot.webp";
-import fire from "/img/cards/cave/fire.webp";
-import fur from "/img/cards/cave/fur.webp";
-import leather from "/img/cards/cave/leather.webp";
-import mammoth from "/img/cards/cave/mammoth.webp";
-import meat from "/img/cards/cave/meat.webp";
-import monkey from "/img/cards/cave/monkey.webp";
-import mushroom from "/img/cards/cave/mushroom.webp";
-import nut from "/img/cards/cave/nut.webp";
-import oneAnimalFang from "/img/cards/cave/one-animal-fang.webp";
-import primitiveBow from "/img/cards/cave/primitive-bow.webp";
-import primitiveStoneAxe from "/img/cards/cave/primitive-stone-axe.webp";
-import primitiveWoodenPickaxe from "/img/cards/cave/primitive-wooden-pickaxe.webp";
-import stone from "/img/cards/cave/stone.webp";
-import theSimpleSkeletonOfAFish from "/img/cards/cave/the-simple-skeleton-of-a-fish.webp";
-import theTusk from "/img/cards/cave/the-tusk.webp";
-import woodenSticks from "/img/cards/cave/wooden-sticks.webp";
-import { ThemeType } from "@store/ui/types";
+import greenLeaves from "/img/cards/aztec/card31.webp";
+import aPrimitiveSpear from "/img/cards/aztec/card32.webp";
+import ancientRockArt from "/img/cards/aztec/card33.webp";
+import animalLeather from "/img/cards/aztec/card34.webp";
+import animalSkull from "/img/cards/aztec/card35.webp";
+import apple from "/img/cards/aztec/card36.webp";
+import arrow from "/img/cards/aztec/card37.webp";
+import ash from "/img/cards/aztec/card38.webp";
+import banana from "/img/cards/aztec/card39.webp";
+import berrie from "/img/cards/aztec/card40.webp";
+import bluberrie from "/img/cards/aztec/card41.webp";
+import bone from "/img/cards/aztec/card42.webp";
+import cave from "/img/cards/aztec/card43.webp";
+import clayPot from "/img/cards/aztec/card44.webp";
+import fire from "/img/cards/aztec/card45.webp";
+import fur from "/img/cards/aztec/card46.webp";
+import leather from "/img/cards/aztec/card47.webp";
+import mammoth from "/img/cards/aztec/card48.webp";
+import meat from "/img/cards/aztec/card49.webp";
+import monkey from "/img/cards/aztec/card50.webp";
+import mushroom from "/img/cards/aztec/card51.webp";
+import nut from "/img/cards/aztec/card52.webp";
+import oneAnimalFang from "/img/cards/aztec/card53.webp";
+import primitiveBow from "/img/cards/aztec/card54.webp";
+import primitiveStoneAxe from "/img/cards/aztec/card55.webp";
+import primitiveWoodenPickaxe from "/img/cards/aztec/card56.webp";
+import stone from "/img/cards/aztec/card57.webp";
+import theSimpleSkeletonOfAFish from "/img/cards/aztec/card58.webp";
+import theTusk from "/img/cards/aztec/card59.webp";
+import woodenSticks from "/img/cards/aztec/card30.webp";
 
-export const pauseButtonBgColor: Record<ThemeType, string> = {
-  default: "#19547B",
-  cave: "#FFB546",
-  aztec: "#1D847B",
-  knight: "#42CAC6",
-  steam: "#993A04",
-  today: "#2167D3",
-  cyber: "#C521D3",
-  end: "#FFC329",
-};
+export const pauseButtonBgColor: string[] = [
+  "#19547B",
+  "#FFB546",
+  "#1D847B",
+  "#42CAC6",
+  "#993A04",
+  "#2167D3",
+  "#C521D3",
+  "#FFC329",
+];
 
-export const pauseButtonShadowColor: Record<ThemeType, string> = {
-  default: "#133F5C",
-  cave: "#893C0B",
-  aztec: "#003633",
-  knight: "#1D9C95",
-  steam: "#B56100",
-  today: "#0B4ED0",
-  cyber: "#7C1496",
-  end: "#C27D15",
-};
+export const pauseButtonShadowColor: string[] = [
+  "#133F5C",
+  "#893C0B",
+  "#003633",
+  "#1D9C95",
+  "#B56100",
+  "#0B4ED0",
+  "#7C1496",
+  "#C27D15",
+];
 
 export const items = [
   {
     img: beach,
     content: "beach",
   },
-  {
-    img: burger,
-    content: "burger",
-  },
-  {
-    img: cable,
-    content: "cable",
-  },
-  {
-    img: cafe,
-    content: "cafe",
-  },
-  {
-    img: cap,
-    content: "cap",
-  },
-  {
-    img: car,
-    content: "car",
-  },
-  {
-    img: cola,
-    content: "cola",
-  },
+
   {
     img: computerMouse,
     content: "computerMouse",

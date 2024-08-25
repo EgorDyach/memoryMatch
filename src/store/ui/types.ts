@@ -1,4 +1,4 @@
-import { User } from "@type/user";
+import { Location, User } from "@type/user";
 
 export const uiStateName = "ui";
 
@@ -20,6 +20,7 @@ export type UIState = {
   theme: ThemeType;
   isAudioPlaying: boolean;
   isSfxActive: boolean;
+  locations: Location[];
 };
 
 export type StoreWithUIState = {

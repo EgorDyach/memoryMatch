@@ -6,7 +6,6 @@ export type User = {
   lastName: string;
   username: string;
   boosts: UserBoost[];
-  locations: Location[];
 };
 
 export type UserBoost = {

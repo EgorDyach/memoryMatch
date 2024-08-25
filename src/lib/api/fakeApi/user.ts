@@ -26,50 +26,6 @@ export const fakeRequestUser = (isError?: boolean): Promise<User> => {
             count: 2,
           },
         ],
-        locations: [
-          {
-            id: 0,
-            number: 5,
-            name: "Cave world",
-            isAvailable: true,
-          },
-          {
-            id: 1,
-            number: 40,
-            name: "Aztec world",
-            isAvailable: false,
-          },
-          {
-            id: 2,
-            number: 23,
-            name: "Knight world",
-            isAvailable: false,
-          },
-          {
-            id: 3,
-            number: 2,
-            name: "Steam world",
-            isAvailable: false,
-          },
-          {
-            id: 4,
-            number: 0,
-            name: "Today world",
-            isAvailable: false,
-          },
-          {
-            id: 5,
-            number: 0,
-            name: "Cyber world",
-            isAvailable: false,
-          },
-          {
-            id: 6,
-            number: 0,
-            name: "End world",
-            isAvailable: false,
-          },
-        ],
       });
     }, 600);
   });

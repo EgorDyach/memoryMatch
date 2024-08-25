@@ -33,6 +33,8 @@ import { uiSelectors } from "@store/ui";
 import { useUserLocation } from "@hooks/useUserLocation";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 import { useNavigate } from "react-router-dom";
+import { fetchStartGame } from "@store/levelGame/thunks";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -43,6 +45,13 @@ export const RootPage = () => {
   const location = useUserLocation();
   const soundSfx = usePlaySFx();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handlePlay = () => {
+    if (!location) return;
+    navigate("/game");
+    dispatch(fetchStartGame(location.number, location.id, `/`));
+    soundSfx();
+  };
   return (
     <>
       <Content>
@@ -116,16 +125,16 @@ export const RootPage = () => {
           </Flex>
         </RootControls>
         <PlanetClick onClick={() => console.log("clicked on planet")}>
-          {location && <PlanetImage src={planets[location.id]} />}
+          {location && <PlanetImage src={planets[location.id - 1]} />}
         </PlanetClick>
         <StyledFlex>
           {location && (
             <StyledSubHeader>
-              {location.id + 1} Season • {location.number} Level
+              {location.id} Season • {location.number} Level
             </StyledSubHeader>
           )}
           <StyledButtonShadow>
-            <StyledButton onClick={soundSfx} padding="24px 100px" type="pink">
+            <StyledButton onClick={handlePlay} padding="24px 100px" type="pink">
               <div>
                 <div>PLAY</div>
               </div>
