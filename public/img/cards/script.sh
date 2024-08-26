@@ -1,11 +1,11 @@
-i=$1
-
-for item in `ls`
-do
-  if [[ i -lt 120 ]]
-  then
-    let "new = $i + 90"
-    mv end/card$i.webp end/card$(( $new )).webp
-    ((i++))
-  fi
-done
+  i=120
+  new=0
+  for item in `ls today`
+  do
+    if [[ $i -lt 150 ]]
+    then
+      mv today/card$i.webp today/card$new.webp
+      ((i++))
+      ((new++))
+    fi
+  done
