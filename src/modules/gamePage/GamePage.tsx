@@ -88,6 +88,8 @@ export const GamePage = () => {
 
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
+  const user = useSelector(uiSelectors.getUser);
+
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -103,7 +105,10 @@ export const GamePage = () => {
   const onRestart = useCallback(() => {
     closeModal();
     soundSfx();
-    dispatch(levelGameActions.setPairs(fields.length / 2));
+    dispatch(levelGameActions.setPairs(cards.length ** 2 / 2));
+    dispatch(levelGameActions.setMovesUsed(0));
+    const localinitialTime = initialTime;
+    dispatch(levelGameActions.setInitialTimer(0));
     setIsPause(false);
     setActive1(null);
     setActive2(null);
@@ -112,7 +117,11 @@ export const GamePage = () => {
         row.map((item) => ({ ...item, random: Math.random() * 100 }))
       )
     );
-  }, [cards, closeModal, dispatch, fields.length, soundSfx]);
+    setTimeout(
+      () => dispatch(levelGameActions.setInitialTimer(localinitialTime)),
+      0
+    );
+  }, [cards, closeModal, dispatch, initialTime, soundSfx]);
 
   const onExit = useCallback(() => {
     navigate(backpath || "/");
@@ -254,46 +263,52 @@ export const GamePage = () => {
 
   return (
     <>
-      <FlexFullWidth direction="column">
-        <Flex align="center" gap="10px">
-          <StyledIndicator
-            justify="right !important"
-            flex="1"
-            value={formatNumber(11111111)}
-            icon={<DiamondIcon size={43} />}
-          />
-          <StyledIndicator
-            flex="1"
-            justify="right !important"
-            value={formatNumber(11111111)}
-            icon={<CoinIcon size={43} />}
-          />
-          <StyledButton
-            onClick={handlePause}
-            $left="10px"
-            padding="11px"
-            $activeGameType={seasonId}
-            icon={
-              <PauseIcon color={pauseButtonShadowColor[seasonId]} size={21} />
-            }
-          />
-        </Flex>
-      </FlexFullWidth>
-      <HealthWrapper>
-        <StyledHeart>
-          <ActiveHeartIcon size={35} />
-        </StyledHeart>
-        <Flex gap="5px">
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <NotActiveHeartIcon size={21} />
-          <NotActiveHeartIcon size={21} />
-        </Flex>
-        <Text $size="subtitle">11:11</Text>
-      </HealthWrapper>
+      {user && (
+        <>
+          <FlexFullWidth direction="column">
+            <Flex align="center" gap="10px">
+              <StyledIndicator
+                justify="right !important"
+                flex="1"
+                value={formatNumber(user.gem)}
+                icon={<DiamondIcon size={43} />}
+              />
+              <StyledIndicator
+                flex="1"
+                justify="right !important"
+                value={formatNumber(user.gold)}
+                icon={<CoinIcon size={43} />}
+              />
+              <StyledButton
+                onClick={handlePause}
+                $left="10px"
+                padding="11px"
+                $activeGameType={seasonId}
+                icon={
+                  <PauseIcon
+                    color={pauseButtonShadowColor[seasonId]}
+                    size={21}
+                  />
+                }
+              />
+            </Flex>
+          </FlexFullWidth>
+          <HealthWrapper>
+            <StyledHeart>
+              <ActiveHeartIcon size={35} />
+            </StyledHeart>
+            {user && (
+              <Flex gap="5px">
+                {[...Array(7)].map((_, i) => {
+                  if (i + 1 < user.hearts) return <ActiveHeartIcon size={21} />;
+                  else return <NotActiveHeartIcon size={21} />;
+                })}
+              </Flex>
+            )}
+            <Text $size="subtitle">11:11</Text>
+          </HealthWrapper>
+        </>
+      )}
       <StyledTitle $activeGameType={seasonId} $top="medium" type="default">
         <FlexFullWidth justify="space-between">
           <Flex gap="11px" align="end">

@@ -46,4 +46,5 @@ export const StyledModalContent = styled.div`
   width: 100%;
   background-color: #64697b;
   ${shadow("full")};
+  max-width: 460px;
 `;

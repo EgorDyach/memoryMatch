@@ -12,25 +12,37 @@ const fakeLocations: Location[] = [
     id: 2,
     number: 2,
     name: "Location 2",
-    isAvailable: false,
+    isAvailable: true,
   },
   {
     id: 3,
     number: 3,
     name: "Location 3",
-    isAvailable: false,
+    isAvailable: true,
   },
   {
     id: 4,
     number: 4,
     name: "Location 4",
-    isAvailable: false,
+    isAvailable: true,
   },
   {
     id: 5,
     number: 5,
     name: "Location 5",
-    isAvailable: false,
+    isAvailable: true,
+  },
+  {
+    id: 6,
+    number: 6,
+    name: "Location 6",
+    isAvailable: true,
+  },
+  {
+    id: 7,
+    number: 7,
+    name: "Location 7",
+    isAvailable: true,
   },
 ];
 

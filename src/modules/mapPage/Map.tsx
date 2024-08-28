@@ -62,12 +62,12 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
-  const { seasionId = "" } = useParams();
+  const { seasonId = "" } = useParams();
   const handleClick = async (level: MapLevel) => {
     if (level.id !== currentLevel) return;
     try {
       navigate(`/game`);
-      dispatch(fetchStartGame(level.id, seasionId, pathname));
+      dispatch(fetchStartGame(level.id, seasonId, pathname));
       soundSfx();
     } catch (error) {
       console.error(error);

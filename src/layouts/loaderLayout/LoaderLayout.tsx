@@ -4,10 +4,11 @@ import { Loader } from "./Loader";
 import { uiActions, uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 import { requestLogin$ } from "@lib/api/login";
-import { requestLocations$ } from "@lib/api/map";
+import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
 import { requestShopData$ } from "@lib/api/shop";
 import { requestUser$ } from "@lib/api/user";
 import { enqueueSnackbar } from "notistack";
+import { requestStartGame$ } from "@lib/api/game";
 
 export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
   const soundSfx = usePlaySFx();
@@ -25,6 +26,7 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
       (async () => {
         dispatch(uiActions.setRequestStarted("login"));
         dispatch(uiActions.setRequestStarted("locations"));
+        dispatch(uiActions.setRequestStarted("locationLevels"));
         dispatch(uiActions.setRequestStarted("shop"));
         dispatch(uiActions.setRequestStarted("user"));
         await requestLogin$()
@@ -53,6 +55,22 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
           .then((res) => {
             dispatch(uiActions.setLocations(res));
             dispatch(uiActions.setRequestFinished("locations"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestLocationLevels$(1)
+          .then((res) => {
+            console.log(res);
+            dispatch(uiActions.setRequestFinished("locationLevels"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestStartGame$(1, 1)
+          .then((res) => {
+            console.log(res);
+            dispatch(uiActions.setRequestFinished("locationLevels"));
           })
           .catch((e) => {
             setError(e);

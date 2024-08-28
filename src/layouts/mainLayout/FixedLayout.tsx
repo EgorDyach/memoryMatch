@@ -17,7 +17,8 @@ const Wrapper = styled(Flex)<{ $padding: string }>`
   padding: ${(props) => props.$padding};
   position: relative;
   overflow: auto;
-  
+  max-width: 490px;
+  width: 100%;
 `;
 
 const FixedFlex = styled(Flex)`
@@ -30,12 +31,17 @@ const FixedFlex = styled(Flex)`
 const TopBlur = styled.div`
   height: 140px;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-`
+`;
 
 interface FixedLayoutProps extends PropsWithChildren {
   showHealth?: boolean;
@@ -51,41 +57,38 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
   return (
     <>
       <TopBlur />
-    <Wrapper $padding={padding} direction="column">
-      {user && (
-        <FixedFlex basis="50%" gap="12px" wrap="wrap">
-          <IndicatorItem
-            action={() => console.log("click")}
-            value={formatNumber(user.gold)}
-            icon={<CoinIcon size={43} />}
-          />
-          <IndicatorItem
-            action={() => console.log("click")}
-            value={formatNumber(user.gem)}
-            icon={<DiamondIcon size={43} />}
-          />
-        </FixedFlex>
-      )}
-      {showHealth && (
-        <HealthWrapper>
-          <ActionButton
-            icon={<PlusIcon size={20} color="#fff" />}
-            onClick={() => console.log(123)}
-          />
-          <Flex gap="5px">
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <NotActiveHeartIcon size={21} />
-            <NotActiveHeartIcon size={21} />
-          </Flex>
-          <Text $size="subtitle">11:11</Text>
-        </HealthWrapper>
-      )}
-      {children}
-    </Wrapper>
+      <Wrapper $padding={padding} direction="column">
+        {user && (
+          <FixedFlex basis="50%" gap="12px" wrap="wrap">
+            <IndicatorItem
+              action={() => console.log("click")}
+              value={formatNumber(user.gold)}
+              icon={<CoinIcon size={43} />}
+            />
+            <IndicatorItem
+              action={() => console.log("click")}
+              value={formatNumber(user.gem)}
+              icon={<DiamondIcon size={43} />}
+            />
+          </FixedFlex>
+        )}
+        {showHealth && user && (
+          <HealthWrapper>
+            <ActionButton
+              icon={<PlusIcon size={20} color="#fff" />}
+              onClick={() => console.log(123)}
+            />
+            <Flex gap="5px">
+              {[...Array(7)].map((_, i) => {
+                if (i + 1 < user.hearts) return <ActiveHeartIcon size={21} />;
+                else return <NotActiveHeartIcon size={21} />;
+              })}
+            </Flex>
+            <Text $size="subtitle">11:11</Text>
+          </HealthWrapper>
+        )}
+        {children}
+      </Wrapper>
     </>
   );
 };

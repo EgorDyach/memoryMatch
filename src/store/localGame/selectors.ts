@@ -1,4 +1,5 @@
 import {
+  LocalGameCard,
   LocalGameState,
   localGameStateName,
   StoreWithLocalGameState,
@@ -7,13 +8,16 @@ import {
 const getState = (store: StoreWithLocalGameState): LocalGameState =>
   store[localGameStateName];
 
-export const getMoves = (s: StoreWithLocalGameState): number =>
-  getState(s).moves;
+export const getPairsP1 = (s: StoreWithLocalGameState): number =>
+  getState(s).pairsP1;
 
-export const getPairs = (s: StoreWithLocalGameState): number =>
-  getState(s).pairs;
+export const getPairsP2 = (s: StoreWithLocalGameState): number =>
+  getState(s).pairsP2;
 
-export const getTime = (s: StoreWithLocalGameState): number | null =>
-  getState(s).timer;
+export const getCardsP2 = (s: StoreWithLocalGameState): LocalGameCard[] =>
+  getState(s).cardsP2;
+
+export const getCardsP1 = (s: StoreWithLocalGameState): LocalGameCard[] =>
+  getState(s).cardsP1;
 
 export const getSize = (s: StoreWithLocalGameState): number => getState(s).size;

@@ -1,7 +1,6 @@
-import { usePathParam } from "@hooks/usePathParam";
 import { useShuffle } from "@hooks/useShuffle";
 import { localGameActions, localGameSelectors } from "@store/localGame";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import Flex from "@components/Flex";
 import { useNavigate } from "react-router-dom";
@@ -13,30 +12,24 @@ import DiamondIcon from "@components/icons/DiamondIcon";
 import CoinIcon from "@components/icons/CoinIcon";
 import IconButton from "@components/button/IconButton";
 import PauseIcon from "@components/icons/PauseIcon";
-import ActiveHeartIcon from "@components/icons/ActiveHeartIcon";
-import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
-import { HealthWrapper } from "@modules/rootPage/rootStyles";
-import { Text } from "@components/Typography";
-import { Title } from "@components/Title";
 import { useSelector } from "react-redux";
-import { formatTime } from "@lib/utils/formatTime";
-import InfiniteIcon from "@components/icons/InfiniteIcon";
 import { useModal } from "@hooks/useModal";
-import { FailedModal } from "@modules/failModal/constants";
 import { pauseModal } from "@modules/pauseModal/constants";
-import { Card, CardsField } from "./CardsField";
-import { items, pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
-import { WinModal } from "../winModal/constants";
-import { uiActions, uiSelectors } from "@store/ui";
-import { isKeyOfObject } from "@lib/utils/isKeyInObj";
+import { CardsField } from "./CardsField";
+import { pauseButtonBgColor, pauseButtonShadowColor } from "./constants";
+import { WinModal } from "./winModal/constants";
+import { uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
+import { LocalGameCard } from "@store/localGame/types";
+import { generateTwoRandomItems } from "./helpers";
+import { Text } from "@components/Typography";
 
 const FlexFullWidth = styled(Flex)`
   width: 100%;
 `;
 
 const StyledButton = styled(IconButton)<{
-  $activeGameType: keyof typeof pauseButtonShadowColor;
+  $activeGameType: number;
 }>`
   border-radius: 11px;
   background-color: ${(props) => pauseButtonBgColor[props.$activeGameType]};
@@ -48,322 +41,311 @@ const StyledIndicator = styled(IndicatorItem)`
   padding: 7px 14px;
 `;
 
-const StyledHeart = styled(Flex)`
-  position: absolute;
-  left: 0;
-`;
-
-const StyledTime = styled(Flex)`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #febc01;
-  box-shadow: 0px -2.11px 0px 0px #00000040 inset,
-    0px 1.06px 3.7px 0px #00000040, 0px 2.53px 0px 0px #0000001a;
-  padding: 4px 8%;
+const StyledPlayer = styled(Flex)`
+  ${shadow("full")};
+  padding: 10px;
+  transition: background-color 0.35s ease-in-out;
   border-radius: 10px;
-  ${textShadow("#E0622C")}
 `;
 
-const StyledTitle = styled(Title)<{
-  $activeGameType: keyof typeof pauseButtonShadowColor;
-}>`
-  position: relative;
-  background-color: ${(props) => pauseButtonBgColor[props.$activeGameType]};
+const Player1 = styled(StyledPlayer)<{ $isActive: boolean }>`
+  background-color: ${(props) => (props.$isActive ? "#1B6DBA" : "#3D5266")};
+  ${textShadow("#133F5C")}
+`;
+
+const Player2 = styled(StyledPlayer)<{ $isActive: boolean }>`
+  background-color: ${(props) => (props.$isActive ? "#7B1919" : "#604646")};
+  ${textShadow("#5C1313")}
 `;
 
 export const VersusGamePage = () => {
   const [openModal, closeModal] = useModal();
-  const getPath = usePathParam();
   const navigate = useNavigate();
-  const getSize = usePathParam();
   const shuffle = useShuffle();
   const dispatch = useDispatch();
   const soundSfx = usePlaySFx();
-  const moves = useSelector(localGameSelectors.getMoves);
-  const pairs = useSelector(localGameSelectors.getPairs);
-  const initialTime = useSelector(localGameSelectors.getTime);
+  const pairsP1 = useSelector(localGameSelectors.getPairsP1);
+  const pairsP2 = useSelector(localGameSelectors.getPairsP2);
+  const size = useSelector(localGameSelectors.getSize);
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
-  const [time, setTime] = useState(initialTime);
-  const [isPause, setIsPause] = useState<boolean>(false);
-
-  const size = Number(getSize("size")) || 4;
-  const [fields, setFields] = useState<Card[]>(
-    shuffle<{ img: string; content: string }>([
-      ...items.slice(0, size ** 2 / 2),
-      ...items.slice(0, size ** 2 / 2),
-    ]).map((item, index) => ({
-      id: index,
-      random: Math.random() * 100,
-      img: item.img,
-      content: item.content,
-      isOpen: false,
-    }))
+  const user = useSelector(uiSelectors.getUser);
+  const generateCards = useCallback(
+    (
+      items: {
+        imgId: number;
+        id: number;
+        season: number;
+      }[]
+    ) =>
+      shuffle<{ id: number; season: number; imgId: number }>(items).map(
+        (item) => ({
+          id: item.id,
+          imgId: item.imgId,
+          season: item.season,
+          random: Math.random() * 100,
+          isFlipped: false,
+        })
+      ),
+    [shuffle]
   );
-  const [active1, setActive1] = useState<Card | null>(null);
-  const [active2, setActive2] = useState<Card | null>(null);
-  const theme = useSelector(uiSelectors.getTheme);
 
-  useEffect(() => {
-    setFields(
-      shuffle([
-        ...items.slice(0, size ** 2 / 2),
-        ...items.slice(0, size ** 2 / 2),
-      ]).map((item, index) => ({
-        id: index,
-        random: Math.random() * 100,
-        img: item.img,
-        content: item.content,
-        isOpen: false,
-      }))
-    );
-  }, [shuffle, size]);
-
-  useEffect(() => {
-    dispatch(localGameActions.setPairs(fields.length / 2));
-  }, [dispatch, fields.length]);
-
-  useEffect(() => {
-    const theme = getPath("theme") || "default";
-    dispatch(
-      uiActions.setTheme(
-        isKeyOfObject(theme, pauseButtonBgColor) ? theme : "default"
-      )
-    );
-  }, [dispatch, getPath]);
-
-  useEffect(() => {
-    if (active1 && active2 && active1.content === active2.content) {
-      setFields(
-        [
-          ...fields.filter(
-            (item) => item.id !== active1.id && item.id !== active2.id
-          ),
-          { ...active1, isOpen: true },
-          { ...active2, isOpen: true },
-        ].sort((a, b) => a.id - b.id)
-      );
-      setActive1(null);
-      setActive2(null);
-      if (isSfxActive) {
-        const audio = new Audio();
-        audio.src = "/correctCardSfx.mp3";
-        audio.volume = 0.2;
-        audio.play();
-      }
-      dispatch(localGameActions.setPairsMinusOne());
-      dispatch(localGameActions.setMovesMinusOne());
-    } else if (active1 && active2) {
-      setTimeout(() => {
-        setActive1(null);
-        setActive2(null);
-      }, 750);
-      dispatch(localGameActions.setMovesMinusOne());
-    }
-  }, [active1, active2, dispatch, fields, isSfxActive]);
+  const [items1, items2] = useMemo(() => generateTwoRandomItems(size), [size]);
+  const [cardsP1, setCardsP1] = useState<LocalGameCard[]>([]);
+  const [cardsP2, setCardsP2] = useState<LocalGameCard[]>([]);
+  const [activePlayer, setActivePlayer] = useState<"P1" | "P2">(
+    Math.random() < 0.5 ? "P1" : "P2"
+  );
+  const [activeP1Card1, setActiveP1Card1] = useState<LocalGameCard | null>(
+    null
+  );
+  const [activeP1Card2, setActiveP1Card2] = useState<LocalGameCard | null>(
+    null
+  );
+  const [activeP2Card1, setActiveP2Card1] = useState<LocalGameCard | null>(
+    null
+  );
+  const [activeP2Card2, setActiveP2Card2] = useState<LocalGameCard | null>(
+    null
+  );
 
   const onRestart = useCallback(() => {
     closeModal();
     soundSfx();
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setPairs(fields.length / 2));
-    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
-    dispatch(
-      localGameActions.setTimer(
-        isNaN(Number(getPath("timer") || null))
-          ? null
-          : Number(getPath("timer") || null)
-      )
-    );
-    setIsPause(false);
-    setActive1(null);
-    setActive2(null);
-    setTime(
-      isNaN(Number(getPath("timer") || null))
-        ? null
-        : Number(getPath("timer") || null)
-    );
-    setFields(
-      shuffle([
-        ...items.slice(0, size ** 2 / 2),
-        ...items.slice(0, size ** 2 / 2),
-      ]).map((item, index) => ({
-        id: index,
-        random: Math.random() * 100,
-        img: item.img,
-        content: item.content,
-        isOpen: false,
-      }))
-    );
-  }, [closeModal, dispatch, fields.length, getPath, shuffle, size, soundSfx]);
+    dispatch(localGameActions.setPairsP1(cardsP1.length / 2));
+    dispatch(localGameActions.setPairsP2(cardsP2.length / 2));
+    setCardsP1(generateCards(items1));
+    setCardsP2(generateCards(items2));
+    setActiveP1Card1(null);
+    setActiveP1Card2(null);
+    setActiveP2Card1(null);
+    setActiveP2Card2(null);
+  }, [
+    cardsP1.length,
+    cardsP2.length,
+    closeModal,
+    dispatch,
+    generateCards,
+    items1,
+    items2,
+    soundSfx,
+  ]);
 
   const onExit = useCallback(() => {
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setPairs(fields.length / 2));
-    navigate(getPath("backpath") || "/");
+    dispatch(localGameActions.setPairsP1(0));
+    dispatch(localGameActions.setPairsP2(0));
+    navigate("/versus");
     soundSfx();
-  }, [dispatch, fields.length, getPath, navigate, soundSfx]);
+  }, [dispatch, navigate, soundSfx]);
 
   const onCancel = useCallback(() => {
-    setIsPause(false);
     soundSfx();
     closeModal(pauseModal(onExit, onCancel, onRestart));
   }, [closeModal, onExit, onRestart, soundSfx]);
 
   const handlePause = useCallback(() => {
-    setIsPause(true);
     soundSfx();
     openModal(pauseModal(onExit, onCancel, onRestart));
   }, [soundSfx, openModal, onExit, onCancel, onRestart]);
 
   useEffect(() => {
-    dispatch(localGameActions.setMoves(Number(getPath("moves") || 99)));
-    dispatch(localGameActions.setSize(Number(getPath("size") || 4)));
-    dispatch(
-      localGameActions.setTimer(
-        isNaN(Number(getPath("timer") || null))
-          ? null
-          : Number(getPath("timer") || null)
-      )
-    );
-  }, [dispatch, getPath]);
+    setCardsP1(generateCards(items1));
+    setCardsP2(generateCards(items2));
+    dispatch(localGameActions.setPairsP1(size ** 2 / 2));
+    dispatch(localGameActions.setPairsP2(size ** 2 / 2));
+  }, [dispatch, generateCards, items1, items2, size]);
 
   useEffect(() => {
-    if (time && !isPause) {
-      const timer = setInterval(() => {
-        setTime(time - 1);
-      }, 1000);
-      return () => clearInterval(timer);
+    if (!pairsP1 || !pairsP2) return;
+    if (activePlayer === "P1") {
+      if (
+        activeP1Card1 &&
+        activeP1Card2 &&
+        activeP1Card1.imgId === activeP1Card2.imgId &&
+        activeP1Card1.season === activeP1Card2.season
+      ) {
+        const card1 = cardsP1.find((item) => item.id === activeP1Card1.id);
+        if (card1) card1.isFlipped = true;
+        const card2 = cardsP1.find((item) => item.id === activeP1Card2.id);
+        if (card2) card2.isFlipped = true;
+        setActiveP1Card1(null);
+        setActiveP1Card2(null);
+        if (isSfxActive) {
+          const audio = new Audio();
+          audio.src = "/correctCardSfx.mp3";
+          audio.volume = 0.2;
+          audio.play();
+        }
+        setTimeout(() => {
+          dispatch(localGameActions.setPairsP1(pairsP1 - 1));
+          if (pairsP1 > 1) setActivePlayer("P2");
+        }, 750);
+      } else if (activeP1Card1 && activeP1Card2) {
+        setTimeout(() => {
+          setActiveP1Card1(null);
+          setActiveP1Card2(null);
+          setActivePlayer("P2");
+        }, 750);
+      }
+    } else {
+      if (
+        activeP2Card1 &&
+        activeP2Card2 &&
+        activeP2Card1.imgId === activeP2Card2.imgId &&
+        activeP2Card1.season === activeP2Card2.season
+      ) {
+        const card1 = cardsP2.find((item) => item.id === activeP2Card1.id);
+        if (card1) card1.isFlipped = true;
+        const card2 = cardsP2.find((item) => item.id === activeP2Card2.id);
+        if (card2) card2.isFlipped = true;
+        setActiveP2Card1(null);
+        setActiveP2Card2(null);
+        if (isSfxActive) {
+          const audio = new Audio();
+          audio.src = "/correctCardSfx.mp3";
+          audio.volume = 0.2;
+          audio.play();
+        }
+        setTimeout(() => {
+          dispatch(localGameActions.setPairsP2(pairsP2 - 1));
+          if (pairsP2 > 1) setActivePlayer("P1");
+        }, 750);
+      } else if (activeP2Card1 && activeP2Card2) {
+        setTimeout(() => {
+          setActiveP2Card1(null);
+          setActiveP2Card2(null);
+          setActivePlayer("P1");
+        }, 750);
+      }
     }
-  }, [time, isPause]);
+  }, [
+    activeP1Card1,
+    activeP1Card2,
+    activeP2Card1,
+    activeP2Card2,
+    activePlayer,
+    cardsP1,
+    cardsP2,
+    dispatch,
+    isSfxActive,
+    pairsP1,
+    pairsP2,
+  ]);
 
   useEffect(() => {
-    setTime(initialTime);
-  }, [initialTime]);
-
-  useEffect(() => {
-    if (moves === 0 || time === 0) {
-      setActive1(null);
-      setActive2(null);
-      openModal(FailedModal(onExit, onRestart));
-    }
-  }, [moves, onExit, openModal, time, onRestart]);
-
-  useEffect(() => {
-    if (pairs === 0) {
-      setIsPause(true);
+    if (pairsP1 === 0 && cardsP1.length) {
+      openModal(WinModal(onExit, onRestart, "P1"));
       if (isSfxActive) {
         const audio = new Audio();
         audio.src = "/cardWinSfx.mp3";
         audio.volume = 0.2;
         audio.play();
       }
-      openModal(WinModal(onExit, onRestart));
     }
-  }, [isSfxActive, onExit, onRestart, openModal, pairs]);
+    if (pairsP2 === 0 && cardsP2.length) {
+      openModal(WinModal(onExit, onRestart, "P2"));
+      if (isSfxActive) {
+        const audio = new Audio();
+        audio.src = "/cardWinSfx.mp3";
+        audio.volume = 0.2;
+        audio.play();
+      }
+    }
+  }, [
+    activePlayer,
+    cardsP1.length,
+    cardsP2.length,
+    isSfxActive,
+    onExit,
+    onRestart,
+    openModal,
+    pairsP1,
+    pairsP2,
+  ]);
 
   return (
     <>
-      <FlexFullWidth direction="column">
-        <Flex align="center" gap="10px">
-          <StyledIndicator
-            justify="right !important"
-            flex="1"
-            value={formatNumber(11111111)}
-            icon={<DiamondIcon size={43} />}
-          />
-          <StyledIndicator
-            flex="1"
-            justify="right !important"
-            value={formatNumber(11111111)}
-            icon={<CoinIcon size={43} />}
-          />
-          <StyledButton
-            onClick={handlePause}
-            $left="10px"
-            padding="11px"
-            $activeGameType={theme}
-            icon={<PauseIcon color={pauseButtonShadowColor[theme]} size={21} />}
-          />
-        </Flex>
-      </FlexFullWidth>
-      <HealthWrapper>
-        <StyledHeart>
-          <ActiveHeartIcon size={35} />
-        </StyledHeart>
-        <Flex gap="5px">
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <ActiveHeartIcon size={21} />
-          <NotActiveHeartIcon size={21} />
-          <NotActiveHeartIcon size={21} />
-        </Flex>
-        <Text $size="subtitle">11:11</Text>
-      </HealthWrapper>
-      <StyledTitle $activeGameType={theme} $top="medium" type="default">
-        <FlexFullWidth justify="space-between">
-          <Flex gap="11px" align="end">
-            <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
-              $size="subtitle"
-            >
-              Moves
-            </Text>
-            <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
-              $size="title"
-            >
-              {moves}
-            </Text>
-          </Flex>
-          <StyledTime align="center" direction="column">
-            <Text $size="subtitle">Time</Text>
-            {time || time === 0 ? (
-              <Text>{formatTime(time)}</Text>
-            ) : (
-              <Flex $top="3px">
-                <InfiniteIcon width={"44px"} />
-              </Flex>
-            )}
-          </StyledTime>
-          <Flex gap="11px" align="end" direction="row-reverse">
-            <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
-              $size="subtitle"
-            >
-              Pairs
-            </Text>
-            <Text
-              $shadow={{ color: pauseButtonShadowColor[theme] }}
-              $size="title"
-            >
-              {pairs}
-            </Text>
-          </Flex>
-        </FlexFullWidth>
-      </StyledTitle>
+      {user && (
+        <>
+          <FlexFullWidth direction="column">
+            <Flex align="center" gap="10px">
+              <StyledIndicator
+                justify="right !important"
+                flex="1"
+                value={formatNumber(user.gem)}
+                icon={<DiamondIcon size={43} />}
+              />
+              <StyledIndicator
+                flex="1"
+                justify="right !important"
+                value={formatNumber(user.gold)}
+                icon={<CoinIcon size={43} />}
+              />
+              <StyledButton
+                onClick={handlePause}
+                $left="10px"
+                padding="11px"
+                $activeGameType={0}
+                icon={<PauseIcon color={pauseButtonShadowColor[0]} size={21} />}
+              />
+            </Flex>
+          </FlexFullWidth>
+        </>
+      )}
+      <Flex $top="10px" gap="10px" basis="50%">
+        <Player1
+          align="center"
+          direction="column"
+          $isActive={activePlayer === "P1"}
+        >
+          <Text $size="subtitle">P1 Pairs</Text>
+          <Text $size="header">{pairsP1}</Text>
+        </Player1>
+        <Player2
+          align="center"
+          direction="column"
+          $isActive={activePlayer === "P2"}
+        >
+          <Text $size="subtitle">P2 Pairs</Text>
+          <Text $size="header">{pairsP2}</Text>
+        </Player2>
+      </Flex>
       <CardsField
-        fields={fields}
+        cardsP1={cardsP1}
+        cardsP2={cardsP2}
         size={size}
-        active1={active1}
-        active2={active2}
-        onClick={(item: Card) => {
-          if ((active1 && active2) || item.isOpen) return;
+        active1={activePlayer === "P1" ? activeP1Card1 : activeP2Card1}
+        active2={activePlayer === "P1" ? activeP1Card2 : activeP2Card2}
+        onClick={(item: LocalGameCard) => {
+          if (activePlayer === "P1") {
+            if ((activeP1Card1 && activeP1Card2) || item.isFlipped) return;
+            if (isSfxActive) {
+              const audio = new Audio();
+              audio.src = "/cardSfx.mp3";
+              audio.volume = 0.2;
+              audio.play();
+            }
+            if (activeP1Card1 && activeP1Card1.id !== item.id) {
+              setActiveP1Card2(item);
+              return;
+            }
+            setActiveP1Card1(item);
+            return;
+          }
+          if ((activeP2Card1 && activeP2Card2) || item.isFlipped) return;
           if (isSfxActive) {
             const audio = new Audio();
             audio.src = "/cardSfx.mp3";
             audio.volume = 0.2;
             audio.play();
           }
-          if (active1 && active1.id !== item.id) {
-            setActive2(item);
+          if (activeP2Card1 && activeP2Card1.id !== item.id) {
+            setActiveP2Card2(item);
             return;
           }
-          setActive1(item);
+          setActiveP2Card1(item);
+          return;
         }}
+        activePlayer={activePlayer}
       />
     </>
   );

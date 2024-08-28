@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { showErrorNotification } from "@lib/utils/notification";
-import { ApiResponse } from "@type/api";
+import { ApiResponse, QueryParams } from "@type/api";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getErrorMessage = (e: any, httpError = true): string => {
@@ -38,3 +38,10 @@ export const getEmptyApiResponse = <T = unknown>(): ApiResponse<T> => ({
   next: null,
   previous: null,
 });
+
+export function buildUrlWithParams(url: string, params: QueryParams): string {
+  const queryString = new URLSearchParams(
+    params as Record<string, string>
+  ).toString();
+  return `${url}${url.includes("?") ? "&" : "?"}${queryString}`;
+}

@@ -74,9 +74,11 @@ const ActiveBg = styled.span<{ $translateX: number }>`
 `;
 
 const Container = styled.div`
-  margin: 0 25px;
+  margin: 0 auto;
   position: relative;
   display: flex;
+  width: 100%;
+  max-width: 490px;
   width: 100%;
 `;
 
@@ -95,7 +97,7 @@ export const NavBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const userMapLink = `/map/${
-     locations.filter((el) => el.isAvailable).at(-1)
+    locations.filter((el) => el.isAvailable).at(-1)
       ? locations.filter((el) => el.isAvailable).at(-1)!.id
       : ""
   }`;

@@ -1,5 +1,5 @@
+import { ENV } from "@lib/configs/enviorements";
 import { request } from ".";
-
 const fakeLoginData = {
   user: '{"id":983609214,"first_name":"Pavel","last_name":"Кulаkоv","username":"k_pave1","language_code":"en","is_premium":true}',
   chat_instance: "4036553996013744381",
@@ -9,14 +9,12 @@ const fakeLoginData = {
 };
 
 export const requestLogin$ = async (): Promise<string> => {
-  const initData =
-    process.env.NODE_ENV !== "dev"
-      ? window.Telegram.WebApp.initData
-      : fakeLoginData;
-
-  return await request.get("/login", {
-    params: {
-      initData,
-    },
-  });
+  const initData = !ENV.isDev ? window.Telegram.WebApp.initData : fakeLoginData;
+  return await request.post(
+    "/login",
+    {},
+    {
+      params: initData,
+    }
+  );
 };

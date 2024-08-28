@@ -13,6 +13,7 @@ const createRequestInstance = (addAuthHeader: boolean): AppApi => {
   const instance = axios.create({
     baseURL: ENV.apiBaseUrl,
     headers: defaultHeaders,
+    withCredentials: true,
   });
 
   if (addAuthHeader) {
@@ -45,4 +46,3 @@ const createRequestInstance = (addAuthHeader: boolean): AppApi => {
 };
 
 export const request = createRequestInstance(true);
-export const noAuthRequest = createRequestInstance(false);

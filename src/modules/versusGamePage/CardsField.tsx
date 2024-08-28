@@ -1,19 +1,10 @@
-import caveCardBg from "/img/cardbgs/caveCardBg.webp";
-import aztecCardBg from "/img/cardbgs/aztecCardBg.png";
-import aztecCardBg2 from "/img/cardbgs/aztecCardBg2.png";
-import knightBg from "/img/cardbgs/knightCardBg.webp";
-import steamBg from "/img/cardbgs/steamCardBg.webp";
-import todayBg from "/img/cardbgs/todayCardBg.webp";
-import cyberBg from "/img/cardbgs/cyberCardBg.webp";
-
 import Flex from "@components/Flex";
 import Image from "@components/Image";
 import { Text } from "@components/Typography";
-import { uiSelectors } from "@store/ui";
-import { ThemeType } from "@store/ui/types";
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { LocalGameCard } from "@store/localGame/types";
+import { season } from "./constants";
 const CardsWrapper = styled(Flex)`
   margin-top: 20px;
   display: flex;
@@ -37,8 +28,6 @@ const CardContent = styled(Flex)`
 
 const FrontCard = styled(CardContent)<{
   $isActive: boolean;
-  $theme: ThemeType;
-  $randomNum: number;
 }>`
   display: flex;
   align-items: center;
@@ -55,159 +44,12 @@ const FrontCard = styled(CardContent)<{
   box-shadow: 0px 3px 0px 0px #00000040;
   background-position: 100px 100px;
   position: relative;
-  ${({ $theme, $randomNum }) => {
-    switch ($theme) {
-      case "aztec":
-        return `&::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 1000px;
-          height: 1000px;
-          transform: translate(-50%, -50%) rotate(${$randomNum * 10}deg);
-          background-position: 0 0;
-          background-size: contain;
-          background: url(${$randomNum % 3 === 0 ? aztecCardBg : aztecCardBg2});
-          }
-          background-repeat: no-repeat;
-          background: #049975;
-          background-position: center;
-          & div {
-            z-index: 2;
-            color: #033E3A;
-          }
-          & > div {
-            border-color: #033E3A;
-            }`;
-      case "cave":
-        return `background: url(${caveCardBg}),#FDB446;
-        background-position: ${$randomNum * 50}% ${$randomNum * 50}%;
-          & div {
-            z-index: 2;
-            color: #452C04;
-          }
-        & > div {
-          border-color: #452C04;
-          }`;
-      case "cyber":
-        return `&::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 400%;
-          height: 400%;
-          transform:  translate(-50%, -50%) rotate(${$randomNum}deg);
-          background-position: center;
-          background: url(${cyberBg});
-          background-repeat: repeat;
-          }
-          & div {
-            z-index: 2;
-            color: #fff;
-          }
-          & > div {
-            border-color: #fff;
-            }
-        background: #C521D3;
-          & > div {
-        }`;
-      case "end":
-        return `&::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 400%;
-          height: 400%;
-          background-position: center;
-            background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 20px,
-    #DFA100 20px,
-    #DFA100 40px
-  );
-          background-repeat: repeat;
-          }
-          & div {
-            z-index: 2;
-            color: #533C00;
-          }
-          & > div {
-            border-color: #533C00;
-            }
-        background: #FFD029;
-          `;
-      case "knight":
-        return `background: url(${knightBg}), #3BCECA;
-          background-position: center;
-          background-size: contain;
-          & div {
-            z-index: 2;
-            color: #0A5954;
-          }
-          & > div {
-          border-color: #0A5954;
-        }`;
-      case "steam":
-        return `background: #2a7eb9;
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 300%;
-          height: 300%;
-          transform: translate(-50%, -50%) rotate(${$randomNum * 10}deg);
-          background-position: ${$randomNum * 5}px ${$randomNum * 5}px;
-          background-size: ${$randomNum / 10}%;
-          background: url(${steamBg});
-          }
-          background-repeat: no-repeat;
-          background: #993A04;
-          & div {
-            z-index: 2;
-            color: #FFCF52;
-          }
-          & > div {
-            border-color: #FFCF52;
-            }
-         `;
-      case "today":
-        return `&::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: ${$randomNum * 20}px;
-          height: ${$randomNum * 18}px;
-          background-size: 10%;
-          transform: translate(-50%, -50%) scale(.6);
-          background-position: ${$randomNum * 20}px ${$randomNum * 20}px;
-          background: url(${todayBg});
-          }
-          & div {
-            z-index: 2;
-            color: #fff;
-          }
-          & > div {
-            border-color: #fff;
-            }
-        background: #2167D3;
-          & > div {
-        }`;
-
-      default:
-        return `background: #2a7eb9;
-        border: 1px solid #1d6699;
-        box-shadow: 0px 2px 0px 0px #191f34, 0px 4.19px 0px 0px #00000040;
-          & > div {
-          border-color: #1d6699;
-        }`;
-    }
-  }};
+  background: #2a7eb9;
+  border: 1px solid #1d6699;
+  box-shadow: 0px 2px 0px 0px #191f34, 0px 4.19px 0px 0px #00000040;
+  & > div {
+    border-color: #1d6699;
+  }
 `;
 
 const BackCard = styled(CardContent)<{ $isActive: boolean }>`
@@ -242,30 +84,25 @@ const StyledImage = styled(Image)`
   height: 100%;
 `;
 
-export type Card = {
-  id: number;
-  random: number;
-  content: string;
-  isOpen: boolean;
-  img: string;
-};
-
 interface CardsFieldProps {
   size: number;
-  active1: Card | null;
-  active2: Card | null;
-  fields: Card[];
-  onClick: (card: Card) => void;
+  active1: LocalGameCard | null;
+  active2: LocalGameCard | null;
+  cardsP1: LocalGameCard[];
+  cardsP2: LocalGameCard[];
+  activePlayer: "P1" | "P2";
+  onClick: (card: LocalGameCard) => void;
 }
 
 export const CardsField: FC<CardsFieldProps> = ({
   size,
-  fields,
+  cardsP1,
+  cardsP2,
   active1,
   active2,
+  activePlayer,
   onClick,
 }) => {
-  const theme = useSelector(uiSelectors.getTheme);
   return (
     <CardsWrapper
       justify="space-between"
@@ -273,16 +110,16 @@ export const CardsField: FC<CardsFieldProps> = ({
       gap="10px"
       wrap="wrap"
     >
-      {fields.map((item) => {
+      {[...Array(size ** 2)].map((_, index) => {
+        const card = activePlayer === "P1" ? cardsP1[index] : cardsP2[index];
+        if (!card) return;
         return (
-          <Card key={item.id} onClick={() => onClick(item)}>
+          <Card key={card.id} onClick={() => onClick(card)}>
             <FrontCard
-              $theme={theme}
-              $randomNum={item.random}
               $isActive={
-                active1?.id === item.id ||
-                active2?.id === item.id ||
-                item.isOpen
+                card.id === active1?.id ||
+                card.id === active2?.id ||
+                card.isFlipped
               }
             >
               <Flex justify="center" align="center">
@@ -291,12 +128,14 @@ export const CardsField: FC<CardsFieldProps> = ({
             </FrontCard>
             <BackCard
               $isActive={
-                active1?.id === item.id ||
-                active2?.id === item.id ||
-                item.isOpen
+                card.id === active1?.id ||
+                card.id === active2?.id ||
+                card.isFlipped
               }
             >
-              <StyledImage src={item.img} />
+              <StyledImage
+                src={`/img/cards/${season[card.season]}/card${card.imgId}.webp`}
+              />
             </BackCard>
           </Card>
         );

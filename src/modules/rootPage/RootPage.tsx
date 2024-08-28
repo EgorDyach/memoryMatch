@@ -57,44 +57,44 @@ export const RootPage = () => {
       <Content>
         <RootControls>
           {user && (
-            <Flex basis="50%" gap="6px" wrap="wrap">
-              <IndicatorItem
-                action={() => {
-                  soundSfx();
-                  navigate("/shop");
-                }}
-                value={formatNumber(user.gold)}
-                icon={<CoinIcon size={43} />}
-              />
-              <IndicatorItem
-                action={() => {
-                  soundSfx();
-                  navigate("/shop");
-                }}
-                value={formatNumber(user.gem)}
-                icon={<DiamondIcon size={43} />}
-              />
-            </Flex>
+            <>
+              <Flex basis="50%" gap="6px" wrap="wrap">
+                <IndicatorItem
+                  action={() => {
+                    soundSfx();
+                    navigate("/shop");
+                  }}
+                  value={formatNumber(user.gold)}
+                  icon={<CoinIcon size={43} />}
+                />
+                <IndicatorItem
+                  action={() => {
+                    soundSfx();
+                    navigate("/shop");
+                  }}
+                  value={formatNumber(user.gem)}
+                  icon={<DiamondIcon size={43} />}
+                />
+              </Flex>
+              <HealthWrapper>
+                <ActionButton
+                  icon={<PlusIcon size={20} color="#fff" />}
+                  onClick={() => {
+                    soundSfx();
+                    navigate("/shop");
+                  }}
+                />
+                <Flex gap="5px">
+                  {[...Array(7)].map((_, i) => {
+                    if (i + 1 < user.hearts)
+                      return <ActiveHeartIcon size={21} />;
+                    else return <NotActiveHeartIcon size={21} />;
+                  })}
+                </Flex>
+                <Text $size="subtitle">11:11</Text>
+              </HealthWrapper>
+            </>
           )}
-          <HealthWrapper>
-            <ActionButton
-              icon={<PlusIcon size={20} color="#fff" />}
-              onClick={() => {
-                soundSfx();
-                navigate("/shop");
-              }}
-            />
-            <Flex gap="5px">
-              <ActiveHeartIcon size={21} />
-              <ActiveHeartIcon size={21} />
-              <ActiveHeartIcon size={21} />
-              <ActiveHeartIcon size={21} />
-              <ActiveHeartIcon size={21} />
-              <NotActiveHeartIcon size={21} />
-              <NotActiveHeartIcon size={21} />
-            </Flex>
-            <Text $size="subtitle">11:11</Text>
-          </HealthWrapper>
           <Flex gap="12px" $top="slarge" justify="space-between">
             <ButtonPass
               onClick={() => {

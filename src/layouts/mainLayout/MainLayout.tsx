@@ -14,6 +14,14 @@ const Wrapper = styled(Flex)`
   position: relative;
   min-height: 100vh;
   padding: 20px 0 120px;
+  align-items: center;
+`;
+
+const Content = styled(Flex)`
+  max-width: 490px;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -24,7 +32,9 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Wrapper direction="column">{children || <Outlet />}</Wrapper>
+      <Wrapper direction="column">
+        <Content>{children || <Outlet />}</Content>
+      </Wrapper>
       <NavBar />
     </>
   );

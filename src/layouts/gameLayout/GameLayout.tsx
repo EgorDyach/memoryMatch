@@ -12,12 +12,20 @@ const Wrapper = styled(Flex)<{ $activeGameType: number }>`
   background-size: calc(100% + 10px);
   height: 100vh;
   padding: 20px 11px;
+  align-items: center;
 `;
+
+const Content = styled(Flex)`
+  max-width: 490px;
+  width: 100%;
+  flex-direction: column;
+`;
+
 export const GameLayout: FC<PropsWithChildren> = ({ children }) => {
   const seasonId = useSelector(levelGameSelectors.getSeasonId);
   return (
     <Wrapper direction="column" $activeGameType={seasonId || 0}>
-      {children || <Outlet />}
+      <Content>{children || <Outlet />}</Content>
     </Wrapper>
   );
 };

@@ -16,6 +16,9 @@ import styled from "styled-components";
 const Wrapper = styled(Flex)<{ $padding: string; $overflow?: boolean }>`
   padding: ${(props) => props.$padding};
   overflow-y: ${(props) => (props.$overflow ? "auto" : "hidden")};
+  max-width: 490px;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 interface PaddingLayoutProps extends PropsWithChildren {
@@ -47,20 +50,17 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
           />
         </Flex>
       )}
-      {showHealth && (
+      {showHealth && user && (
         <HealthWrapper>
           <ActionButton
             icon={<PlusIcon size={20} color="#fff" />}
             onClick={() => console.log(123)}
           />
           <Flex gap="5px">
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <ActiveHeartIcon size={21} />
-            <NotActiveHeartIcon size={21} />
-            <NotActiveHeartIcon size={21} />
+            {[...Array(7)].map((_, i) => {
+              if (i + 1 < user.hearts) return <ActiveHeartIcon size={21} />;
+              else return <NotActiveHeartIcon size={21} />;
+            })}
           </Flex>
           <Text $size="subtitle">11:11</Text>
         </HealthWrapper>

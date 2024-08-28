@@ -1,13 +1,13 @@
 import { Location } from "@type/user";
-import { fakeRequestLocationLevels, fakeRequestLocations } from "./fakeApi/map";
 import { ShortLevel } from "@type/map";
+import { request } from ".";
 
 export const requestLocationLevels$ = async (
   locationId: string | number
 ): Promise<ShortLevel[]> => {
-  return await fakeRequestLocationLevels(locationId);
+  return await request.get(`/location/${locationId}/levels`);
 };
 
 export const requestLocations$ = async (): Promise<Location[]> => {
-  return await fakeRequestLocations();
+  return await request.get("/location");
 };

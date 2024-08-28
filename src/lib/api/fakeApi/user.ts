@@ -6,10 +6,11 @@ export const fakeRequestUser = (isError?: boolean): Promise<User> => {
       if (isError)
         reject(new Error("Ошибка загрузки информации о пользователе"));
       resolve({
+        id: Math.floor(Math.random() * 1000000),
         gold: Math.floor(Math.random() * 1000000),
         gem: Math.floor(Math.random() * 1000000),
+        hearts: Math.floor(Math.random() * 7),
         username: "username",
-        id: Math.floor(Math.random() * 1000000),
         firstName: "Egor",
         lastName: "Dyachenko",
         boosts: [

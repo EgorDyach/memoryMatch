@@ -3,7 +3,7 @@ import { ItemTitle, Text } from "@components/Typography";
 import { fieldSizes } from "./constants";
 import Button from "@components/button/Button";
 import { Title } from "@components/Title";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { localGameActions } from "@store/localGame";
 import { usePlaySFx } from "@hooks/usePlaySFx";
@@ -12,7 +12,6 @@ export const VersusPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const soundSfx = usePlaySFx();
-  const { pathname } = useLocation();
   return (
     <>
       <Title $top="25px" type="default">
@@ -32,11 +31,9 @@ export const VersusPage = () => {
             $top="medium"
             disabled={!item.active}
             onClick={() => {
-              dispatch(localGameActions.setTimer(null));
+              dispatch(localGameActions.setSize(item.size));
               soundSfx();
-              navigate(
-                `/game/versus?size=${item.size}&backpath=${pathname}&moves=${item.moves}&timer=${item.timer}`
-              );
+              navigate(`/game/versus`);
             }}
           >
             <Text $size="subtitle">{item.title}</Text>

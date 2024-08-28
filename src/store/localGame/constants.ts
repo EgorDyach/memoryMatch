@@ -1,8 +1,9 @@
 import { LocalGameState } from "./types";
 
 export const localGameInitialState: LocalGameState = {
-  moves: 10,
-  pairs: 99,
-  timer: 10,
-  size: 4,
+  cardsP1: [],
+  cardsP2: [],
+  pairsP1: 0,
+  pairsP2: 0,
+  size: 2,
 };

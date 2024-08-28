@@ -1,9 +1,9 @@
 import { GameResponse } from "@type/game";
-import { fakeStartGame } from "./fakeApi/game";
+import { request } from ".";
 
 export const requestStartGame$ = async (
-  levelNumber: number | string,
-  seasonId: number | string
+  gameNumber: number | string,
+  locationId: number | string
 ): GameResponse => {
-  return await fakeStartGame(levelNumber, seasonId);
+  return await request.post("/game/start", { gameNumber, locationId });
 };

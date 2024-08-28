@@ -1,11 +1,7 @@
-  i=120
+
   new=0
-  for item in `ls today`
+  for item in `ls cave`
   do
-    if [[ $i -lt 150 ]]
-    then
-      mv today/card$i.webp today/card$new.webp
-      ((i++))
-      ((new++))
-    fi
+    mv cave/$item cave/card$new.webp
+    ((new++))
   done
