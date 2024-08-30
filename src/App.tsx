@@ -63,6 +63,7 @@ function App() {
   );
 
   useEffect(() => {
+    alert(window.Telegram.WebApp.initData);
     window.Telegram.WebApp.expand();
     window.Telegram.WebApp.enableClosingConfirmation();
     window.Telegram.WebApp.disableVerticalSwipes();
