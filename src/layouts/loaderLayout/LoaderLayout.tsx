@@ -40,10 +40,12 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
         dispatch(uiActions.setRequestStarted("shop"));
         dispatch(uiActions.setRequestStarted("user"));
         await requestLogin$()
-          .then(() => {
+          .then((res) => {
+            alert(`success with ${res}`);
             dispatch(uiActions.setRequestFinished("login"));
           })
           .catch((e) => {
+            alert(`no success with ${error}`);
             setError(e);
           });
         await requestUser$()
