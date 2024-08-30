@@ -1,5 +1,3 @@
-import { AxiosError } from "axios";
-import { showErrorNotification } from "@lib/utils/notification";
 import { ApiResponse, QueryParams } from "@type/api";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,22 +13,6 @@ export const getErrorMessage = (e: any, httpError = true): string => {
     .map((data) => getErrorMessage(data, httpError))
     .join(", ");
 };
-
-// только для запросов, где ошибку не нужно обрабатывать в компоненте
-export const handledRequest =
-  <T, ARGS>(
-    requestFn: (...args: ARGS[]) => Promise<T>,
-    title: string,
-    returnValue: T
-  ) =>
-  async (...args: Parameters<typeof requestFn>) => {
-    return requestFn(...args).catch((e) => {
-      if ((e as AxiosError).status !== 403) {
-        showErrorNotification(title, getErrorMessage(e, false));
-      }
-      return returnValue;
-    });
-  };
 
 export const getEmptyApiResponse = <T = unknown>(): ApiResponse<T> => ({
   count: 0,
