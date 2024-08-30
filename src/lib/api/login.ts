@@ -9,12 +9,11 @@ const fakeLoginData = {
 };
 
 export const requestLogin$ = async (): Promise<string> => {
-  const initData = !ENV.isDev ? window.Telegram.WebApp.initData : fakeLoginData;
   return await request.post(
-    "/login",
+    `/login${!ENV.isDev ? "?" + window.Telegram.WebApp.initData : ""}`,
     {},
     {
-      params: initData,
+      params: ENV.isDev ? fakeLoginData : {},
     }
   );
 };
