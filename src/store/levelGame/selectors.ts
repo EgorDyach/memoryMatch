@@ -40,3 +40,6 @@ export const getIsLoading = (s: StoreWithLevelGameState): boolean =>
 
 export const getStatus = (s: StoreWithLevelGameState): number | null =>
   getState(s).status;
+
+export const getAreCardsShown = (s: StoreWithLevelGameState): boolean =>
+  getState(s).areCardsShown;

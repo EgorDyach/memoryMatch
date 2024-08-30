@@ -15,6 +15,8 @@ import { levelGameActions } from ".";
 import { getTimeBetween } from "@lib/utils/getTimeBetween";
 import { showErrorNotification } from "@lib/utils/notification";
 
+import { Card } from "@type/game";
+
 export const fetchStartGame =
   (levelId: number | string, locationId: number | string, backpath: string) =>
   async (dispatch: AppDispatch) => {
@@ -208,7 +210,8 @@ export const fetchAbortGame =
     }
   };
 export const fetchBoostViewCards =
-  (gameId: number | string) => async (dispatch: AppDispatch) => {
+  (gameId: number | string, cardsWas: Card[][]) =>
+  async (dispatch: AppDispatch) => {
     const timeout = setTimeout(() => {
       dispatch(levelGameActions.setIsLoading(true));
     }, 700);
@@ -236,6 +239,11 @@ export const fetchBoostViewCards =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
+      dispatch(levelGameActions.setAreCardsShown(true));
+      setTimeout(() => {
+        dispatch(levelGameActions.setAreCardsShown(false));
+        dispatch(levelGameActions.setCards(cardsWas));
+      }, 5000);
     } catch {
       showErrorNotification("Ошибка при попытке использования бонуса!");
     } finally {

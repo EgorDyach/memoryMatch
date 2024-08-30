@@ -14,6 +14,7 @@ export type LevelGameState = {
   status: null | number;
   backpath: string;
   isLoading: boolean;
+  areCardsShown: boolean;
 };
 
 export type StoreWithLevelGameState = {

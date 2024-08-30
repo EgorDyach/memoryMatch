@@ -32,6 +32,7 @@ import {
   fetchFlipCard,
   fetchPauseGame,
   fetchRestartGame,
+  fetchStartGame,
   fetchUnpauseGame,
 } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
@@ -113,7 +114,9 @@ export const GamePage = () => {
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
   const user = useSelector(uiSelectors.getUser);
-
+  const locations = useSelector(uiSelectors.getLocations);
+  const location = locations.filter((el) => el.isAvailable).at(-1);
+  const levels = useSelector(uiSelectors.getLevels);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -128,6 +131,32 @@ export const GamePage = () => {
     closeModal();
     setIsPause(false);
   }, [closeModal, dispatch, gameId, soundSfx]);
+
+  const onNext = useCallback(() => {
+    soundSfx();
+    if (!gameId) return;
+    // dispatch(
+    //   fetchStartGame(
+    //     levels[
+    //       locations.filter((el) => el.isAvailable).at(-1)?.number || 1
+    //     ].filter((el) => el.isCompleted).length ===
+    //       levels[locations.filter((el) => el.isAvailable).at(-1)?.number || 1]
+    //         .length
+    //       ? 0
+    //       : locations.filter((el) => el.isAvailable).at(-1)?.number,
+    //     levels[
+    //       locations.filter((el) => el.isAvailable).at(-1)?.number || 1
+    //     ].filter((el) => el.isCompleted).length ===
+    //       levels[locations.filter((el) => el.isAvailable).at(-1)?.number || 1]
+    //         .length
+    //       ? locations.filter((el) => el.isAvailable).at(-1)?.number + 1
+    //       : locations.filter((el) => el.isAvailable).at(-1)?.number,
+    //     "/"
+    //   )
+    // );
+    closeModal();
+    setIsPause(false);
+  }, [closeModal, dispatch, gameId, levels, locations, soundSfx]);
 
   const onExit = useCallback(() => {
     soundSfx();
@@ -182,7 +211,7 @@ export const GamePage = () => {
       return;
     }
     if (status === 2) {
-      openModal(WinModal(onExit, onRestart));
+      openModal(WinModal(onExit, onNext, 0));
       if (isSfxActive) {
         const audio = new Audio();
         audio.src = "/cardWinSfx.mp3";
@@ -336,15 +365,14 @@ export const GamePage = () => {
       <BoostsContainer justify="space-between">
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!!user?.boosts[0]?.count || true}
+            disabled={!user?.boosts[0]?.count}
             type="yellow"
             icon={<CardsIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[0];
               if (!boost) return;
               if (boost.count) {
-                const gameId = 43;
-                dispatch(fetchBoostViewCards(gameId));
+                dispatch(fetchBoostViewCards(gameId, cards));
               }
             }}
           />
@@ -352,14 +380,13 @@ export const GamePage = () => {
         </Flex>
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!!user?.boosts[1]?.count || true}
+            disabled={!user?.boosts[1]?.count}
             type="yellow"
             icon={<LoopIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[1];
               if (!boost) return;
               if (boost.count) {
-                const gameId = 43;
                 dispatch(fetchBoostOpenPair(gameId));
               }
             }}
@@ -368,14 +395,13 @@ export const GamePage = () => {
         </Flex>
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!!user?.boosts[2]?.count || true}
+            disabled={!user?.boosts[2]?.count}
             type="yellow"
             icon={<RocketIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[2];
               if (!boost) return;
               if (boost.count) {
-                const gameId = 43;
                 dispatch(fetchBoostExtraTime(gameId));
               }
             }}

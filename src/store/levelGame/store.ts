@@ -46,6 +46,9 @@ const gameSlice = createSlice({
     setStatus(state, { payload }: PayloadAction<number | null>) {
       state.status = payload;
     },
+    setAreCardsShown(state, { payload }: PayloadAction<boolean>) {
+      state.areCardsShown = payload;
+    },
   },
 });
 

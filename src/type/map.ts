@@ -52,4 +52,12 @@ export type ShortLevel = {
   id: number;
   number: number;
   isCompleted: boolean;
+  prizes: {
+    count: number;
+    levelPrizeType: number;
+  }[];
+  specialPrizes: {
+    count: number;
+    levelPrizeType: number;
+  }[];
 };

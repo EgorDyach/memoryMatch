@@ -12,4 +12,5 @@ export const levelGameInitialState: LevelGameState = {
   status: null,
   backpath: "/",
   isLoading: false,
+  areCardsShown: false,
 };
