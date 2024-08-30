@@ -81,7 +81,7 @@ export const fakeRequestLocationLevels = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (isError) reject(new Error("Ошибка загрузки уровней"));
-      resolve(fakeLevels);
+      resolve([]);
     }, 600);
   });
 };

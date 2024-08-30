@@ -32,7 +32,6 @@ import {
   fetchFlipCard,
   fetchPauseGame,
   fetchRestartGame,
-  fetchStartGame,
   fetchUnpauseGame,
 } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
@@ -114,9 +113,9 @@ export const GamePage = () => {
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
   const user = useSelector(uiSelectors.getUser);
-  const locations = useSelector(uiSelectors.getLocations);
-  const location = locations.filter((el) => el.isAvailable).at(-1);
-  const levels = useSelector(uiSelectors.getLevels);
+  // const locations = useSelector(uiSelectors.getLocations);
+  // const location = locations.filter((el) => el.isAvailable).at(-1);
+  // const levels = useSelector(uiSelectors.getLevels);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -156,7 +155,7 @@ export const GamePage = () => {
     // );
     closeModal();
     setIsPause(false);
-  }, [closeModal, dispatch, gameId, levels, locations, soundSfx]);
+  }, [closeModal, gameId, soundSfx]);
 
   const onExit = useCallback(() => {
     soundSfx();
@@ -236,6 +235,7 @@ export const GamePage = () => {
     isSfxActive,
     onCancel,
     onExit,
+    onNext,
     onRestart,
     openModal,
     pairs,
