@@ -34,3 +34,9 @@ export const getSeasonId = (s: StoreWithLevelGameState): number | null =>
 
 export const getBackpath = (s: StoreWithLevelGameState): string =>
   getState(s).backpath;
+
+export const getIsLoading = (s: StoreWithLevelGameState): boolean =>
+  getState(s).isLoading;
+
+export const getStatus = (s: StoreWithLevelGameState): number | null =>
+  getState(s).status;

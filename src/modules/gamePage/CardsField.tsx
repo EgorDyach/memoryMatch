@@ -9,7 +9,7 @@ import cyberBg from "/img/cardbgs/cyberCardBg.webp";
 import Flex from "@components/Flex";
 import Image from "@components/Image";
 import { Text } from "@components/Typography";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Card } from "@type/game";
@@ -256,22 +256,18 @@ const StyledImage = styled(Image)`
 `;
 
 interface CardsFieldProps {
-  active1: Card | null;
-  active2: Card | null;
   fields: GameCard[][];
   onClick: (card: GameCard) => void;
 }
 
 export type GameCard = { random: number } & Card;
 
-export const CardsField: FC<CardsFieldProps> = ({
-  fields,
-  active1,
-  active2,
-  onClick,
-}) => {
+export const CardsField: FC<CardsFieldProps> = ({ fields, onClick }) => {
+  const f = fields.flat().filter(el => el.isFlipped);
   const seasonId = useSelector(levelGameSelectors.getSeasonId);
-
+  useEffect(() => {
+    console.log(f)
+  }, [f])
   return (
     <CardsWrapper
       justify="space-between"
@@ -282,28 +278,23 @@ export const CardsField: FC<CardsFieldProps> = ({
       {fields.map((fieldRow) => (
         <>
           {fieldRow.map((item) => {
+            if (f.length % 2 === 0) {
+              if (f.filter(q => q.cardTypeId === item.cardTypeId).length === 1) {
+                setTimeout((() => item.isFlipped = false), 350);
+              }
+            }
             return (
               <StyledCard key={item.id} onClick={() => onClick(item)}>
                 <FrontCard
                   $seasonId={seasonId || 0}
                   $randomNum={item.random}
-                  $isActive={
-                    active1?.id === item.id ||
-                    active2?.id === item.id ||
-                    item.isFlipped
-                  }
+                  $isActive={item.isFlipped}
                 >
                   <Flex justify="center" align="center">
                     <StyledFrontText $size={fields.length}>M</StyledFrontText>
                   </Flex>
                 </FrontCard>
-                <BackCard
-                  $isActive={
-                    active1?.id === item.id ||
-                    active2?.id === item.id ||
-                    item.isFlipped
-                  }
-                >
+                <BackCard $isActive={item.isFlipped}>
                   <StyledImage
                     src={`/img/cards/${seasonName[seasonId || 1]}/card${
                       item.cardTypeId

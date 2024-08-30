@@ -23,6 +23,7 @@
       "@layouts/*": ["src/layouts/*"],
       "@assets/*": ["src/assets/*"],
       "@constants/*": ["src/constants/*"],
+      "@contexts/*": ["src/contexts/*"],
       "@public/*": ["public/*"]
     },
     /* Linting */

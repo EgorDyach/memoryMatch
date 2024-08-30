@@ -12,6 +12,7 @@ const aliasFolders = [
   "constants",
   "hocs",
   "assets",
+  "contexts",
   "layouts",
 ];
 

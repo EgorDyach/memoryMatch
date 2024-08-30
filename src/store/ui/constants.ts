@@ -5,6 +5,7 @@ export const uiInitialState: UIState = {
   user: null,
   isLoaderOpen: true,
   locations: [],
+  levels: {},
   theme: "default",
   isAudioPlaying: Boolean(localStorage.getItem("isAudioPlaying")),
   isSfxActive: Boolean(localStorage.getItem("isSfxActive")),

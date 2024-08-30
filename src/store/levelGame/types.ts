@@ -11,7 +11,9 @@ export type LevelGameState = {
   cards: Card[][];
   initialTimer: number | null;
   seasonId: null | number;
+  status: null | number;
   backpath: string;
+  isLoading: boolean;
 };
 
 export type StoreWithLevelGameState = {

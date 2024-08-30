@@ -30,11 +30,13 @@ import { showModal } from "@lib/utils/modal";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
-import { useUserLocation } from "@hooks/useUserLocation";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 import { useNavigate } from "react-router-dom";
 import { fetchStartGame } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { enqueueSnackbar } from "notistack";
+import { formatTime } from "@lib/utils/formatTime";
+import PageNotFound from "@modules/pageNotFound/PageNotFound";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -42,14 +44,25 @@ export const RootPage = () => {
     document.body.style.overflow = "hidden";
   }, []);
   const user = useSelector(uiSelectors.getUser);
-  const location = useUserLocation();
+  const locations = useSelector(uiSelectors.getLocations);
+  const location = locations.filter((el) => el.isAvailable).at(-1);
   const soundSfx = usePlaySFx();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const levels = useSelector(uiSelectors.getLevels);
+  const currentLevel =
+    location && levels && levels[location.id]
+      ? levels[location.id].filter((el) => !el.isCompleted)[0]
+      : null;
+  if (!currentLevel) return <PageNotFound />;
   const handlePlay = () => {
-    if (!location) return;
+    if (!location || !user) return;
+    if (user.hearts < 1) {
+      enqueueSnackbar("У вас недостаточно сердец!");
+      return;
+    }
     navigate("/game");
-    dispatch(fetchStartGame(location.number, location.id, `/`));
+    dispatch(fetchStartGame(currentLevel.number, location.number, `/`));
     soundSfx();
   };
   return (
@@ -86,12 +99,13 @@ export const RootPage = () => {
                 />
                 <Flex gap="5px">
                   {[...Array(7)].map((_, i) => {
-                    if (i + 1 < user.hearts)
-                      return <ActiveHeartIcon size={21} />;
+                    if (i < user.hearts) return <ActiveHeartIcon size={21} />;
                     else return <NotActiveHeartIcon size={21} />;
                   })}
                 </Flex>
-                <Text $size="subtitle">11:11</Text>
+                <Text $size="subtitle">
+                  {formatTime(user.heartRecoveryTimeSeconds)}
+                </Text>
               </HealthWrapper>
             </>
           )}
@@ -124,13 +138,13 @@ export const RootPage = () => {
             />
           </Flex>
         </RootControls>
-        <PlanetClick onClick={() => console.log("clicked on planet")}>
-          {location && <PlanetImage src={planets[location.id - 1]} />}
+        <PlanetClick>
+          {location && <PlanetImage src={planets[location.number - 1]} />}
         </PlanetClick>
         <StyledFlex>
           {location && (
             <StyledSubHeader>
-              {location.id} Season • {location.number} Level
+              {location.number} Season • {currentLevel.number} Level
             </StyledSubHeader>
           )}
           <StyledButtonShadow>

@@ -9,5 +9,7 @@ export const levelGameInitialState: LevelGameState = {
   cards: [],
   initialTimer: null,
   seasonId: null,
+  status: null,
   backpath: "/",
+  isLoading: false,
 };

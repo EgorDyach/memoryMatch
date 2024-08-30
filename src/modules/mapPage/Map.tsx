@@ -8,6 +8,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 import { fetchStartGame } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
+import { enqueueSnackbar } from "notistack";
 
 interface MapProps {
   points: MapLevel[];
@@ -63,8 +66,13 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { seasonId = "" } = useParams();
+  const user = useSelector(uiSelectors.getUser);
   const handleClick = async (level: MapLevel) => {
-    if (level.id !== currentLevel) return;
+    if (level.id !== currentLevel || !user) return;
+    if (user.hearts < 1) {
+      enqueueSnackbar("У вас недостаточно сердец!");
+      return;
+    }
     try {
       navigate(`/game`);
       dispatch(fetchStartGame(level.id, seasonId, pathname));

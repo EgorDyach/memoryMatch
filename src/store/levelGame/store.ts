@@ -40,6 +40,12 @@ const gameSlice = createSlice({
     setBackpath(state, { payload }: PayloadAction<string>) {
       state.backpath = payload;
     },
+    setIsLoading(state, { payload }: PayloadAction<boolean>) {
+      state.isLoading = payload;
+    },
+    setStatus(state, { payload }: PayloadAction<number | null>) {
+      state.status = payload;
+    },
   },
 });
 

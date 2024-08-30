@@ -51,7 +51,7 @@ const CardsWrapper = styled(Flex)`
 export const ShopPage = () => {
   return (
     <>
-      <Title $top="slarge" type="pink" hasStars>
+      <Title $top="100px" type="pink" hasStars>
         <ItemTitle>Sales</ItemTitle>
       </Title>
       <CardsWrapper basis="30%" wrap="wrap" justify="space-between">

@@ -25,7 +25,17 @@ export const LoaderButton: FC<LoaderButtonProps> = ({ handleClick }) => {
         Object.values(requests).length
       }
     >
-      <StyledButton onClick={handleClick} padding="24px 100px" type="pink">
+      <StyledButton
+        disabled={
+          !(
+            Object.values(requests).filter((el) => el === "fetched").length ===
+            Object.values(requests).length
+          )
+        }
+        onClick={handleClick}
+        padding="24px 100px"
+        type="pink"
+      >
         <div>
           <div>PLAY</div>
         </div>

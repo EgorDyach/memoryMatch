@@ -13,15 +13,8 @@ const Wrapper = styled(Flex)`
   height: 100vh;
   position: relative;
   min-height: 100vh;
-  padding: 20px 0 120px;
+  padding: 20px 0 105px;
   align-items: center;
-`;
-
-const Content = styled(Flex)`
-  max-width: 490px;
-  width: 100%;
-  align-items: center;
-  flex-direction: column;
 `;
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -33,7 +26,7 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Wrapper direction="column">
-        <Content>{children || <Outlet />}</Content>
+        <>{children || <Outlet />}</>
       </Wrapper>
       <NavBar />
     </>

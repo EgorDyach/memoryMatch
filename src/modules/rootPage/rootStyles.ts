@@ -16,6 +16,7 @@ export const HealthWrapper = styled(Flex)`
   justify-content: space-between;
   height: min-content;
   border-radius: 5px;
+  flex-basis: 100%;
 `;
 
 export const ActionButton = styled(IconButton)`
@@ -73,6 +74,8 @@ export const PlanetClick = styled(Flex)`
 export const Content = styled(Flex)`
   flex-direction: column;
   z-index: 1;
+  width: 100%;
+  max-width: 490px;
 `;
 
 export const StyledSubHeader = styled(SubHeader)`

@@ -6,6 +6,7 @@ import {
   UIState,
   uiStateName,
 } from "./types";
+import { ShortLevel } from "@type/map";
 
 const getState = (store: StoreWithUIState): UIState => store[uiStateName];
 
@@ -28,3 +29,6 @@ export const getIsSfxActive = (s: StoreWithUIState): boolean =>
 
 export const getLocations = (s: StoreWithUIState): Location[] =>
   getState(s).locations;
+
+export const getLevels = (s: StoreWithUIState): Record<number, ShortLevel[]> =>
+  getState(s).levels;

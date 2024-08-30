@@ -35,16 +35,15 @@ const StyledPercent = styled(Text)<{ $bg: string; $shadow: string }>`
 
 export const MapPage = () => {
   const locations = useSelector(uiSelectors.getLocations);
+  const levels = useSelector(uiSelectors.getLevels);
   const { seasonId = 0 } = useParams();
   const navigate = useNavigate();
   const soundSfx = usePlaySFx();
   const map = maps.find((el) => el.id === Number(seasonId));
   if (!map) return;
-  const currentLocation = locations.find(
-    (el) => el.id === Number(seasonId)
-  );
-  console.log(currentLocation)
+  const currentLocation = locations.find((el) => el.id === Number(seasonId));
   if (!currentLocation || !currentLocation.isAvailable) return;
+  const currentLevels = levels[currentLocation.id];
   return (
     <>
       <StyledTitle
@@ -74,12 +73,22 @@ export const MapPage = () => {
             $bg={map.colors.percentBackgroundColor}
             $shadow={map.colors.percentShadowColor || "transparent"}
           >
-            {Math.ceil(((currentLocation.number-1) / 40) * 100)}%
+            {Math.ceil(
+              (currentLevels.filter((el) => el.isCompleted).length /
+                currentLevels.length) *
+                100
+            )}
+            %
           </StyledPercent>
         </Flex>
       </StyledTitle>
       <Flex $top="100px">
-        <Map points={map.levels} currentLevel={currentLocation.number} />
+        <Map
+          points={map.levels.filter((el) =>
+            currentLevels.find((item) => item.number === el.id)
+          )}
+          currentLevel={currentLevels.filter((el) => !el.isCompleted)[0].number}
+        />
       </Flex>
     </>
   );

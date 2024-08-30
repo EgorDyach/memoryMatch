@@ -11,6 +11,7 @@ import { MapPage } from "@modules/mapPage/MapPage";
 import { GameLayout } from "@layouts/gameLayout/GameLayout";
 import { GamePage } from "@modules/gamePage/GamePage";
 import { VersusGamePage } from "@modules/versusGamePage/VersusGamePage";
+import PageNotFound from "@modules/pageNotFound/PageNotFound";
 
 export const routerConfig = createBrowserRouter([
   {
@@ -32,7 +33,9 @@ export const routerConfig = createBrowserRouter([
     element: <MainLayout />,
     errorElement: (
       <MainLayout>
-        <PaddingLayout>Страница не найдена</PaddingLayout>
+        <PaddingLayout>
+          <PageNotFound />
+        </PaddingLayout>
       </MainLayout>
     ),
     children: [
@@ -59,9 +62,9 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/shop",
         element: (
-          <PaddingLayout showHealth overflow>
+          <FixedLayout showHealth>
             <ShopPage />
-          </PaddingLayout>
+          </FixedLayout>
         ),
       },
       {

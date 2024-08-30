@@ -3,6 +3,7 @@ export type User = {
   gold: number;
   gem: number;
   hearts: number;
+  heartRecoveryTimeSeconds: number;
   firstName: string;
   lastName: string;
   username: string;

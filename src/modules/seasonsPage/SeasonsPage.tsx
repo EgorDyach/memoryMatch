@@ -57,42 +57,32 @@ export const SeasonsPage = () => {
 
   return (
     <Flex $top="large" direction="column" gap="26px">
-      {seasons.map((item, index) => (
-        <Card
-          key={index}
-          shadow="full"
-          title={
-            locations.find((el) => el.id === item.id)?.name || `Location ${index+1}`
-          }
-          titleColor={item.colors.titleColor}
-          titleShadowColor={item.colors.titleShadowColor}
-          contentColor={item.colors.contentColor}
-          backgroundColor={item.colors.backgroundColor}
-        >
-          <StyledContent direction="column">
-            <Flex gap="11px">
-              <StyledImage $src={item.image} />
-              <StyledText
-                $color={item.colors.descriptionColor}
-                $shadow={{
-                  color: item.colors.descriptionShadowColor || "tranparent",
-                }}
-              >
-                {item.description}
-              </StyledText>
-            </Flex>
-            <Flex $top="large" align="center">
-              <Text
-                $size="title"
-                $color={item.colors.titleColor}
-                $shadow={{
-                  color: item.colors.titleShadowColor || "transparent",
-                }}
-              >
-                Rewards
-              </Text>
-              <Flex $left="large" align="center">
-                <CoinIcon size={34} />
+      {seasons.map((item, index) => {
+        const location = locations.find((el) => el.id === item.id);
+        if (!location) return;
+        return (
+          <Card
+            key={index}
+            shadow="full"
+            title={location.name || `Location ${index + 1}`}
+            titleColor={item.colors.titleColor}
+            titleShadowColor={item.colors.titleShadowColor}
+            contentColor={item.colors.contentColor}
+            backgroundColor={item.colors.backgroundColor}
+          >
+            <StyledContent direction="column">
+              <Flex gap="11px">
+                <StyledImage $src={item.image} />
+                <StyledText
+                  $color={item.colors.descriptionColor}
+                  $shadow={{
+                    color: item.colors.descriptionShadowColor || "tranparent",
+                  }}
+                >
+                  {item.description}
+                </StyledText>
+              </Flex>
+              <Flex $top="large" align="center">
                 <Text
                   $size="title"
                   $color={item.colors.titleColor}
@@ -100,102 +90,105 @@ export const SeasonsPage = () => {
                     color: item.colors.titleShadowColor || "transparent",
                   }}
                 >
-                  {item.rewards.coins}
+                  Rewards
                 </Text>
+                <Flex $left="large" align="center">
+                  <CoinIcon size={34} />
+                  <Text
+                    $size="title"
+                    $color={item.colors.titleColor}
+                    $shadow={{
+                      color: item.colors.titleShadowColor || "transparent",
+                    }}
+                  >
+                    {item.rewards.coins}
+                  </Text>
+                </Flex>
+                <Flex $left="small" align="center">
+                  <DiamondIcon size={34} />
+                  <Text
+                    $size="title"
+                    $color={item.colors.titleColor}
+                    $shadow={{
+                      color: item.colors.titleShadowColor || "transparent",
+                    }}
+                  >
+                    {item.rewards.diamonds}
+                  </Text>
+                </Flex>
               </Flex>
-              <Flex $left="small" align="center">
-                <DiamondIcon size={34} />
+              <StyledProgressValues $top="xlarge">
                 <Text
-                  $size="title"
-                  $color={item.colors.titleColor}
                   $shadow={{
-                    color: item.colors.titleShadowColor || "transparent",
+                    color: item.colors.progressBarColor2,
+                    shadowSize: 2,
+                    strokeWidth: 0.84,
                   }}
                 >
-                  {item.rewards.diamonds}
+                  0
                 </Text>
-              </Flex>
-            </Flex>
-            <StyledProgressValues $top="xlarge">
-              <Text
-                $shadow={{
-                  color: item.colors.progressBarColor2,
-                  shadowSize: 2,
-                  strokeWidth: 0.84,
+                {location.isAvailable && (
+                  <StyledCurrent
+                    $left={((location.number || 0) / TOTAL_LEVELS) * 100}
+                    type="yellow"
+                    padding="10px 16px"
+                  >
+                    {location.number || 0}
+                  </StyledCurrent>
+                )}
+                <Text
+                  $shadow={{
+                    color: item.colors.progressBarColor2,
+                    shadowSize: 2,
+                    strokeWidth: 0.84,
+                  }}
+                >
+                  {TOTAL_LEVELS}
+                </Text>
+              </StyledProgressValues>
+              <ProgressBar
+                $top="10px"
+                active={location.number || 0}
+                total={TOTAL_LEVELS}
+                color1={item.colors.progressBarColor1}
+                color2={item.colors.progressBarColor2}
+                bgColor={item.colors.progressBarBgColor}
+                speed={1.5}
+              />
+              <Button
+                padding="12px"
+                type={item.colors.ButtonType}
+                shadow="min"
+                $top="medium"
+                disabled={!location.isAvailable}
+                onClick={() => {
+                  soundSfx();
+                  navigate(AppRoutes.mapWithId(item.id));
                 }}
               >
-                0
-              </Text>
-              {locations.find((el) => el.id === item.id)?.isAvailable && (
-                <StyledCurrent
-                  $left={
-                    ((locations.find((el) => el.id === item.id)?.number ||
-                      0) /
-                      TOTAL_LEVELS) *
-                    100
-                  }
-                  type="yellow"
-                  padding="10px 16px"
-                >
-                  {locations.find((el) => el.id === item.id)?.number || 0}
-                </StyledCurrent>
+                <Text $size="subtitle">Continue</Text>
+              </Button>
+              {!location.isAvailable && (
+                <StyledBlur direction="column">
+                  <LockIcon size={48} color={item.colors.titleShadowColor} />
+                  <Text
+                    $size={"subtitle"}
+                    $top="small"
+                    $shadow={{
+                      color: item.colors.titleShadowColor || "transparent",
+                    }}
+                  >
+                    To gain access to this level,
+                    <br />
+                    you need to complete the
+                    <br /> previous levels by 100%
+                  </Text>
+                </StyledBlur>
               )}
-              <Text
-                $shadow={{
-                  color: item.colors.progressBarColor2,
-                  shadowSize: 2,
-                  strokeWidth: 0.84,
-                }}
-              >
-                {TOTAL_LEVELS}
-              </Text>
-            </StyledProgressValues>
-            <ProgressBar
-              $top="10px"
-              active={
-                locations.find((el) => el.id === item.id)?.number || 0
-              }
-              total={TOTAL_LEVELS}
-              color1={item.colors.progressBarColor1}
-              color2={item.colors.progressBarColor2}
-              bgColor={item.colors.progressBarBgColor}
-              speed={1.5}
-            />
-            <Button
-              padding="12px"
-              type={item.colors.ButtonType}
-              shadow="min"
-              $top="medium"
-              disabled={
-                !locations.find((el) => el.id === item.id)?.isAvailable
-              }
-              onClick={() => {
-                soundSfx();
-                navigate(AppRoutes.mapWithId(item.id));
-              }}
-            >
-              <Text $size="subtitle">Continue</Text>
-            </Button>
-            {!locations.find((el) => el.id === item.id)?.isAvailable && (
-              <StyledBlur direction="column">
-                <LockIcon size={48} color={item.colors.titleShadowColor} />
-                <Text
-                  $size={"subtitle"}
-                  $top="small"
-                  $shadow={{
-                    color: item.colors.titleShadowColor || "transparent",
-                  }}
-                >
-                  To gain access to this level,
-                  <br />
-                  you need to complete the
-                  <br /> previous levels by 100%
-                </Text>
-              </StyledBlur>
-            )}
-          </StyledContent>
-        </Card>
-      ))}
+            </StyledContent>
+          </Card>
+        );
+      })}
     </Flex>
   );
 };

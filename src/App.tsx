@@ -9,6 +9,7 @@ import { store } from "./store";
 import { LoaderLayout } from "@layouts/loaderLayout/LoaderLayout";
 import { useEffect, useState } from "react";
 import { language } from "@constants/language";
+import { TimerProvider } from "./contexts/TimerContext";
 
 declare global {
   interface Window {
@@ -104,12 +105,14 @@ function App() {
   }, [langJson]);
   return (
     <Provider store={store}>
-      <LoaderLayout>
-        <SnackbarProvider />
-        <GlobalStyles />
-        <Modal />
-        <RouterProvider router={routerConfig}></RouterProvider>
-      </LoaderLayout>
+      <TimerProvider>
+        <LoaderLayout>
+          <SnackbarProvider />
+          <GlobalStyles />
+          <Modal />
+          <RouterProvider router={routerConfig}></RouterProvider>
+        </LoaderLayout>
+      </TimerProvider>
     </Provider>
   );
 }

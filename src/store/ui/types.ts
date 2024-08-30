@@ -1,3 +1,4 @@
+import { ShortLevel } from "@type/map";
 import { Location, User } from "@type/user";
 
 export const uiStateName = "ui";
@@ -21,6 +22,7 @@ export type UIState = {
   isAudioPlaying: boolean;
   isSfxActive: boolean;
   locations: Location[];
+  levels: Record<number, ShortLevel[]>;
 };
 
 export type StoreWithUIState = {

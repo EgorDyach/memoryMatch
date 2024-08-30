@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Loader } from "./Loader";
 import { uiActions, uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
@@ -8,16 +8,26 @@ import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
 import { requestShopData$ } from "@lib/api/shop";
 import { requestUser$ } from "@lib/api/user";
 import { enqueueSnackbar } from "notistack";
-import { requestStartGame$ } from "@lib/api/game";
+import { Location } from "@type/user";
+import { levelGameSelectors } from "@store/levelGame";
+import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
   const soundSfx = usePlaySFx();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isLoaderOpen = useSelector(uiSelectors.getIsLoaderOpen);
   const isAudioPlaying = useSelector(uiSelectors.getIsAudioPlaying);
-  const audio = useMemo(() => new Audio(), []);
+  const seasonId = useSelector(levelGameSelectors.getSeasonId);
+  const audio = useMemo(() => new Audio("/music.mp3"), []);
+  const audio1 = useMemo(() => new Audio(`/music/cave.mp3`), []);
+  const audio2 = useMemo(() => new Audio(`/music/aztec.mp3`), []);
+  const audio3 = useMemo(() => new Audio(`/music/knight.mp3`), []);
+  const audio4 = useMemo(() => new Audio(`/music/steam.mp3`), []);
+  const audio5 = useMemo(() => new Audio(`/music/today.mp3`), []);
+  const audio6 = useMemo(() => new Audio(`/music/cyber.mp3`), []);
+  const audio7 = useMemo(() => new Audio(`/music/end.mp3`), []);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     setTimeout(() => {
       document.body.style.overflow = "hidden";
@@ -38,6 +48,7 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
           });
         await requestUser$()
           .then((res) => {
+            dispatch(fetchHeartRecoveryTimeSeconds(res));
             dispatch(uiActions.setUser(res));
             dispatch(uiActions.setRequestFinished("user"));
           })
@@ -51,30 +62,29 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
           .catch((e) => {
             setError(e);
           });
-        await requestLocations$()
+        const locations = await requestLocations$()
           .then((res) => {
             dispatch(uiActions.setLocations(res));
             dispatch(uiActions.setRequestFinished("locations"));
+            return res;
           })
-          .catch((e) => {
+          .catch((e): Location[] => {
             setError(e);
+            return [];
           });
-        await requestLocationLevels$(1)
-          .then((res) => {
-            console.log(res);
-            dispatch(uiActions.setRequestFinished("locationLevels"));
-          })
-          .catch((e) => {
-            setError(e);
-          });
-        await requestStartGame$(1, 1)
-          .then((res) => {
-            console.log(res);
-            dispatch(uiActions.setRequestFinished("locationLevels"));
-          })
-          .catch((e) => {
-            setError(e);
-          });
+        for (const location of locations) {
+          if (location.isAvailable)
+            await requestLocationLevels$(location.id)
+              .then((res) => {
+                dispatch(
+                  uiActions.setLevels({ locationId: location.id, levels: res })
+                );
+              })
+              .catch((e) => {
+                setError(e);
+              });
+        }
+        dispatch(uiActions.setRequestFinished("locationLevels"));
       })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,8 +98,14 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     audio.volume = 0.05;
-    audio.src = "/music.mp3";
-  }, [audio]);
+    audio1.volume = 0.05;
+    audio2.volume = 0.05;
+    audio3.volume = 0.05;
+    audio4.volume = 0.05;
+    audio5.volume = 0.05;
+    audio6.volume = 0.05;
+    audio7.volume = 0.05;
+  }, [audio, audio1, audio2, audio3, audio4, audio5, audio6, audio7]);
   const handleClick = () => {
     audio.play();
     soundSfx();
@@ -101,9 +117,59 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     dispatch(uiActions.setIsAudioPlaying(true));
   };
   useEffect(() => {
-    if (isAudioPlaying) audio.play();
-    else audio.pause();
-  }, [audio, isAudioPlaying]);
+    audio.pause();
+    audio1.pause();
+    audio2.pause();
+    audio3.pause();
+    audio4.pause();
+    audio5.pause();
+    audio6.pause();
+    audio7.pause();
+    if (!isAudioPlaying) {
+      return;
+    }
+    if (seasonId) {
+      switch (seasonId) {
+        case 1:
+          audio1.play();
+          break;
+        case 2:
+          audio2.play();
+          break;
+        case 3:
+          audio3.play();
+          break;
+        case 4:
+          audio4.play();
+          break;
+        case 5:
+          audio5.play();
+          break;
+        case 6:
+          audio6.play();
+          break;
+        case 7:
+          audio7.play();
+          break;
+        default:
+          audio.play();
+          break;
+      }
+    } else {
+      audio.play();
+    }
+  }, [
+    audio,
+    audio1,
+    audio2,
+    audio3,
+    audio4,
+    audio5,
+    audio6,
+    audio7,
+    isAudioPlaying,
+    seasonId,
+  ]);
   return (
     <>
       <Loader handleClick={handleClick} isOpen={isLoaderOpen} />

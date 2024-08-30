@@ -1,6 +1,6 @@
-import { fakeRequestUser } from "./fakeApi/user";
+import { request } from ".";
 import { User } from "@type/user";
 
 export const requestUser$ = async (): Promise<User> => {
-  return await fakeRequestUser();
+  return await request.get("/profile");
 };

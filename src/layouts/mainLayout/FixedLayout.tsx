@@ -1,13 +1,9 @@
 import Flex from "@components/Flex";
-import ActiveHeartIcon from "@components/icons/ActiveHeartIcon";
+import { Hearts } from "@components/Hearts";
 import CoinIcon from "@components/icons/CoinIcon";
 import DiamondIcon from "@components/icons/DiamondIcon";
-import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
-import PlusIcon from "@components/icons/PlusIcon";
 import { IndicatorItem } from "@components/IndicatorItem";
-import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
-import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
 import { uiSelectors } from "@store/ui";
 import { FC, PropsWithChildren } from "react";
 import { useSelector } from "react-redux";
@@ -26,10 +22,11 @@ const FixedFlex = styled(Flex)`
   width: calc(100% - 48px);
   top: 20px;
   z-index: 2;
+  max-width: 440px;
 `;
 
 const TopBlur = styled.div`
-  height: 140px;
+  height: 160px;
   z-index: 1;
   background: linear-gradient(
     180deg,
@@ -41,6 +38,14 @@ const TopBlur = styled.div`
   left: 0;
   right: 0;
   top: 0;
+`;
+
+const Content = styled(Flex)`
+  max-width: 490px;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
 `;
 
 interface FixedLayoutProps extends PropsWithChildren {
@@ -55,7 +60,7 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
 }) => {
   const user = useSelector(uiSelectors.getUser);
   return (
-    <>
+    <Content>
       <TopBlur />
       <Wrapper $padding={padding} direction="column">
         {user && (
@@ -70,25 +75,11 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
               value={formatNumber(user.gem)}
               icon={<DiamondIcon size={43} />}
             />
+            {showHealth && <Hearts />}
           </FixedFlex>
-        )}
-        {showHealth && user && (
-          <HealthWrapper>
-            <ActionButton
-              icon={<PlusIcon size={20} color="#fff" />}
-              onClick={() => console.log(123)}
-            />
-            <Flex gap="5px">
-              {[...Array(7)].map((_, i) => {
-                if (i + 1 < user.hearts) return <ActiveHeartIcon size={21} />;
-                else return <NotActiveHeartIcon size={21} />;
-              })}
-            </Flex>
-            <Text $size="subtitle">11:11</Text>
-          </HealthWrapper>
         )}
         {children}
       </Wrapper>
-    </>
+    </Content>
   );
 };
