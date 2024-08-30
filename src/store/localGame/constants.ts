@@ -5,5 +5,5 @@ export const localGameInitialState: LocalGameState = {
   cardsP2: [],
   pairsP1: 0,
   pairsP2: 0,
-  size: 2,
+  size: 4,
 };

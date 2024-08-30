@@ -50,6 +50,9 @@ const StyledIconButton = styled.button<{
     box-shadow: 0px 1.97px 0px 0px #FFFFFF40 inset, 0px -1.97px 0px 0px #00000040 inset, 0px 0.98px 3.44px 0px #00000040, 0px 2.35px 0px 0px #0000001A;
 
 `}
+  &:disabled {
+    background-color: grey;
+  }
 `;
 
 const RawButton: FC<IconButtonProps> = ({

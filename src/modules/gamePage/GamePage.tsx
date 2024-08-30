@@ -35,6 +35,14 @@ import {
   fetchUnpauseGame,
 } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import {
+  fetchBoostExtraTime,
+  fetchBoostOpenPair,
+  fetchBoostViewCards,
+} from "@store/levelGame/thunks";
+import CardsIcon from "@components/icons/CardsIcon";
+import LoopIcon from "@components/icons/LoopIcon";
+import RocketIcon from "@components/icons/RocketIcon";
 const FlexFullWidth = styled(Flex)`
   width: 100%;
 `;
@@ -78,12 +86,14 @@ const StyledTitle = styled(Title)<{
 `;
 
 const BoostsContainer = styled(Flex)`
-  bottom: 20px;
+  bottom: 0px;
   position: fixed;
+  padding: 0px 11px 20px;
   left: 0;
   right: 0;
+  z-index: 3;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
 `;
-
 export const GamePage = () => {
   const [openModal, closeModal] = useModal();
   const navigate = useNavigate();
@@ -191,7 +201,17 @@ export const GamePage = () => {
       closeModal();
       return;
     }
-  }, [closeModal, gameId, isSfxActive, onCancel, onExit, onRestart, openModal, pairs, status]);
+  }, [
+    closeModal,
+    gameId,
+    isSfxActive,
+    onCancel,
+    onExit,
+    onRestart,
+    openModal,
+    pairs,
+    status,
+  ]);
 
   if (isLoading) return <Loader isOpen={true} />;
 
@@ -252,8 +272,10 @@ export const GamePage = () => {
                 })}
               </Flex>
             )}
-                <Text $size="subtitle">{formatTime(user.heartRecoveryTimeSeconds)}</Text>
-              </HealthWrapper>
+            <Text $size="subtitle">
+              {formatTime(user.heartRecoveryTimeSeconds)}
+            </Text>
+          </HealthWrapper>
         </>
       )}
       <StyledTitle $activeGameType={seasonId} $top="medium" type="default">
@@ -311,26 +333,54 @@ export const GamePage = () => {
           dispatch(fetchFlipCard(gameId, item.id));
         }}
       />
-      <BoostsContainer>
-        <Flex>
-          {/* <IconButton
+      <BoostsContainer justify="space-between">
+        <Flex align="center" gap="14px">
+          <IconButton
+            disabled={!!user?.boosts[0]?.count || true}
+            type="yellow"
+            icon={<CardsIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[0];
               if (!boost) return;
-
               if (boost.count) {
-                const res = await requestUseBoost$(gameId, boost.type, 0);
-                setFields(
-                  res.cards.map((row) =>
-                    row.map((item) => ({
-                      ...item,
-                      random: Math.random() * 100,
-                    }))
-                  )
-                );
+                const gameId = 43;
+                dispatch(fetchBoostViewCards(gameId));
               }
             }}
-          /> */}
+          />
+          <Text $size="title">{user?.boosts[0]?.count || 0}</Text>
+        </Flex>
+        <Flex align="center" gap="14px">
+          <IconButton
+            disabled={!!user?.boosts[1]?.count || true}
+            type="yellow"
+            icon={<LoopIcon size={23} />}
+            onClick={async () => {
+              const boost = user?.boosts[1];
+              if (!boost) return;
+              if (boost.count) {
+                const gameId = 43;
+                dispatch(fetchBoostOpenPair(gameId));
+              }
+            }}
+          />
+          <Text $size="title">{user?.boosts[1]?.count || 0}</Text>
+        </Flex>
+        <Flex align="center" gap="14px">
+          <IconButton
+            disabled={!!user?.boosts[2]?.count || true}
+            type="yellow"
+            icon={<RocketIcon size={23} />}
+            onClick={async () => {
+              const boost = user?.boosts[2];
+              if (!boost) return;
+              if (boost.count) {
+                const gameId = 43;
+                dispatch(fetchBoostExtraTime(gameId));
+              }
+            }}
+          />
+          <Text $size="title">{user?.boosts[2]?.count || 0}</Text>
         </Flex>
       </BoostsContainer>
     </>

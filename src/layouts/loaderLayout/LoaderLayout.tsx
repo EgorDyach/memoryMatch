@@ -40,12 +40,10 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
         dispatch(uiActions.setRequestStarted("shop"));
         dispatch(uiActions.setRequestStarted("user"));
         await requestLogin$()
-          .then((res) => {
-            alert(`success with ${res}`);
+          .then(() => {
             dispatch(uiActions.setRequestFinished("login"));
           })
           .catch((e) => {
-            alert(`no success with ${error}`);
             setError(e);
           });
         await requestUser$()
@@ -97,17 +95,6 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
         variant: "error",
       });
   }, [error]);
-
-  useEffect(() => {
-    audio.volume = 0.05;
-    audio1.volume = 0.05;
-    audio2.volume = 0.05;
-    audio3.volume = 0.05;
-    audio4.volume = 0.05;
-    audio5.volume = 0.05;
-    audio6.volume = 0.05;
-    audio7.volume = 0.05;
-  }, [audio, audio1, audio2, audio3, audio4, audio5, audio6, audio7]);
   const handleClick = () => {
     audio.play();
     soundSfx();
@@ -118,60 +105,80 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     }
     dispatch(uiActions.setIsAudioPlaying(true));
   };
+
   useEffect(() => {
-    audio.pause();
-    audio1.pause();
-    audio2.pause();
-    audio3.pause();
-    audio4.pause();
-    audio5.pause();
-    audio6.pause();
-    audio7.pause();
-    if (!isAudioPlaying) {
-      return;
-    }
-    if (seasonId) {
-      switch (seasonId) {
-        case 1:
-          audio1.play();
-          break;
-        case 2:
-          audio2.play();
-          break;
-        case 3:
-          audio3.play();
-          break;
-        case 4:
-          audio4.play();
-          break;
-        case 5:
-          audio5.play();
-          break;
-        case 6:
-          audio6.play();
-          break;
-        case 7:
-          audio7.play();
-          break;
-        default:
-          audio.play();
-          break;
+    audio.volume = 0.05;
+    audio1.volume = 0.05;
+    audio2.volume = 0.05;
+    audio3.volume = 0.05;
+    audio4.volume = 0.05;
+    audio5.volume = 0.05;
+    audio6.volume = 0.05;
+    audio7.volume = 0.05;
+
+    // Добавляем обработчики события ended
+    const handleEnded = () => {
+      if (seasonId) {
+        switch (seasonId) {
+          case 1:
+            audio1.currentTime = 0; // Сбрасываем время
+            audio1.play();
+            break;
+          case 2:
+            audio2.currentTime = 0; // Сбрасываем время
+            audio2.play();
+            break;
+          case 3:
+            audio3.currentTime = 0; // Сбрасываем время
+            audio3.play();
+            break;
+          case 4:
+            audio4.currentTime = 0; // Сбрасываем время
+            audio4.play();
+            break;
+          case 5:
+            audio5.currentTime = 0; // Сбрасываем время
+            audio5.play();
+            break;
+          case 6:
+            audio6.currentTime = 0; // Сбрасываем время
+            audio6.play();
+            break;
+          case 7:
+            audio7.currentTime = 0; // Сбрасываем время
+            audio7.play();
+            break;
+          default:
+            audio.currentTime = 0; // Сбрасываем время
+            audio.play();
+            break;
+        }
+      } else {
+        audio.play();
       }
-    } else {
-      audio.play();
-    }
-  }, [
-    audio,
-    audio1,
-    audio2,
-    audio3,
-    audio4,
-    audio5,
-    audio6,
-    audio7,
-    isAudioPlaying,
-    seasonId,
-  ]);
+    };
+
+    audio.addEventListener("ended", () => handleEnded());
+    audio1.addEventListener("ended", () => handleEnded());
+    audio2.addEventListener("ended", () => handleEnded());
+    audio3.addEventListener("ended", () => handleEnded());
+    audio4.addEventListener("ended", () => handleEnded());
+    audio5.addEventListener("ended", () => handleEnded());
+    audio6.addEventListener("ended", () => handleEnded());
+    audio7.addEventListener("ended", () => handleEnded());
+
+    // Удаляем обработчики при размонтировании компонента
+    return () => {
+      audio.removeEventListener("ended", () => handleEnded());
+      audio1.removeEventListener("ended", () => handleEnded());
+      audio2.removeEventListener("ended", () => handleEnded());
+      audio3.removeEventListener("ended", () => handleEnded());
+      audio4.removeEventListener("ended", () => handleEnded());
+      audio5.removeEventListener("ended", () => handleEnded());
+      audio6.removeEventListener("ended", () => handleEnded());
+      audio7.removeEventListener("ended", () => handleEnded());
+    };
+  }, [audio, audio1, audio2, audio3, audio4, audio5, audio6, audio7, seasonId]);
   return (
     <>
       <Loader handleClick={handleClick} isOpen={isLoaderOpen} />

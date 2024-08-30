@@ -1,7 +1,6 @@
 import { useShuffle } from "@hooks/useShuffle";
 import { localGameActions, localGameSelectors } from "@store/localGame";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import Flex from "@components/Flex";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -23,6 +22,7 @@ import { usePlaySFx } from "@hooks/usePlaySFx";
 import { LocalGameCard } from "@store/localGame/types";
 import { generateTwoRandomItems } from "./helpers";
 import { Text } from "@components/Typography";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 const FlexFullWidth = styled(Flex)`
   width: 100%;
@@ -62,7 +62,7 @@ export const VersusGamePage = () => {
   const [openModal, closeModal] = useModal();
   const navigate = useNavigate();
   const shuffle = useShuffle();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const soundSfx = usePlaySFx();
   const pairsP1 = useSelector(localGameSelectors.getPairsP1);
   const pairsP2 = useSelector(localGameSelectors.getPairsP2);

@@ -34,10 +34,18 @@ export const requestFlipCard$ = async (
   return await request.post("/game/flip-card", { gameId, cardId });
 };
 
-export const requestUseBoost$ = async (
-  gameId: number | string,
-  boostType: number | string,
-  cardId: number | string
+export const requestBoostViewCards$ = async (
+  gameId: number | string
 ): GameResponse => {
-  return await request.post("/game/use-boost", { gameId, boostType, cardId });
+  return await request.post("/game/use-boost/view-cards", { gameId });
+};
+export const requestBoostOpenPair$ = async (
+  gameId: number | string
+): GameResponse => {
+  return await request.post("/game/use-boost/open-pair", { gameId });
+};
+export const requestBoostExtraTime$ = async (
+  gameId: number | string
+): GameResponse => {
+  return await request.post("/game/use-boost/extra-time", { gameId });
 };

@@ -2,6 +2,9 @@ import { uiActions } from "@store/ui";
 import { AppDispatch } from "..";
 import {
   requestAbortGame$,
+  requestBoostExtraTime$,
+  requestBoostOpenPair$,
+  requestBoostViewCards$,
   requestFlipCard$,
   requestPauseGame$,
   requestRestartGame$,
@@ -81,8 +84,7 @@ export const fetchFlipCard =
     } catch {
       showErrorNotification("Ошибка при попытке переворота карточки!");
     } finally {
-            dispatch(levelGameActions.setIsLoading(false));
-
+      dispatch(levelGameActions.setIsLoading(false));
     }
   };
 
@@ -106,8 +108,7 @@ export const fetchPauseGame =
     } catch {
       showErrorNotification("Ошибка при попытке поставить игру на паузу!");
     } finally {
-            dispatch(levelGameActions.setIsLoading(false));
-
+      dispatch(levelGameActions.setIsLoading(false));
     }
   };
 
@@ -143,8 +144,7 @@ export const fetchUnpauseGame =
     } catch {
       showErrorNotification("Ошибка при попытке снять игру с паузы!");
     } finally {
-            dispatch(levelGameActions.setIsLoading(false));
-
+      dispatch(levelGameActions.setIsLoading(false));
     }
   };
 
@@ -180,8 +180,7 @@ export const fetchRestartGame =
     } catch {
       showErrorNotification("Ошибка при попытке перезапуска игры!");
     } finally {
-            dispatch(levelGameActions.setIsLoading(false));
-
+      dispatch(levelGameActions.setIsLoading(false));
     }
   };
 export const fetchAbortGame =
@@ -205,7 +204,111 @@ export const fetchAbortGame =
     } catch {
       showErrorNotification("Ошибка при попытке отмены игры!");
     } finally {
-            dispatch(levelGameActions.setIsLoading(false));
-
+      dispatch(levelGameActions.setIsLoading(false));
+    }
+  };
+export const fetchBoostViewCards =
+  (gameId: number | string) => async (dispatch: AppDispatch) => {
+    const timeout = setTimeout(() => {
+      dispatch(levelGameActions.setIsLoading(true));
+    }, 700);
+    try {
+      const {
+        state,
+        cards,
+        id,
+        gameLevelId,
+        endTimestamp,
+        movesUsed,
+        maxMoves,
+      } = await requestBoostViewCards$(gameId);
+      clearTimeout(timeout);
+      dispatch(levelGameActions.setIsLoading(false));
+      dispatch(levelGameActions.setCards(cards));
+      dispatch(levelGameActions.setId(id));
+      dispatch(levelGameActions.setStatus(state));
+      dispatch(levelGameActions.setGameLevelId(gameLevelId));
+      dispatch(levelGameActions.setPairs(cards.length ** 2 / 2));
+      dispatch(
+        levelGameActions.setInitialTimer(
+          Math.floor(getTimeBetween(new Date(), endTimestamp, true))
+        )
+      );
+      dispatch(levelGameActions.setMaxMoves(maxMoves));
+      dispatch(levelGameActions.setMovesUsed(movesUsed));
+    } catch {
+      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } finally {
+      dispatch(levelGameActions.setIsLoading(false));
+    }
+  };
+export const fetchBoostOpenPair =
+  (gameId: number | string) => async (dispatch: AppDispatch) => {
+    const timeout = setTimeout(() => {
+      dispatch(levelGameActions.setIsLoading(true));
+    }, 700);
+    try {
+      const {
+        state,
+        cards,
+        id,
+        gameLevelId,
+        endTimestamp,
+        movesUsed,
+        maxMoves,
+      } = await requestBoostOpenPair$(gameId);
+      clearTimeout(timeout);
+      dispatch(levelGameActions.setIsLoading(false));
+      dispatch(levelGameActions.setCards(cards));
+      dispatch(levelGameActions.setId(id));
+      dispatch(levelGameActions.setStatus(state));
+      dispatch(levelGameActions.setGameLevelId(gameLevelId));
+      dispatch(levelGameActions.setPairs(cards.length ** 2 / 2));
+      dispatch(
+        levelGameActions.setInitialTimer(
+          Math.floor(getTimeBetween(new Date(), endTimestamp, true))
+        )
+      );
+      dispatch(levelGameActions.setMaxMoves(maxMoves));
+      dispatch(levelGameActions.setMovesUsed(movesUsed));
+    } catch {
+      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } finally {
+      dispatch(levelGameActions.setIsLoading(false));
+    }
+  };
+export const fetchBoostExtraTime =
+  (gameId: number | string) => async (dispatch: AppDispatch) => {
+    const timeout = setTimeout(() => {
+      dispatch(levelGameActions.setIsLoading(true));
+    }, 700);
+    try {
+      const {
+        state,
+        cards,
+        id,
+        gameLevelId,
+        endTimestamp,
+        movesUsed,
+        maxMoves,
+      } = await requestBoostExtraTime$(gameId);
+      clearTimeout(timeout);
+      dispatch(levelGameActions.setIsLoading(false));
+      dispatch(levelGameActions.setCards(cards));
+      dispatch(levelGameActions.setId(id));
+      dispatch(levelGameActions.setStatus(state));
+      dispatch(levelGameActions.setGameLevelId(gameLevelId));
+      dispatch(levelGameActions.setPairs(cards.length ** 2 / 2));
+      dispatch(
+        levelGameActions.setInitialTimer(
+          Math.floor(getTimeBetween(new Date(), endTimestamp, true))
+        )
+      );
+      dispatch(levelGameActions.setMaxMoves(maxMoves));
+      dispatch(levelGameActions.setMovesUsed(movesUsed));
+    } catch {
+      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } finally {
+      dispatch(levelGameActions.setIsLoading(false));
     }
   };
