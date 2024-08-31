@@ -17,6 +17,49 @@ import { showErrorNotification } from "@lib/utils/notification";
 
 import { Card } from "@type/game";
 import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
+import { requestUser$ } from "@lib/api/user";
+import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
+import { Location } from "@type/user";
+
+const reRequestData = async (dispatch: AppDispatch) => {
+  dispatch(uiActions.setRequestStarted("locations"));
+  dispatch(uiActions.setRequestStarted("locationLevels"));
+  dispatch(uiActions.setRequestStarted("user"));
+  await requestUser$()
+    .then((res) => {
+      dispatch(fetchHeartRecoveryTimeSeconds(res));
+      dispatch(uiActions.setUser(res));
+      dispatch(uiActions.setRequestFinished("user"));
+    })
+    .catch((e) => {
+      showErrorNotification(e);
+    });
+  const locations = await requestLocations$()
+    .then((res) => {
+      dispatch(uiActions.setLocations(res));
+      dispatch(uiActions.setRequestFinished("locations"));
+      return res;
+    })
+    .catch((e): Location[] => {
+      showErrorNotification(e);
+      return [];
+    });
+  for (const location of locations) {
+    await requestLocationLevels$(location.id)
+      .then((res) => {
+        dispatch(
+          uiActions.setLevels({
+            locationId: location.id,
+            levels: res,
+          })
+        );
+      })
+      .catch((e) => {
+        showErrorNotification(e);
+      });
+  }
+  dispatch(uiActions.setRequestFinished("locationLevels"));
+};
 
 export const fetchStartGame =
   (levelId: number | string, locationId: number | string, backpath: string) =>
@@ -32,6 +75,7 @@ export const fetchStartGame =
         maxMoves,
         state,
       } = await requestStartGame$(levelId, locationId);
+      await reRequestData(dispatch);
       dispatch(levelGameActions.setBackpath(backpath));
       dispatch(levelGameActions.setStatus(state));
       dispatch(levelGameActions.setSeasonId(Number(locationId)));
@@ -166,6 +210,7 @@ export const fetchRestartGame =
         movesUsed,
         maxMoves,
       } = await requestRestartGame$(gameId);
+      await reRequestData(dispatch);
       clearTimeout(timeout);
       dispatch(levelGameActions.setIsLoading(false));
       dispatch(levelGameActions.setCards(cards));
@@ -193,6 +238,7 @@ export const fetchAbortGame =
     }, 700);
     try {
       await requestAbortGame$(gameId);
+      await reRequestData(dispatch);
       clearTimeout(timeout);
       dispatch(levelGameActions.setIsLoading(false));
       dispatch(levelGameActions.setSeasonId(null));
@@ -335,7 +381,7 @@ export const fetchStartNextLevel = () => async (dispatch: AppDispatch) => {
     dispatch(uiActions.setLevels({ levels, locationId: currentLocation.id }));
     const currentLevel = levels.filter((el) => !el.isCompleted)[0];
     if (!currentLevel) throw new Error("Не удалось найти уровень!");
-    dispatch(fetchStartGame(currentLevel.id, currentLocation.id, "/"));
+    dispatch(fetchStartGame(currentLevel.number, currentLocation.number, "/"));
     clearTimeout(timeout);
   } catch {
     showErrorNotification("Ошибка при запуске следующей игры!");

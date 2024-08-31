@@ -9,9 +9,6 @@ import DiamondIcon from "@components/icons/DiamondIcon";
 import CoinIcon from "@components/icons/CoinIcon";
 import IconButton from "@components/button/IconButton";
 import PauseIcon from "@components/icons/PauseIcon";
-import ActiveHeartIcon from "@components/icons/ActiveHeartIcon";
-import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
-import { HealthWrapper } from "@modules/rootPage/rootStyles";
 import { Text } from "@components/Typography";
 import { Title } from "@components/Title";
 import { useSelector } from "react-redux";
@@ -44,6 +41,7 @@ import {
 import CardsIcon from "@components/icons/CardsIcon";
 import LoopIcon from "@components/icons/LoopIcon";
 import RocketIcon from "@components/icons/RocketIcon";
+import { Hearts } from "@components/Hearts";
 const FlexFullWidth = styled(Flex)`
   width: 100%;
 `;
@@ -59,11 +57,6 @@ const StyledButton = styled(IconButton)<{
 
 const StyledIndicator = styled(IndicatorItem)`
   padding: 7px 14px;
-`;
-
-const StyledHeart = styled(Flex)`
-  position: absolute;
-  left: 0;
 `;
 
 const StyledTime = styled(Flex)`
@@ -114,6 +107,7 @@ export const GamePage = () => {
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
   const user = useSelector(uiSelectors.getUser);
+  const lang = useSelector(uiSelectors.getLanguage);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -133,28 +127,9 @@ export const GamePage = () => {
     soundSfx();
     if (!gameId) return;
     dispatch(fetchStartNextLevel());
-    // dispatch(
-    //   fetchStartGame(
-    //     levels[
-    //       locations.filter((el) => el.isAvailable).at(-1)?.number || 1
-    //     ].filter((el) => el.isCompleted).length ===
-    //       levels[locations.filter((el) => el.isAvailable).at(-1)?.number || 1]
-    //         .length
-    //       ? 0
-    //       : locations.filter((el) => el.isAvailable).at(-1)?.number,
-    //     levels[
-    //       locations.filter((el) => el.isAvailable).at(-1)?.number || 1
-    //     ].filter((el) => el.isCompleted).length ===
-    //       levels[locations.filter((el) => el.isAvailable).at(-1)?.number || 1]
-    //         .length
-    //       ? locations.filter((el) => el.isAvailable).at(-1)?.number + 1
-    //       : locations.filter((el) => el.isAvailable).at(-1)?.number,
-    //     "/"
-    //   )
-    // );
     closeModal();
     setIsPause(false);
-  }, [closeModal, gameId, soundSfx]);
+  }, [closeModal, dispatch, gameId, soundSfx]);
 
   const onExit = useCallback(() => {
     soundSfx();
@@ -168,16 +143,25 @@ export const GamePage = () => {
     if (!gameId) return;
     dispatch(fetchUnpauseGame(gameId));
     setIsPause(false);
-    closeModal(pauseModal(onExit, onCancel, onRestart));
-  }, [closeModal, dispatch, gameId, onExit, onRestart, soundSfx]);
+    closeModal(pauseModal(onExit, onCancel, onRestart, lang));
+  }, [closeModal, dispatch, gameId, lang, onExit, onRestart, soundSfx]);
 
   const handlePause = useCallback(async () => {
     soundSfx();
     if (!gameId) return;
     dispatch(fetchPauseGame(gameId));
     setIsPause(true);
-    openModal(pauseModal(onExit, onCancel, onRestart));
-  }, [gameId, dispatch, soundSfx, openModal, onExit, onCancel, onRestart]);
+    openModal(pauseModal(onExit, onCancel, onRestart, lang));
+  }, [
+    soundSfx,
+    gameId,
+    dispatch,
+    openModal,
+    onExit,
+    onCancel,
+    onRestart,
+    lang,
+  ]);
 
   useEffect(() => {
     setFields(
@@ -201,7 +185,7 @@ export const GamePage = () => {
     setTime(initialTime);
   }, [initialTime]);
 
-  // LOSE
+  // STATUS
   useEffect(() => {
     if (!gameId || status === null) return;
     if (status === 3) {
@@ -209,7 +193,7 @@ export const GamePage = () => {
       return;
     }
     if (status === 2) {
-      openModal(WinModal(onExit, onNext, 0));
+      openModal(WinModal(onExit, onNext));
       if (isSfxActive) {
         const audio = new Audio();
         audio.src = "/cardWinSfx.mp3";
@@ -220,7 +204,7 @@ export const GamePage = () => {
     }
     if (status === 1) {
       setIsPause(true);
-      openModal(pauseModal(onExit, onCancel, onRestart));
+      openModal(pauseModal(onExit, onCancel, onRestart, lang));
       return;
     }
     if (status === 0) {
@@ -232,6 +216,7 @@ export const GamePage = () => {
     closeModal,
     gameId,
     isSfxActive,
+    lang,
     onCancel,
     onExit,
     onNext,
@@ -288,22 +273,7 @@ export const GamePage = () => {
               />
             </Flex>
           </FlexFullWidth>
-          <HealthWrapper>
-            <StyledHeart>
-              <ActiveHeartIcon size={35} />
-            </StyledHeart>
-            {user && (
-              <Flex gap="5px">
-                {[...Array(7)].map((_, i) => {
-                  if (i < user.hearts) return <ActiveHeartIcon size={21} />;
-                  else return <NotActiveHeartIcon size={21} />;
-                })}
-              </Flex>
-            )}
-            <Text $size="subtitle">
-              {formatTime(user.heartRecoveryTimeSeconds)}
-            </Text>
-          </HealthWrapper>
+          <Hearts />
         </>
       )}
       <StyledTitle $activeGameType={seasonId} $top="medium" type="default">

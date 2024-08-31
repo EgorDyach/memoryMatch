@@ -23,6 +23,7 @@ import { LocalGameCard } from "@store/localGame/types";
 import { generateTwoRandomItems } from "./helpers";
 import { Text } from "@components/Typography";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { language } from "@constants/language";
 
 const FlexFullWidth = styled(Flex)`
   width: 100%;
@@ -68,6 +69,7 @@ export const VersusGamePage = () => {
   const pairsP2 = useSelector(localGameSelectors.getPairsP2);
   const size = useSelector(localGameSelectors.getSize);
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
+  const lang = useSelector(uiSelectors.getLanguage);
   const user = useSelector(uiSelectors.getUser);
   const generateCards = useCallback(
     (
@@ -139,13 +141,13 @@ export const VersusGamePage = () => {
 
   const onCancel = useCallback(() => {
     soundSfx();
-    closeModal(pauseModal(onExit, onCancel, onRestart));
-  }, [closeModal, onExit, onRestart, soundSfx]);
+    closeModal(pauseModal(onExit, onCancel, onRestart, lang));
+  }, [closeModal, lang, onExit, onRestart, soundSfx]);
 
   const handlePause = useCallback(() => {
     soundSfx();
-    openModal(pauseModal(onExit, onCancel, onRestart));
-  }, [soundSfx, openModal, onExit, onCancel, onRestart]);
+    openModal(pauseModal(onExit, onCancel, onRestart, lang));
+  }, [soundSfx, openModal, onExit, onCancel, onRestart, lang]);
 
   useEffect(() => {
     setCardsP1(generateCards(items1));
@@ -297,7 +299,9 @@ export const VersusGamePage = () => {
           direction="column"
           $isActive={activePlayer === "P1"}
         >
-          <Text $size="subtitle">P1 Pairs</Text>
+          <Text $size="subtitle">
+            {language[lang]["versusGame"]["p1Pairs"]}
+          </Text>
           <Text $size="header">{pairsP1}</Text>
         </Player1>
         <Player2
@@ -305,7 +309,9 @@ export const VersusGamePage = () => {
           direction="column"
           $isActive={activePlayer === "P2"}
         >
-          <Text $size="subtitle">P2 Pairs</Text>
+          <Text $size="subtitle">
+            {language[lang]["versusGame"]["p2Pairs"]}
+          </Text>
           <Text $size="header">{pairsP2}</Text>
         </Player2>
       </Flex>

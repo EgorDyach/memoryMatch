@@ -1,14 +1,9 @@
 import Flex from "@components/Flex";
-import ActiveHeartIcon from "@components/icons/ActiveHeartIcon";
+import { Hearts } from "@components/Hearts";
 import CoinIcon from "@components/icons/CoinIcon";
 import DiamondIcon from "@components/icons/DiamondIcon";
-import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
-import PlusIcon from "@components/icons/PlusIcon";
 import { IndicatorItem } from "@components/IndicatorItem";
-import { Text } from "@components/Typography";
 import { formatNumber } from "@lib/utils/formatNumber";
-import { formatTime } from "@lib/utils/formatTime";
-import { HealthWrapper, ActionButton } from "@modules/rootPage/rootStyles";
 import { uiSelectors } from "@store/ui";
 import { FC, PropsWithChildren } from "react";
 import { useSelector } from "react-redux";
@@ -51,23 +46,7 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
           />
         </Flex>
       )}
-      {showHealth && user && (
-        <HealthWrapper $top="22px">
-          <ActionButton
-            icon={<PlusIcon size={20} color="#fff" />}
-            onClick={() => console.log(123)}
-          />
-          <Flex gap="5px">
-            {[...Array(7)].map((_, i) => {
-              if (i < user.hearts) return <ActiveHeartIcon size={21} />;
-              else return <NotActiveHeartIcon size={21} />;
-            })}
-          </Flex>
-          <Text $size="subtitle">
-            {formatTime(user.heartRecoveryTimeSeconds)}
-          </Text>
-        </HealthWrapper>
-      )}
+      {showHealth && user && <Hearts action $top="22px" />}
       {children}
     </Wrapper>
   );

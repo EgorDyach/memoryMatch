@@ -35,13 +35,20 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     if (isLoaderOpen)
       (async () => {
         dispatch(uiActions.setRequestStarted("login"));
+        dispatch(uiActions.setRequestStarted("shop"));
         dispatch(uiActions.setRequestStarted("locations"));
         dispatch(uiActions.setRequestStarted("locationLevels"));
-        dispatch(uiActions.setRequestStarted("shop"));
         dispatch(uiActions.setRequestStarted("user"));
         await requestLogin$()
           .then(() => {
             dispatch(uiActions.setRequestFinished("login"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestShopData$(123)
+          .then(() => {
+            dispatch(uiActions.setRequestFinished("shop"));
           })
           .catch((e) => {
             setError(e);
@@ -51,13 +58,6 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(fetchHeartRecoveryTimeSeconds(res));
             dispatch(uiActions.setUser(res));
             dispatch(uiActions.setRequestFinished("user"));
-          })
-          .catch((e) => {
-            setError(e);
-          });
-        await requestShopData$(123)
-          .then(() => {
-            dispatch(uiActions.setRequestFinished("shop"));
           })
           .catch((e) => {
             setError(e);

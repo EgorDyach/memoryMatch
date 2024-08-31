@@ -43,7 +43,6 @@ const StyledIcon = styled(Flex)`
 interface WinModalProps {
   onExit: VoidFunction;
   onNext: VoidFunction;
-  gameLevelId: number;
 }
 
 export const WinModal: FC<WinModalProps> = ({ onExit, onNext }) => {

@@ -19,6 +19,7 @@ import { shadow } from "@lib/theme/shadow";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
 import { usePlaySFx } from "@hooks/usePlaySFx";
+import { language } from "@constants/language";
 
 const StyledImage = styled.div<{ $src: string }>`
   border-radius: 6.6px;
@@ -55,6 +56,7 @@ export const SeasonsPage = () => {
   const soundSfx = usePlaySFx();
   const locations = useSelector(uiSelectors.getLocations);
   const levels = useSelector(uiSelectors.getLevels);
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <Flex $top="large" direction="column" gap="26px">
       {seasons.map((item, index) => {
@@ -79,7 +81,11 @@ export const SeasonsPage = () => {
                     color: item.colors.descriptionShadowColor || "tranparent",
                   }}
                 >
-                  {item.description}
+                  {
+                    language[lang]["seasons"][
+                      `locationDescr${item.id as 1 | 2 | 3 | 4 | 5 | 6 | 7}`
+                    ]
+                  }
                 </StyledText>
               </Flex>
               <Flex $top="large" align="center">
@@ -90,7 +96,7 @@ export const SeasonsPage = () => {
                     color: item.colors.titleShadowColor || "transparent",
                   }}
                 >
-                  Rewards
+                  {language[lang]["seasons"][`rewards`]}
                 </Text>
                 <Flex $left="large" align="center">
                   <CoinIcon size={34} />
@@ -179,13 +185,15 @@ export const SeasonsPage = () => {
                 {location.isAvailable && (
                   <StyledCurrent
                     $left={
-                      ((location.number || 0) / levels[location.id].length) *
+                      (levels[location.id].filter((el) => el.isCompleted)
+                        .length /
+                        levels[location.id].length) *
                       100
                     }
                     type="yellow"
                     padding="10px 16px"
                   >
-                    {location.number || 0}
+                    {levels[location.id].filter((el) => el.isCompleted).length}
                   </StyledCurrent>
                 )}
                 <Text
@@ -200,7 +208,9 @@ export const SeasonsPage = () => {
               </StyledProgressValues>
               <ProgressBar
                 $top="10px"
-                active={location.number || 0}
+                active={
+                  levels[location.id].filter((el) => el.isCompleted).length
+                }
                 total={levels[location.id].length}
                 color1={item.colors.progressBarColor1}
                 color2={item.colors.progressBarColor2}
@@ -218,7 +228,9 @@ export const SeasonsPage = () => {
                   navigate(AppRoutes.mapWithId(item.id));
                 }}
               >
-                <Text $size="subtitle">Continue</Text>
+                <Text $size="subtitle">
+                  {language[lang]["seasons"]["continue"]}
+                </Text>
               </Button>
               {!location.isAvailable && (
                 <StyledBlur direction="column">
@@ -230,10 +242,7 @@ export const SeasonsPage = () => {
                       color: item.colors.titleShadowColor || "transparent",
                     }}
                   >
-                    To gain access to this level,
-                    <br />
-                    you need to complete the
-                    <br /> previous levels by 100%
+                    {language[lang]["seasons"]["lockText"]}
                   </Text>
                 </StyledBlur>
               )}

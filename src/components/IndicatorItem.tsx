@@ -39,6 +39,9 @@ const NoActionIcon = styled.div`
   left: 0;
 `;
 
+const StyledText = styled(Text)`
+  font-size: 14px;
+`;
 export const IndicatorItem: FC<IndicatorItemProps> = ({
   value,
   action,
@@ -52,13 +55,13 @@ export const IndicatorItem: FC<IndicatorItemProps> = ({
           icon={<PlusIcon size={20} color="#fff" />}
           onClick={action}
         />
-        <Text>{value}</Text>
+        <StyledText>{value}</StyledText>
         <ActionIcon>{icon}</ActionIcon>
       </IndicatorWrapper>
     );
   return (
     <IndicatorWrapper {...props}>
-      <Text $size="subtitle">{value}</Text>
+      <StyledText $size="small">{value}</StyledText>
       <NoActionIcon>{icon}</NoActionIcon>
     </IndicatorWrapper>
   );

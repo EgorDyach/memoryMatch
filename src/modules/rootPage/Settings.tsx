@@ -97,6 +97,7 @@ export const Settings = () => {
           />
         </Flex>
         <LanguageSwiper
+          active={language[lang].name}
           onChange={(el) => {
             const tok: keyof typeof language | undefined = Object.keys(
               language

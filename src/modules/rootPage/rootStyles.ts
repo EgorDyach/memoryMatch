@@ -7,9 +7,9 @@ import { shadows } from "@lib/theme/colors";
 import styled from "styled-components";
 import { shadow, textShadow } from "@lib/theme/shadow";
 
-export const HealthWrapper = styled(Flex)`
+export const HealthWrapper = styled(Flex)<{ $action?: boolean }>`
   margin-top: 18px;
-  padding: 4px 10px 5px 51px;
+  padding: ${(props) => (props.$action ? "4px 10px 5px 51px" : "4px 10px 5px")};
   background-color: rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;

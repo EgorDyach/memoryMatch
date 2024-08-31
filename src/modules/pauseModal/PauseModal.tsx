@@ -5,6 +5,7 @@ import PlayIcon from "@components/icons/PlayIcon";
 import RestartIcon from "@components/icons/RestartIcon";
 import { Toggle } from "@components/Toggle";
 import { Text } from "@components/Typography";
+import { language } from "@constants/language";
 import { uiActions, uiSelectors } from "@store/ui";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +38,7 @@ export const PauseModal: FC<PauseModalProps> = ({
 }) => {
   const isMusicPlaying = useSelector(uiSelectors.getIsAudioPlaying);
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
+  const lang = useSelector(uiSelectors.getLanguage);
 
   const dispatch = useDispatch();
   return (
@@ -45,33 +47,51 @@ export const PauseModal: FC<PauseModalProps> = ({
         <StyledRestartIcon>
           <PlayIcon size={20} />
         </StyledRestartIcon>
-        <Text $size="subtitle">Resume</Text>
+        <Text $size="subtitle">{language[lang]["modals"]["resume"]}</Text>
       </StyledButton>
       <StyledButton onClick={onRestart} $top="large" type="blue" shadow="full">
         <StyledRestartIcon>
           <RestartIcon size={25} />
         </StyledRestartIcon>
-        <Text $size="subtitle">Restart</Text>
+        <Text $size="subtitle">{language[lang]["modals"]["restart"]}</Text>
       </StyledButton>
       <Flex align="center" $top="xlarge" justify="space-between">
-        <Text $color="secondary">Music</Text>
+        <Text $color="secondary">{language[lang]["modals"]["music"]}</Text>
         <Toggle
-          values={["On", "Off"]}
-          activeValue={isMusicPlaying ? "On" : "Off"}
+          values={[
+            language[lang]["modals"]["on"],
+            language[lang]["modals"]["off"],
+          ]}
+          activeValue={
+            isMusicPlaying
+              ? language[lang]["modals"]["on"]
+              : language[lang]["modals"]["off"]
+          }
           onChange={(v) => {
-            if (v === "On") dispatch(uiActions.setIsAudioPlaying(true));
-            if (v === "Off") dispatch(uiActions.setIsAudioPlaying(false));
+            if (v === language[lang]["modals"]["on"])
+              dispatch(uiActions.setIsAudioPlaying(true));
+            if (v === language[lang]["modals"]["off"])
+              dispatch(uiActions.setIsAudioPlaying(false));
           }}
         />
       </Flex>
       <Flex align="center" $top="small" justify="space-between">
-        <Text $color="secondary">SFx</Text>
+        <Text $color="secondary">{language[lang]["modals"]["sfx"]}</Text>
         <Toggle
-          values={["On", "Off"]}
-          activeValue={isSfxActive ? "On" : "Off"}
+          values={[
+            language[lang]["modals"]["on"],
+            language[lang]["modals"]["off"],
+          ]}
+          activeValue={
+            isSfxActive
+              ? language[lang]["modals"]["on"]
+              : language[lang]["modals"]["off"]
+          }
           onChange={(v) => {
-            if (v === "On") dispatch(uiActions.setIsSfxActive(true));
-            if (v === "Off") dispatch(uiActions.setIsSfxActive(false));
+            if (v === language[lang]["modals"]["on"])
+              dispatch(uiActions.setIsSfxActive(true));
+            if (v === language[lang]["modals"]["off"])
+              dispatch(uiActions.setIsSfxActive(false));
           }}
         />
       </Flex>
@@ -79,7 +99,7 @@ export const PauseModal: FC<PauseModalProps> = ({
         <StyledRestartIcon>
           <LogoutIcon size={35} />
         </StyledRestartIcon>
-        <Text $size="subtitle">Exit</Text>
+        <Text $size="subtitle">{language[lang]["modals"]["exit"]}</Text>
       </StyledButton>
     </StyledFlex>
   );

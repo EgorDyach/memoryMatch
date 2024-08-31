@@ -10,6 +10,7 @@ import { content } from "@lib/theme/colors";
 
 interface LanguageSwiperProps {
   languages: string[];
+  active: string;
   className?: string;
   onChange?: (newLang: string) => void;
 }
@@ -31,9 +32,12 @@ const Language = styled(Text)`
 const RawLanguageSwiper: FC<LanguageSwiperProps> = ({
   languages,
   onChange,
+  active,
   className,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(
+    languages.indexOf(active) || 0
+  );
 
   const prevLanguage = () => {
     if (languages.length) {

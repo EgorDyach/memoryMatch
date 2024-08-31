@@ -91,7 +91,7 @@ export const language = {
       shop: "МАГАЗИН",
       home: "ГЛАВНАЯ",
       tasks: "ЗАДАНИЯ",
-      "1 vs 1": "1 ПРОТИВ 1",
+      "1 vs 1": "1 НА 1",
     },
     seasons: {
       locationDescr1:

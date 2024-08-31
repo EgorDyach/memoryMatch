@@ -2,17 +2,11 @@ import Flex from "@components/Flex";
 import { IndicatorItem } from "@components/IndicatorItem";
 import DiamondIcon from "@components/icons/DiamondIcon";
 import CoinIcon from "@components/icons/CoinIcon";
-import PlusIcon from "@components/icons/PlusIcon";
-import { Text } from "@components/Typography";
-import ActiveHeartIcon from "@components/icons/ActiveHeartIcon";
-import NotActiveHeartIcon from "@components/icons/NotActiveHeartIcon";
 import SettingsIcon from "@components/icons/SettingsIcon";
 import AdIcon from "@components/icons/AdIcon";
 import NewsIcon from "@components/icons/NewsIcon";
 import {
   Content,
-  HealthWrapper,
-  ActionButton,
   ButtonPass,
   StyledIconButton,
   PlanetClick,
@@ -41,9 +35,9 @@ import { useNavigate } from "react-router-dom";
 import { fetchStartGame } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { enqueueSnackbar } from "notistack";
-import { formatTime } from "@lib/utils/formatTime";
 import PageNotFound from "@modules/pageNotFound/PageNotFound";
 import { language } from "@constants/language";
+import { Hearts } from "@components/Hearts";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -98,24 +92,7 @@ export const RootPage = () => {
                   icon={<DiamondIcon size={43} />}
                 />
               </Flex>
-              <HealthWrapper $top="22px">
-                <ActionButton
-                  icon={<PlusIcon size={20} color="#fff" />}
-                  onClick={() => {
-                    soundSfx();
-                    navigate("/shop");
-                  }}
-                />
-                <Flex gap="5px">
-                  {[...Array(7)].map((_, i) => {
-                    if (i < user.hearts) return <ActiveHeartIcon size={21} />;
-                    else return <NotActiveHeartIcon size={21} />;
-                  })}
-                </Flex>
-                <Text $size="subtitle">
-                  {formatTime(user.heartRecoveryTimeSeconds)}
-                </Text>
-              </HealthWrapper>
+              <Hearts action $top="22px" />
             </>
           )}
           <Flex gap="12px" $top="slarge" justify="space-between">

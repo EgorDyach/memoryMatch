@@ -85,7 +85,7 @@ const Container = styled.div`
 
 const NavItem = styled(ItemTitle)<{ $isActive: boolean }>`
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   -webkit-text-stroke: 2px #1d5897;
   text-shadow: 0px 4px #00000040;
   opacity: ${(props) => (props.$isActive ? 1 : 0)};

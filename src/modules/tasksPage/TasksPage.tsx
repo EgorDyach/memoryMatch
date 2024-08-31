@@ -1,11 +1,7 @@
 import { Card } from "@components/Card";
 import Flex from "@components/Flex";
 import { Title } from "@components/Title";
-import {
-  progressData,
-  socialButtonContent,
-  socials as socialsConst,
-} from "./constants";
+import { progressData, socials as socialsConst } from "./constants";
 import { ItemTitle, Text } from "@components/Typography";
 import { content } from "@lib/theme/colors";
 import { ProgressBar } from "@components/ProgressBar";
