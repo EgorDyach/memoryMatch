@@ -179,7 +179,6 @@ export const VersusGamePage = () => {
         }
         setTimeout(() => {
           dispatch(localGameActions.setPairsP1(pairsP1 - 1));
-          if (pairsP1 > 1) setActivePlayer("P2");
         }, 750);
       } else if (activeP1Card1 && activeP1Card2) {
         setTimeout(() => {
@@ -209,7 +208,6 @@ export const VersusGamePage = () => {
         }
         setTimeout(() => {
           dispatch(localGameActions.setPairsP2(pairsP2 - 1));
-          if (pairsP2 > 1) setActivePlayer("P1");
         }, 750);
       } else if (activeP2Card1 && activeP2Card2) {
         setTimeout(() => {
