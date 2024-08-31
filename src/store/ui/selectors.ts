@@ -8,6 +8,7 @@ import {
   uiStateName,
 } from "./types";
 import { ShortLevel } from "@type/map";
+import { Task } from "@type/tasks";
 
 const getState = (store: StoreWithUIState): UIState => store[uiStateName];
 
@@ -36,3 +37,8 @@ export const getLevels = (s: StoreWithUIState): Record<number, ShortLevel[]> =>
 
 export const getLanguage = (s: StoreWithUIState): langType =>
   getState(s).language;
+
+export const getTasks = (s: StoreWithUIState): Task[] => getState(s).tasks;
+
+export const getTasksCompleted = (s: StoreWithUIState): Task[] =>
+  getState(s).tasksCompleted;

@@ -1,11 +1,10 @@
 import { Card } from "@components/Card";
 import Flex from "@components/Flex";
 import { Title } from "@components/Title";
-import { progressData, socials as socialsConst } from "./constants";
+import { progressData, socials } from "./constants";
 import { ItemTitle, Text } from "@components/Typography";
 import { content } from "@lib/theme/colors";
 import { ProgressBar } from "@components/ProgressBar";
-import { useState } from "react";
 import CheckIcon from "@components/icons/CheckIcon";
 import { formatNumber } from "@lib/utils/formatNumber";
 import DiamondWithShadowIcon from "@components/icons/DiamondWithShadowIcon";
@@ -22,10 +21,16 @@ import { usePlaySFx } from "@hooks/usePlaySFx";
 import { language } from "@constants/language";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
+import { fetchCompleteTask } from "@store/ui/thunks";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useNavigate } from "react-router-dom";
 
 export const TasksPage = () => {
-  const [socials, setSocials] = useState(socialsConst);
+  const quests = useSelector(uiSelectors.getTasks);
+  const questsCompleted = useSelector(uiSelectors.getTasksCompleted);
   const soundSfx = usePlaySFx();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const lang = useSelector(uiSelectors.getLanguage);
   return (
     <>
@@ -59,20 +64,25 @@ export const TasksPage = () => {
                     {language[lang]["tasks"][item.title]}
                   </StyledText>
                   <StyledButton
-                    onClick={() => {
+                    onClick={async () => {
+                      const curQuest = quests.filter(
+                        (el) => el.type === item.id
+                      )[0];
+                      navigate(item.link);
+                      dispatch(fetchCompleteTask(curQuest.id));
                       soundSfx();
-                      setSocials([
-                        ...socials.filter((el) => el.id !== item.id),
-                        { ...item, is_done: true },
-                      ]);
                     }}
                     $top="3px"
                     type="yellow"
-                    disabled={item.is_done}
+                    disabled={
+                      !!questsCompleted.find((quest) => quest.type === item.id)
+                    }
                   >
                     {
                       language[lang]["tasks"][
-                        item.is_done ? "completed" : "join"
+                        questsCompleted.find((quest) => quest.type === item.id)
+                          ? "completed"
+                          : "join"
                       ]
                     }
                   </StyledButton>
@@ -91,14 +101,11 @@ export const TasksPage = () => {
                 0
               </Text>
               <StyledCurrent
-                $left={
-                  (socials.filter((el) => el.is_done).length * 100) /
-                  socials.length
-                }
+                $left={(questsCompleted.length * 100) / quests.length}
                 type="yellow"
                 padding="10px 16px"
               >
-                {socials.filter((el) => el.is_done).length}
+                {questsCompleted.length}
               </StyledCurrent>
               <Text
                 $shadow={{
@@ -112,8 +119,8 @@ export const TasksPage = () => {
             </StyledProgressValues>
             <ProgressBar
               $top="10px"
-              active={socials.filter((el) => el.is_done).length}
-              total={socials.length}
+              active={questsCompleted.length}
+              total={quests.length}
               color1="#FB0059"
               color2="#890E3A"
               bgColor="#440A1F"
@@ -126,8 +133,10 @@ export const TasksPage = () => {
                   gap="2px"
                   $leftPercent={item.percent >= 95 ? 95 : item.percent}
                 >
-                  {item.recieved && <CheckIcon size={14} />}
-                  {!item.recieved && (
+                  {(questsCompleted.length * 100) / quests.length >=
+                    item.percent && <CheckIcon size={14} />}
+                  {(questsCompleted.length * 100) / quests.length <
+                    item.percent && (
                     <>
                       <Text
                         $size="subtitle"

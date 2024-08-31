@@ -7,6 +7,8 @@ export const uiInitialState: UIState = {
   locations: [],
   levels: {},
   theme: "default",
+  tasks: [],
+  tasksCompleted: [],
   isAudioPlaying: Boolean(localStorage.getItem("isAudioPlaying")),
   isSfxActive: Boolean(localStorage.getItem("isSfxActive")),
   language: (localStorage.getItem("language") || "en") as langType,

@@ -3,6 +3,8 @@ import { AppDispatch } from "..";
 
 import { requestUser$ } from "@lib/api/user";
 import { uiActions } from ".";
+import { showErrorNotification } from "@lib/utils/notification";
+import { requestCompleteTask$, requestMyTasks$ } from "@lib/api/tasks";
 
 export const fetchHeartRecoveryTimeSeconds =
   (user: User) => (dispatch: AppDispatch) => {
@@ -14,4 +16,15 @@ export const fetchHeartRecoveryTimeSeconds =
       });
       dispatch(uiActions.setUser(user));
     }, user.heartRecoveryTimeSeconds * 1000);
+  };
+
+export const fetchCompleteTask =
+  (taskId: number) => async (dispatch: AppDispatch) => {
+    try {
+      await requestCompleteTask$(taskId);
+      const tasks = await requestMyTasks$();
+      dispatch(uiActions.setTasksCompleted(tasks));
+    } catch {
+      showErrorNotification("Не удалось выполнить задание!");
+    }
   };

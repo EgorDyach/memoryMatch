@@ -1,5 +1,6 @@
 import { language } from "@constants/language";
 import { ShortLevel } from "@type/map";
+import { Task } from "@type/tasks";
 import { Location, User } from "@type/user";
 
 export const uiStateName = "ui";
@@ -21,6 +22,8 @@ export type UIState = {
   user: User | null;
   isLoaderOpen: boolean;
   theme: ThemeType;
+  tasks: Task[];
+  tasksCompleted: Task[];
   isAudioPlaying: boolean;
   isSfxActive: boolean;
   locations: Location[];

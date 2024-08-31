@@ -10,29 +10,34 @@ export const socials: {
   is_done: boolean;
   title: "telegram" | "xTwitter" | "VKontakte" | "instagram";
   icon: ReactNode;
+  link: string;
 }[] = [
   {
     id: 0,
     is_done: false,
     title: "telegram",
+    link: "https://telegram.org/",
     icon: <TelegramIcon size={38} />,
   },
   {
     id: 1,
     is_done: false,
     title: "xTwitter",
+    link: "https://x.com/?lang=ru&mx=2",
     icon: <XIcon size={38} />,
   },
   {
     id: 2,
     is_done: true,
     title: "VKontakte",
+    link: "https://vk.company/ru/",
     icon: <VkIcon size={38} />,
   },
   {
     id: 3,
     is_done: false,
     title: "instagram",
+    link: "https://en.wikipedia.org/wiki/Instagram",
     icon: <InstIcon size={38} />,
   },
 ];

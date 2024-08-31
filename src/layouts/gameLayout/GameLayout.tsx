@@ -24,19 +24,20 @@ const Content = styled(Flex)`
 `;
 
 const Spinner = styled.div<{ $isVisible: boolean }>`
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: inline-block;
   position: fixed;
-  top: calc(50% - 24px);
-  left: calc(50% - 24px);
-  border-top: 4px solid #fff;
-  border-right: 4px solid transparent;
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
+  border-top: 6px solid #fff;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
   box-sizing: border-box;
   transition: opacity 0.3s ease, z-index 0.3s ease;
   animation: spin 0.8s linear infinite;
-  -webkit-animation: spin 0.8s linear infinite;
+  -webkit-animation: spin 1s linear infinite;
   opacity: ${(props) => (props.$isVisible ? 1 : 0)};
   z-index: ${(props) => (props.$isVisible ? 1000 : -1)};
   @-webkit-keyframes spin {
@@ -55,20 +56,6 @@ const Spinner = styled.div<{ $isVisible: boolean }>`
     100% {
       transform: rotate(360deg);
     }
-  }
-  &::after {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border-left: 4px solid #3492e9;
-    border-bottom: 4px solid transparent;
-    animation: spin 0.4s linear infinite reverse;
-    -webkit-animation: spin 0.4s linear infinite reverse;
   }
 `;
 

@@ -12,6 +12,7 @@ import { Location } from "@type/user";
 import { levelGameSelectors } from "@store/levelGame";
 import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { requestMyTasks$, requestTasks$ } from "@lib/api/tasks";
 
 export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
   const soundSfx = usePlaySFx();
@@ -39,6 +40,8 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
         dispatch(uiActions.setRequestStarted("locations"));
         dispatch(uiActions.setRequestStarted("locationLevels"));
         dispatch(uiActions.setRequestStarted("user"));
+        dispatch(uiActions.setRequestStarted("tasks"));
+        dispatch(uiActions.setRequestStarted("tasksCompleted"));
         await requestLogin$()
           .then(() => {
             dispatch(uiActions.setRequestFinished("login"));
@@ -58,6 +61,22 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(fetchHeartRecoveryTimeSeconds(res));
             dispatch(uiActions.setUser(res));
             dispatch(uiActions.setRequestFinished("user"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestTasks$()
+          .then((res) => {
+            dispatch(uiActions.setTasks(res));
+            dispatch(uiActions.setRequestFinished("tasks"));
+          })
+          .catch((e) => {
+            setError(e);
+          });
+        await requestMyTasks$()
+          .then((res) => {
+            dispatch(uiActions.setTasksCompleted(res));
+            dispatch(uiActions.setRequestFinished("tasksCompleted"));
           })
           .catch((e) => {
             setError(e);
@@ -115,7 +134,52 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     audio6.volume = 0.05;
     audio7.volume = 0.05;
 
-    // Добавляем обработчики события ended
+    audio.pause();
+    audio1.pause();
+    audio2.pause();
+    audio3.pause();
+    audio4.pause();
+    audio5.pause();
+    audio6.pause();
+    audio7.pause();
+    if (seasonId) {
+      switch (seasonId) {
+        case 1:
+          audio1.currentTime = 0;
+          audio1.play();
+          break;
+        case 2:
+          audio2.currentTime = 0;
+          audio2.play();
+          break;
+        case 3:
+          audio3.currentTime = 0;
+          audio3.play();
+          break;
+        case 4:
+          audio4.currentTime = 0;
+          audio4.play();
+          break;
+        case 5:
+          audio5.currentTime = 0;
+          audio5.play();
+          break;
+        case 6:
+          audio6.currentTime = 0;
+          audio6.play();
+          break;
+        case 7:
+          audio7.currentTime = 0;
+          audio7.play();
+          break;
+        default:
+          audio.currentTime = 0;
+          audio.play();
+          break;
+      }
+    } else {
+      audio.play();
+    }
     const handleEnded = () => {
       if (seasonId) {
         audio.pause();
@@ -128,35 +192,35 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
         audio7.pause();
         switch (seasonId) {
           case 1:
-            audio1.currentTime = 0; // Сбрасываем время
+            audio1.currentTime = 0;
             audio1.play();
             break;
           case 2:
-            audio2.currentTime = 0; // Сбрасываем время
+            audio2.currentTime = 0;
             audio2.play();
             break;
           case 3:
-            audio3.currentTime = 0; // Сбрасываем время
+            audio3.currentTime = 0;
             audio3.play();
             break;
           case 4:
-            audio4.currentTime = 0; // Сбрасываем время
+            audio4.currentTime = 0;
             audio4.play();
             break;
           case 5:
-            audio5.currentTime = 0; // Сбрасываем время
+            audio5.currentTime = 0;
             audio5.play();
             break;
           case 6:
-            audio6.currentTime = 0; // Сбрасываем время
+            audio6.currentTime = 0;
             audio6.play();
             break;
           case 7:
-            audio7.currentTime = 0; // Сбрасываем время
+            audio7.currentTime = 0;
             audio7.play();
             break;
           default:
-            audio.currentTime = 0; // Сбрасываем время
+            audio.currentTime = 0;
             audio.play();
             break;
         }

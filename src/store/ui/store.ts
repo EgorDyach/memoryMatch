@@ -3,6 +3,7 @@ import { langType, ThemeType, uiStateName } from "./types";
 import { uiInitialState } from "./constants";
 import { Location, User } from "@type/user";
 import { ShortLevel } from "@type/map";
+import { Task } from "@type/tasks";
 
 const uiSlice = createSlice({
   name: uiStateName,
@@ -45,6 +46,12 @@ const uiSlice = createSlice({
     },
     setLanguage(state, { payload }: PayloadAction<langType>) {
       state.language = payload;
+    },
+    setTasks(state, { payload }: PayloadAction<Task[]>) {
+      state.tasks = payload;
+    },
+    setTasksCompleted(state, { payload }: PayloadAction<Task[]>) {
+      state.tasksCompleted = payload;
     },
   },
 });

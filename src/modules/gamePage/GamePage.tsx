@@ -187,7 +187,8 @@ export const GamePage = () => {
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [time, isPause]);
+    if (!time) openModal(FailedModal(onExit, onRestart));
+  }, [time, isPause, openModal, onExit, onRestart]);
 
   useEffect(() => {
     setTime(initialTime);
