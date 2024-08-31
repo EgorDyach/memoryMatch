@@ -134,7 +134,6 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     audio6.volume = 0.05;
     audio7.volume = 0.05;
 
-    if (!isAudioPlaying) return;
     audio.pause();
     audio1.pause();
     audio2.pause();
@@ -143,6 +142,7 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     audio5.pause();
     audio6.pause();
     audio7.pause();
+    if (!isAudioPlaying) return;
     if (seasonId) {
       switch (seasonId) {
         case 1:
