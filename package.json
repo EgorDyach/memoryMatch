@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
+    "@types/telegram-web-app": "^7.8.1",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "axios": "^1.7.3",
     "normalize.css": "^8.0.1",

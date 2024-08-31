@@ -23,14 +23,12 @@ import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
 import { fetchCompleteTask } from "@store/ui/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useNavigate } from "react-router-dom";
 
 export const TasksPage = () => {
   const quests = useSelector(uiSelectors.getTasks);
   const questsCompleted = useSelector(uiSelectors.getTasksCompleted);
   const soundSfx = usePlaySFx();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const lang = useSelector(uiSelectors.getLanguage);
   return (
     <>
@@ -68,7 +66,7 @@ export const TasksPage = () => {
                       const curQuest = quests.filter(
                         (el) => el.type === item.id
                       )[0];
-                      navigate(item.link);
+                      window.Telegram.WebApp.openLink(item.link);
                       dispatch(fetchCompleteTask(curQuest.id));
                       soundSfx();
                     }}
