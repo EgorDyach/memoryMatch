@@ -42,6 +42,7 @@ export const language = {
       season: "Season",
       level: "Level",
       play: "PLAY",
+      thankYou: "Thank you for the game!",
     },
     tasks: {
       socials: "Socials",
@@ -127,6 +128,7 @@ export const language = {
       season: "Сезон",
       level: "Уровень",
       play: "ИГРАТЬ",
+      thankYou: "Спасибо за игру!",
     },
     tasks: {
       socials: "Соц. сети",

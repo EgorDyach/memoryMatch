@@ -21,7 +21,7 @@ import { requestUser$ } from "@lib/api/user";
 import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
 import { Location } from "@type/user";
 
-const reRequestData = async (dispatch: AppDispatch) => {
+export const reRequestData = async (dispatch: AppDispatch) => {
   dispatch(uiActions.setRequestStarted("locations"));
   dispatch(uiActions.setRequestStarted("locationLevels"));
   dispatch(uiActions.setRequestStarted("user"));
@@ -272,6 +272,7 @@ export const fetchBoostViewCards =
         movesUsed,
         maxMoves,
       } = await requestBoostViewCards$(gameId);
+      await reRequestData(dispatch);
       clearTimeout(timeout);
       dispatch(levelGameActions.setIsLoading(false));
       dispatch(levelGameActions.setCards(cards));
@@ -312,6 +313,8 @@ export const fetchBoostOpenPair =
         movesUsed,
         maxMoves,
       } = await requestBoostOpenPair$(gameId);
+      await reRequestData(dispatch);
+
       clearTimeout(timeout);
       dispatch(levelGameActions.setIsLoading(false));
       dispatch(levelGameActions.setCards(cards));
@@ -347,6 +350,7 @@ export const fetchBoostExtraTime =
         movesUsed,
         maxMoves,
       } = await requestBoostExtraTime$(gameId);
+      await reRequestData(dispatch);
       clearTimeout(timeout);
       dispatch(levelGameActions.setIsLoading(false));
       dispatch(levelGameActions.setCards(cards));

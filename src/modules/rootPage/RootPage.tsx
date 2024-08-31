@@ -38,6 +38,18 @@ import { enqueueSnackbar } from "notistack";
 import PageNotFound from "@modules/pageNotFound/PageNotFound";
 import { language } from "@constants/language";
 import { Hearts } from "@components/Hearts";
+import final from "/img/finalPhoto.jpg";
+import styled from "styled-components";
+
+const FinalImage = styled(PlanetImage)`
+  z-index: -1;
+  position: absolute;
+  transform: none;
+  height: 60%;
+  top: 20px;
+  width: unset;
+  border-radius: 50%;
+`;
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -132,17 +144,44 @@ export const RootPage = () => {
           </Flex>
         </RootControls>
         <PlanetClick>
-          {location && <PlanetImage src={planets[location.number - 1]} />}
+          {Object.values(levels)
+            .flat()
+            .filter((el) => !el.isCompleted).length &&
+            location && <PlanetImage src={planets[location.number - 1]} />}
+          {!Object.values(levels)
+            .flat()
+            .filter((el) => !el.isCompleted).length && (
+            <FinalImage src={final} />
+          )}
         </PlanetClick>
         <StyledFlex>
-          {location && (
+          {Object.values(levels)
+            .flat()
+            .filter((el) => !el.isCompleted).length &&
+            location && (
+              <StyledSubHeader>
+                {location.number} {language[lang]["root"]["season"]} •{" "}
+                {currentLevel.number} {language[lang]["root"]["level"]}
+              </StyledSubHeader>
+            )}
+          {!Object.values(levels)
+            .flat()
+            .filter((el) => !el.isCompleted).length && (
             <StyledSubHeader>
-              {location.number} {language[lang]["root"]["season"]} •{" "}
-              {currentLevel.number} {language[lang]["root"]["level"]}
+              {language[lang]["root"]["thankYou"]}
             </StyledSubHeader>
           )}
           <StyledButtonShadow>
-            <StyledButton onClick={handlePlay} padding="24px 100px" type="pink">
+            <StyledButton
+              disabled={
+                !Object.values(levels)
+                  .flat()
+                  .filter((el) => !el.isCompleted).length
+              }
+              onClick={handlePlay}
+              padding="24px 100px"
+              type="pink"
+            >
               <div>
                 <div>{language[lang]["root"]["play"]}</div>
               </div>

@@ -31,6 +31,7 @@ import {
   fetchRestartGame,
   fetchStartNextLevel,
   fetchUnpauseGame,
+  reRequestData,
 } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import {
@@ -138,6 +139,13 @@ export const GamePage = () => {
     navigate(backpath || "/");
   }, [backpath, dispatch, gameId, navigate, soundSfx]);
 
+  const onWinExit = useCallback(async () => {
+    soundSfx();
+    if (!gameId) return;
+    reRequestData(dispatch);
+    navigate(backpath || "/");
+  }, [backpath, dispatch, gameId, navigate, soundSfx]);
+
   const onCancel = useCallback(() => {
     soundSfx();
     if (!gameId) return;
@@ -193,7 +201,7 @@ export const GamePage = () => {
       return;
     }
     if (status === 2) {
-      openModal(WinModal(onExit, onNext));
+      openModal(WinModal(onWinExit, onNext));
       if (isSfxActive) {
         const audio = new Audio();
         audio.src = "/cardWinSfx.mp3";
@@ -221,6 +229,7 @@ export const GamePage = () => {
     onExit,
     onNext,
     onRestart,
+    onWinExit,
     openModal,
     pairs,
     status,
@@ -313,7 +322,7 @@ export const GamePage = () => {
               $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="title"
             >
-              {pairs}
+              {Math.ceil(cards.flat().filter((el) => !el.isFlipped).length / 2)}
             </Text>
           </Flex>
         </FlexFullWidth>

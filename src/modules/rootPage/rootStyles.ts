@@ -83,6 +83,7 @@ export const StyledSubHeader = styled(SubHeader)`
   -webkit-text-stroke: 0.81px #623378;
   text-shadow: 0px 1.62px #623378;
   margin: 10px auto 0px;
+  text-align: center;
 `;
 
 export const StyledButton = styled(Button)`
@@ -101,6 +102,11 @@ export const StyledButton = styled(Button)`
     background-color: #e360ea;
     ${shadow("full")}
     border-radius: 10px;
+  }
+  &:disabled {
+    & > div {
+      background-color: grey;
+    }
   }
 `;
 
