@@ -134,6 +134,7 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     audio6.volume = 0.05;
     audio7.volume = 0.05;
 
+    if (!isAudioPlaying) return;
     audio.pause();
     audio1.pause();
     audio2.pause();
@@ -249,7 +250,18 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
       audio6.removeEventListener("ended", () => handleEnded());
       audio7.removeEventListener("ended", () => handleEnded());
     };
-  }, [audio, audio1, audio2, audio3, audio4, audio5, audio6, audio7, seasonId]);
+  }, [
+    audio,
+    audio1,
+    audio2,
+    audio3,
+    audio4,
+    audio5,
+    audio6,
+    audio7,
+    isAudioPlaying,
+    seasonId,
+  ]);
   return (
     <>
       <Loader handleClick={handleClick} isOpen={isLoaderOpen} />

@@ -62,7 +62,7 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/shop",
         element: (
-          <PaddingLayout showHealth>
+          <PaddingLayout showHealth overflow>
             <ShopPage />
           </PaddingLayout>
         ),

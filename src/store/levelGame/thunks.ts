@@ -20,6 +20,16 @@ import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
 import { requestUser$ } from "@lib/api/user";
 import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
 import { Location } from "@type/user";
+import { season } from "@modules/versusGamePage/constants";
+
+const loadImage = (src: string) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+  });
+};
 
 export const reRequestData = async (dispatch: AppDispatch) => {
   dispatch(uiActions.setRequestStarted("locations"));
@@ -65,6 +75,7 @@ export const fetchStartGame =
   (levelId: number | string, locationId: number | string, backpath: string) =>
   async (dispatch: AppDispatch) => {
     dispatch(uiActions.setRequestStarted("startGame"));
+    dispatch(uiActions.setRequestStarted("loadingImages"));
     try {
       const {
         cards,
@@ -76,6 +87,21 @@ export const fetchStartGame =
         state,
       } = await requestStartGame$(levelId, locationId);
       await reRequestData(dispatch);
+      const imageRequests = [
+        loadImage(`/img/backgrounds/${season[Number(locationId) - 1]}.webp`),
+      ];
+      for (let i = 1; i <= 10; i++) {
+        imageRequests.push(
+          loadImage(
+            `/img/cards/${season[Number(locationId) - 1]}/card${
+              Number(locationId) * i
+            }.webp`
+          )
+        );
+      }
+
+      await Promise.all(imageRequests);
+
       dispatch(levelGameActions.setBackpath(backpath));
       dispatch(levelGameActions.setStatus(state));
       dispatch(levelGameActions.setSeasonId(Number(locationId)));
@@ -94,6 +120,7 @@ export const fetchStartGame =
       showErrorNotification("Ошибка при попытке начать уровень!");
     } finally {
       dispatch(uiActions.setRequestFinished("startGame"));
+      dispatch(uiActions.setRequestFinished("loadingImages"));
       dispatch(levelGameActions.setIsLoading(false));
     }
   };
