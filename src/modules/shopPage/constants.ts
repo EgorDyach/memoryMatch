@@ -1,64 +1,68 @@
-export const shopSales = [
+export const shopSales: { title: "gems"; count: number; price: number }[] = [
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Gems",
+    title: "gems",
     count: 10,
     price: 7.99,
   },
 ];
 
-export const shopCrystall = [
+export const shopCrystall: {
+  title: "pouchOfGems";
+  count: number;
+  price: number;
+}[] = [
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },
   {
-    title: "Pouch of gems",
+    title: "pouchOfGems",
     count: 10,
     price: 7.99,
   },

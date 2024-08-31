@@ -1,3 +1,4 @@
+import { language } from "@constants/language";
 import { ShortLevel } from "@type/map";
 import { Location, User } from "@type/user";
 
@@ -15,6 +16,7 @@ export type ThemeType =
   | "end";
 
 export type UIState = {
+  language: langType;
   requests: Record<string, RequestState>;
   user: User | null;
   isLoaderOpen: boolean;
@@ -28,3 +30,5 @@ export type UIState = {
 export type StoreWithUIState = {
   [uiStateName]: UIState;
 };
+
+export type langType = keyof typeof language;

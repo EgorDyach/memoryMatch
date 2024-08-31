@@ -20,25 +20,25 @@ const Wrapper = styled(Flex)<{ $padding: string }>`
 const FixedFlex = styled(Flex)`
   position: fixed;
   width: calc(100% - 48px);
-  top: 20px;
+  top: 26px;
   z-index: 2;
   max-width: 440px;
 `;
 
-const TopBlur = styled.div`
-  height: 160px;
-  z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.9) 40%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-`;
+// const TopBlur = styled.div`
+//   height: 160px;
+//   z-index: 1;
+//   background: linear-gradient(
+//     180deg,
+//     rgba(0, 0, 0, 0.9) 0%,
+//     rgba(0, 0, 0, 0.9) 40%,
+//     rgba(0, 0, 0, 0) 100%
+//   );
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+// `;
 
 const Content = styled(Flex)`
   max-width: 490px;
@@ -61,7 +61,6 @@ export const FixedLayout: FC<FixedLayoutProps> = ({
   const user = useSelector(uiSelectors.getUser);
   return (
     <Content>
-      <TopBlur />
       <Wrapper $padding={padding} direction="column">
         {user && (
           <FixedFlex basis="50%" gap="12px" wrap="wrap">

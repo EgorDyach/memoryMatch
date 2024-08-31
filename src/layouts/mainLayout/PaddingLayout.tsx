@@ -52,7 +52,7 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
         </Flex>
       )}
       {showHealth && user && (
-        <HealthWrapper>
+        <HealthWrapper $top="22px">
           <ActionButton
             icon={<PlusIcon size={20} color="#fff" />}
             onClick={() => console.log(123)}
@@ -63,8 +63,10 @@ export const PaddingLayout: FC<PaddingLayoutProps> = ({
               else return <NotActiveHeartIcon size={21} />;
             })}
           </Flex>
-          <Text $size="subtitle">{formatTime(user.heartRecoveryTimeSeconds)}</Text>
-          </HealthWrapper>
+          <Text $size="subtitle">
+            {formatTime(user.heartRecoveryTimeSeconds)}
+          </Text>
+        </HealthWrapper>
       )}
       {children}
     </Wrapper>

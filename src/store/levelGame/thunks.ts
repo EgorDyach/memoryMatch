@@ -16,6 +16,7 @@ import { getTimeBetween } from "@lib/utils/getTimeBetween";
 import { showErrorNotification } from "@lib/utils/notification";
 
 import { Card } from "@type/game";
+import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
 
 export const fetchStartGame =
   (levelId: number | string, locationId: number | string, backpath: string) =>
@@ -320,3 +321,25 @@ export const fetchBoostExtraTime =
       dispatch(levelGameActions.setIsLoading(false));
     }
   };
+
+export const fetchStartNextLevel = () => async (dispatch: AppDispatch) => {
+  const timeout = setTimeout(() => {
+    dispatch(levelGameActions.setIsLoading(true));
+  }, 700);
+  try {
+    const locations = await requestLocations$();
+    dispatch(uiActions.setLocations(locations));
+    const currentLocation = locations.filter((el) => el.isAvailable).at(-1);
+    if (!currentLocation) throw new Error("Не удалось найти локацию!");
+    const levels = await requestLocationLevels$(currentLocation.id);
+    dispatch(uiActions.setLevels({ levels, locationId: currentLocation.id }));
+    const currentLevel = levels.filter((el) => !el.isCompleted)[0];
+    if (!currentLevel) throw new Error("Не удалось найти уровень!");
+    dispatch(fetchStartGame(currentLevel.id, currentLocation.id, "/"));
+    clearTimeout(timeout);
+  } catch {
+    showErrorNotification("Ошибка при запуске следующей игры!");
+  } finally {
+    dispatch(levelGameActions.setIsLoading(false));
+  }
+};

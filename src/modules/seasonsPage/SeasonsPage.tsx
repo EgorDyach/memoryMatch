@@ -1,5 +1,5 @@
 import Flex from "@components/Flex";
-import { seasons, TOTAL_LEVELS } from "./constants";
+import { seasons } from "./constants";
 import { Card } from "@components/Card";
 
 import { styled } from "styled-components";
@@ -54,7 +54,7 @@ export const SeasonsPage = () => {
   const navigate = useNavigate();
   const soundSfx = usePlaySFx();
   const locations = useSelector(uiSelectors.getLocations);
-
+  const levels = useSelector(uiSelectors.getLevels);
   return (
     <Flex $top="large" direction="column" gap="26px">
       {seasons.map((item, index) => {
@@ -101,7 +101,42 @@ export const SeasonsPage = () => {
                       color: item.colors.titleShadowColor || "transparent",
                     }}
                   >
-                    {item.rewards.coins}
+                    {(() => {
+                      console.log(
+                        (levels[location.id]
+                          ? levels[location.id].reduce(
+                              (prev, cur) => cur.prizes[0].count + prev,
+                              0
+                            )
+                          : 0) +
+                          (levels[location.id]
+                            ? levels[location.id].reduce(
+                                (prev, cur) =>
+                                  (cur.specialPrizes[0]
+                                    ? cur.specialPrizes[0].count
+                                    : 0) + prev,
+                                0
+                              )
+                            : 0)
+                      );
+                      return (
+                        (levels[location.id]
+                          ? levels[location.id].reduce(
+                              (prev, cur) => cur.prizes[0].count + prev,
+                              0
+                            )
+                          : 0) +
+                        (levels[location.id]
+                          ? levels[location.id].reduce(
+                              (prev, cur) =>
+                                (cur.specialPrizes[0]
+                                  ? cur.specialPrizes[0].count
+                                  : 0) + prev,
+                              0
+                            )
+                          : 0)
+                      );
+                    })()}
                   </Text>
                 </Flex>
                 <Flex $left="small" align="center">
@@ -113,7 +148,21 @@ export const SeasonsPage = () => {
                       color: item.colors.titleShadowColor || "transparent",
                     }}
                   >
-                    {item.rewards.diamonds}
+                    {(levels[location.id]
+                      ? levels[location.id].reduce(
+                          (prev, cur) => cur.prizes[1].count + prev,
+                          0
+                        )
+                      : 0) +
+                      (levels[location.id]
+                        ? levels[location.id].reduce(
+                            (prev, cur) =>
+                              (cur.specialPrizes[1]
+                                ? cur.specialPrizes[1].count
+                                : 0) + prev,
+                            0
+                          )
+                        : 0)}
                   </Text>
                 </Flex>
               </Flex>
@@ -129,7 +178,10 @@ export const SeasonsPage = () => {
                 </Text>
                 {location.isAvailable && (
                   <StyledCurrent
-                    $left={((location.number || 0) / TOTAL_LEVELS) * 100}
+                    $left={
+                      ((location.number || 0) / levels[location.id].length) *
+                      100
+                    }
                     type="yellow"
                     padding="10px 16px"
                   >
@@ -143,13 +195,13 @@ export const SeasonsPage = () => {
                     strokeWidth: 0.84,
                   }}
                 >
-                  {TOTAL_LEVELS}
+                  {levels[location.id].length}
                 </Text>
               </StyledProgressValues>
               <ProgressBar
                 $top="10px"
                 active={location.number || 0}
-                total={TOTAL_LEVELS}
+                total={levels[location.id].length}
                 color1={item.colors.progressBarColor1}
                 color2={item.colors.progressBarColor2}
                 bgColor={item.colors.progressBarBgColor}

@@ -62,15 +62,15 @@ export const routerConfig = createBrowserRouter([
       {
         path: "/shop",
         element: (
-          <FixedLayout showHealth>
+          <PaddingLayout showHealth>
             <ShopPage />
-          </FixedLayout>
+          </PaddingLayout>
         ),
       },
       {
         path: "/tasks",
         element: (
-          <PaddingLayout padding="0 19px">
+          <PaddingLayout>
             <TasksPage />
           </PaddingLayout>
         ),

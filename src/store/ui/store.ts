@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ThemeType, uiStateName } from "./types";
+import { langType, ThemeType, uiStateName } from "./types";
 import { uiInitialState } from "./constants";
 import { Location, User } from "@type/user";
 import { ShortLevel } from "@type/map";
@@ -42,6 +42,9 @@ const uiSlice = createSlice({
     setIsSfxActive(state, { payload }: PayloadAction<boolean>) {
       state.isSfxActive = payload;
       localStorage.setItem("isSfxActive", payload ? "true" : "");
+    },
+    setLanguage(state, { payload }: PayloadAction<langType>) {
+      state.language = payload;
     },
   },
 });

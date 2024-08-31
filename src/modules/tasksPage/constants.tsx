@@ -3,18 +3,24 @@ import TelegramIcon from "@components/icons/TelegramIcon";
 import VkIcon from "@components/icons/VkIcon";
 import XIcon from "@components/icons/XIcon";
 import { ProgressData } from "./types";
+import { ReactNode } from "react";
 
-export const socials = [
+export const socials: {
+  id: number;
+  is_done: boolean;
+  title: "telegram" | "xTwitter" | "VKontakte" | "instagram";
+  icon: ReactNode;
+}[] = [
   {
     id: 0,
     is_done: false,
-    title: "Telegram",
+    title: "telegram",
     icon: <TelegramIcon size={38} />,
   },
   {
     id: 1,
     is_done: false,
-    title: "X/Twitter",
+    title: "xTwitter",
     icon: <XIcon size={38} />,
   },
   {
@@ -26,7 +32,7 @@ export const socials = [
   {
     id: 3,
     is_done: false,
-    title: "Instagram",
+    title: "instagram",
     icon: <InstIcon size={38} />,
   },
 ];

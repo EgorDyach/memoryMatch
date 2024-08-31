@@ -8,22 +8,22 @@ import { seasons } from "@modules/seasonsPage/constants";
 export const navBarLinks = [
   {
     icon: (color: string) => <MapIcon color={color} size={30} />,
-    text: "MAP",
+    text: "map",
     links: ["/map", "/map/", ...seasons.map((item) => `/map/${item.id}`)],
   },
   {
     icon: (color: string) => <ShopIcon color={color} size={30} />,
-    text: "SHOP",
+    text: "shop",
     links: ["/shop"],
   },
   {
     icon: (color: string) => <HomeIcon color={color} size={30} />,
-    text: "HOME",
+    text: "home",
     links: ["/"],
   },
   {
     icon: (color: string) => <TasksIcon color={color} size={30} />,
-    text: "TASKS",
+    text: "tasks",
     links: ["/tasks"],
   },
   {

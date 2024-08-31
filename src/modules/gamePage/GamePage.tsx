@@ -32,6 +32,7 @@ import {
   fetchFlipCard,
   fetchPauseGame,
   fetchRestartGame,
+  fetchStartNextLevel,
   fetchUnpauseGame,
 } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
@@ -113,9 +114,6 @@ export const GamePage = () => {
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
   const user = useSelector(uiSelectors.getUser);
-  // const locations = useSelector(uiSelectors.getLocations);
-  // const location = locations.filter((el) => el.isAvailable).at(-1);
-  // const levels = useSelector(uiSelectors.getLevels);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -134,6 +132,7 @@ export const GamePage = () => {
   const onNext = useCallback(() => {
     soundSfx();
     if (!gameId) return;
+    dispatch(fetchStartNextLevel());
     // dispatch(
     //   fetchStartGame(
     //     levels[

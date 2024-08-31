@@ -24,7 +24,13 @@ import {
   StyledFlex,
 } from "./rootStyles";
 import { useModal } from "@hooks/useModal";
-import { planets, showBattlePass, showNews, showSettings } from "./constants";
+import {
+  planets,
+  showAd,
+  showBattlePass,
+  showNews,
+  showSettings,
+} from "./constants";
 import { formatNumber } from "@lib/utils/formatNumber";
 import { showModal } from "@lib/utils/modal";
 import { useEffect } from "react";
@@ -37,6 +43,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch";
 import { enqueueSnackbar } from "notistack";
 import { formatTime } from "@lib/utils/formatTime";
 import PageNotFound from "@modules/pageNotFound/PageNotFound";
+import { language } from "@constants/language";
 
 export const RootPage = () => {
   const [openModal] = useModal();
@@ -50,10 +57,12 @@ export const RootPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const levels = useSelector(uiSelectors.getLevels);
+  const lang = useSelector(uiSelectors.getLanguage);
   const currentLevel =
     location && levels && levels[location.id]
       ? levels[location.id].filter((el) => !el.isCompleted)[0]
       : null;
+
   if (!currentLevel) return <PageNotFound />;
   const handlePlay = () => {
     if (!location || !user) return;
@@ -71,7 +80,7 @@ export const RootPage = () => {
         <RootControls>
           {user && (
             <>
-              <Flex basis="50%" gap="6px" wrap="wrap">
+              <Flex basis="50%" $top="6px" gap="12px" wrap="wrap">
                 <IndicatorItem
                   action={() => {
                     soundSfx();
@@ -89,7 +98,7 @@ export const RootPage = () => {
                   icon={<DiamondIcon size={43} />}
                 />
               </Flex>
-              <HealthWrapper>
+              <HealthWrapper $top="22px">
                 <ActionButton
                   icon={<PlusIcon size={20} color="#fff" />}
                   onClick={() => {
@@ -113,17 +122,24 @@ export const RootPage = () => {
             <ButtonPass
               onClick={() => {
                 soundSfx();
-                showModal(showBattlePass);
+                showModal(showBattlePass(lang));
               }}
               type="yellow"
             >
-              Battle pass
+              {language[lang]["root"]["battlePass"]}
             </ButtonPass>
-            <StyledIconButton type="blue" icon={<AdIcon size={33} />} />
             <StyledIconButton
               onClick={() => {
                 soundSfx();
-                showModal(showNews);
+                showModal(showAd(lang));
+              }}
+              type="blue"
+              icon={<AdIcon size={33} />}
+            />
+            <StyledIconButton
+              onClick={() => {
+                soundSfx();
+                showModal(showNews(lang));
               }}
               type="blue"
               icon={<NewsIcon size={33} />}
@@ -131,7 +147,7 @@ export const RootPage = () => {
             <StyledIconButton
               onClick={() => {
                 soundSfx();
-                openModal(showSettings);
+                openModal(showSettings(lang));
               }}
               type="blue"
               icon={<SettingsIcon size={33} />}
@@ -144,13 +160,14 @@ export const RootPage = () => {
         <StyledFlex>
           {location && (
             <StyledSubHeader>
-              {location.number} Season • {currentLevel.number} Level
+              {location.number} {language[lang]["root"]["season"]} •{" "}
+              {currentLevel.number} {language[lang]["root"]["level"]}
             </StyledSubHeader>
           )}
           <StyledButtonShadow>
             <StyledButton onClick={handlePlay} padding="24px 100px" type="pink">
               <div>
-                <div>PLAY</div>
+                <div>{language[lang]["root"]["play"]}</div>
               </div>
             </StyledButton>
           </StyledButtonShadow>

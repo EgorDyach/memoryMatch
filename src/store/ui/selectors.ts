@@ -1,5 +1,6 @@
 import { Location, User } from "@type/user";
 import {
+  langType,
   RequestState,
   StoreWithUIState,
   ThemeType,
@@ -32,3 +33,6 @@ export const getLocations = (s: StoreWithUIState): Location[] =>
 
 export const getLevels = (s: StoreWithUIState): Record<number, ShortLevel[]> =>
   getState(s).levels;
+
+export const getLanguage = (s: StoreWithUIState): langType =>
+  getState(s).language;

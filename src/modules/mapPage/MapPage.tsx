@@ -13,7 +13,7 @@ import BigArrowRightIcon from "@components/icons/BigArrowRightIcon";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 const StyledTitle = styled(Title)`
   position: fixed;
-  top: 60px;
+  top: 70px;
   left: 24px;
   right: 24px;
   width: auto;

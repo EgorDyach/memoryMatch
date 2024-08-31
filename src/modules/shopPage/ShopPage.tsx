@@ -7,6 +7,9 @@ import styled from "styled-components";
 import { content, gradients, shadows } from "@lib/theme/colors";
 import Button from "@components/button/Button";
 import { shadow, textShadow } from "@lib/theme/shadow";
+import { language } from "@constants/language";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
 
 const ShopItem = styled(Flex)`
   background-color: #0000004d;
@@ -49,15 +52,18 @@ const CardsWrapper = styled(Flex)`
 `;
 
 export const ShopPage = () => {
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <>
-      <Title $top="100px" type="pink" hasStars>
-        <ItemTitle>Sales</ItemTitle>
+      <Title $top="20px" type="pink" hasStars>
+        <ItemTitle>{language[lang]["shop"]["sales"]}</ItemTitle>
       </Title>
       <CardsWrapper basis="30%" wrap="wrap" justify="space-between">
         {shopSales.map((item, index) => (
           <ShopItem key={index} align="center" direction="column">
-            <StyledItemTitle>{item.title}</StyledItemTitle>
+            <StyledItemTitle>
+              {language[lang]["shop"][item.title]}
+            </StyledItemTitle>
             <StyledImage align="center" justify="center">
               <DiamondIcon size={74} />
             </StyledImage>
@@ -67,12 +73,12 @@ export const ShopPage = () => {
         ))}
       </CardsWrapper>
       <Title $top="xlarge" type="red" hasStars>
-        <ItemTitle>Crystall</ItemTitle>
+        <ItemTitle>{language[lang]["shop"]["crystall"]}</ItemTitle>
       </Title>
       <Flex $top="large" basis="33%" wrap="wrap" justify="space-between">
         {shopCrystall.map((item, index) => (
           <ShopItem key={index} align="center" direction="column">
-            <Text $size="small">{item.title}</Text>
+            <Text $size="small">{language[lang]["shop"][item.title]}</Text>
             <StyledImage align="center" justify="center">
               <DiamondIcon size={74} />
             </StyledImage>

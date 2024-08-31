@@ -23,18 +23,22 @@ import {
   StyledText,
 } from "./tasksStyles";
 import { usePlaySFx } from "@hooks/usePlaySFx";
+import { language } from "@constants/language";
+import { useSelector } from "react-redux";
+import { uiSelectors } from "@store/ui";
 
 export const TasksPage = () => {
   const [socials, setSocials] = useState(socialsConst);
   const soundSfx = usePlaySFx();
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <>
       <Title $top="35px" type="pink" hasStars>
-        <ItemTitle>Socials</ItemTitle>
+        <ItemTitle>{language[lang]["tasks"]["socials"]}</ItemTitle>
       </Title>
       <Card
         $top="large"
-        title="Subscribe to all social networks"
+        title={language[lang]["tasks"]["subscribe"]}
         backgroundColor="#99C0E3"
         contentColor="#DDEAEE"
         titleShadowColor="#092E46"
@@ -56,7 +60,7 @@ export const TasksPage = () => {
                       shadowSize: 2,
                     }}
                   >
-                    {item.title}
+                    {language[lang]["tasks"][item.title]}
                   </StyledText>
                   <StyledButton
                     onClick={() => {
@@ -70,7 +74,11 @@ export const TasksPage = () => {
                     type="yellow"
                     disabled={item.is_done}
                   >
-                    {socialButtonContent[String(item.is_done)]}
+                    {
+                      language[lang]["tasks"][
+                        item.is_done ? "completed" : "join"
+                      ]
+                    }
                   </StyledButton>
                 </Flex>
               ))}

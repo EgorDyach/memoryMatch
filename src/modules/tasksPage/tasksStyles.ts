@@ -20,19 +20,16 @@ export const SocialIconWrapper = styled(Flex)`
 export const StyledButton = styled(Button)`
   padding: 10px 4px;
   width: 100%;
-
-  &:disabled {
-    font-size: 10px;
-  }
+  font-size: 10px;
 `;
 
 export const StyledText = styled(Text)`
-  font-size: 16px;
+  font-size: 14.5px;
   @media (max-width: 410px) {
     font-size: 14px;
   }
-  @media (max-width: 370px) {
-    font-size: 12px;
+  @media (max-width: 385px) {
+    font-size: 11px;
   }
 `;
 

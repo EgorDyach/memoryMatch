@@ -73,16 +73,15 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             return [];
           });
         for (const location of locations) {
-          if (location.isAvailable)
-            await requestLocationLevels$(location.id)
-              .then((res) => {
-                dispatch(
-                  uiActions.setLevels({ locationId: location.id, levels: res })
-                );
-              })
-              .catch((e) => {
-                setError(e);
-              });
+          await requestLocationLevels$(location.id)
+            .then((res) => {
+              dispatch(
+                uiActions.setLevels({ locationId: location.id, levels: res })
+              );
+            })
+            .catch((e) => {
+              setError(e);
+            });
         }
         dispatch(uiActions.setRequestFinished("locationLevels"));
       })();
@@ -119,6 +118,14 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     // Добавляем обработчики события ended
     const handleEnded = () => {
       if (seasonId) {
+        audio.pause();
+        audio1.pause();
+        audio2.pause();
+        audio3.pause();
+        audio4.pause();
+        audio5.pause();
+        audio6.pause();
+        audio7.pause();
         switch (seasonId) {
           case 1:
             audio1.currentTime = 0; // Сбрасываем время

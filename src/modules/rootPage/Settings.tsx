@@ -3,11 +3,12 @@ import { LanguageSwiper } from "@components/LanguageSwiper";
 import { Toggle } from "@components/Toggle";
 import { Text } from "@components/Typography";
 import styled from "styled-components";
-import { settingsLanguages, showPrivacy } from "./constants";
+import { showPrivacy } from "./constants";
 import Button from "@components/button/Button";
 import { showModal } from "@lib/utils/modal";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions, uiSelectors } from "@store/ui";
+import { language } from "@constants/language";
 
 const SettingsWrapper = styled(Flex)`
   width: 100%;
@@ -47,46 +48,84 @@ export const Settings = () => {
   const isAudioPlaying = useSelector(uiSelectors.getIsAudioPlaying);
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const dispatch = useDispatch();
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <SettingsWrapper $top="small" gap="5px" direction="column">
       <SettingsControls direction="column">
         <Flex align="center" justify="space-between">
           <Text $color="#092E46" $size="subtitle">
-            Music
+            {language[lang]["modals"]["music"]}
           </Text>
           <Toggle
-            values={["On", "Off"]}
-            activeValue={isAudioPlaying ? "On" : "Off"}
+            values={[
+              language[lang]["modals"]["on"],
+              language[lang]["modals"]["off"],
+            ]}
+            activeValue={
+              isAudioPlaying
+                ? language[lang]["modals"]["on"]
+                : language[lang]["modals"]["off"]
+            }
             onChange={(v) => {
-              if (v === "On") dispatch(uiActions.setIsAudioPlaying(true));
-              if (v === "Off") dispatch(uiActions.setIsAudioPlaying(false));
+              if (v === language[lang]["modals"]["on"])
+                dispatch(uiActions.setIsAudioPlaying(true));
+              if (v === "Offlanguage[lang]['modals']['off']")
+                dispatch(uiActions.setIsAudioPlaying(false));
             }}
           />
         </Flex>
         <Flex $top="medium" align="center" justify="space-between">
           <Text $color="#092E46" $size="subtitle">
-            SFx
+            {language[lang]["modals"]["sfx"]}
           </Text>
           <Toggle
-            values={["On", "Off"]}
-            activeValue={isSfxActive ? "On" : "Off"}
+            values={[
+              language[lang]["modals"]["on"],
+              language[lang]["modals"]["off"],
+            ]}
+            activeValue={
+              isSfxActive
+                ? language[lang]["modals"]["on"]
+                : language[lang]["modals"]["off"]
+            }
             onChange={(v) => {
-              if (v === "On") dispatch(uiActions.setIsSfxActive(true));
-              if (v === "Off") dispatch(uiActions.setIsSfxActive(false));
+              if (v === language[lang]["modals"]["on"])
+                dispatch(uiActions.setIsSfxActive(true));
+              if (v === language[lang]["modals"]["off"])
+                dispatch(uiActions.setIsSfxActive(false));
             }}
           />
         </Flex>
-        <LanguageSwiper languages={settingsLanguages} $top="large" />
+        <LanguageSwiper
+          onChange={(el) => {
+            const tok: keyof typeof language | undefined = Object.keys(
+              language
+            ).find(
+              (item) => language[item as keyof typeof language].name === el
+            ) as keyof typeof language | undefined;
+            if (!tok) return;
+            dispatch(uiActions.setLanguage(tok));
+            localStorage.setItem("language", tok);
+          }}
+          languages={Object.keys(language).map(
+            (el) => language[el as keyof typeof language].name
+          )}
+          $top="large"
+        />
       </SettingsControls>
       <RowLine />
       <Flex $top="53px"></Flex>
       <Links basis="50%" gap="6px" wrap="wrap">
-        <ButtonLink type="blue">Support</ButtonLink>
-        <ButtonLink onClick={() => showModal(showPrivacy)} type="blue">
-          Privacy
+        <ButtonLink type="blue">
+          {language[lang]["modals"]["support"]}
         </ButtonLink>
-        <ButtonLink type="blue">FAQ</ButtonLink>
-        <ButtonLink type="blue">Terms of Service</ButtonLink>
+        <ButtonLink onClick={() => showModal(showPrivacy(lang))} type="blue">
+          {language[lang]["modals"]["privacy"]}
+        </ButtonLink>
+        <ButtonLink type="blue">{language[lang]["modals"]["faq"]}</ButtonLink>
+        <ButtonLink type="blue">
+          {language[lang]["modals"]["termsOfService"]}
+        </ButtonLink>
       </Links>
     </SettingsWrapper>
   );

@@ -8,6 +8,7 @@ import { ItemTitle } from "@components/Typography";
 import Flex from "@components/Flex";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
+import { language } from "@constants/language";
 
 const NavBarWrapper = styled.nav`
   position: fixed;
@@ -84,6 +85,7 @@ const Container = styled.div`
 
 const NavItem = styled(ItemTitle)<{ $isActive: boolean }>`
   color: #fff;
+  font-size: 18px;
   -webkit-text-stroke: 2px #1d5897;
   text-shadow: 0px 4px #00000040;
   opacity: ${(props) => (props.$isActive ? 1 : 0)};
@@ -96,6 +98,7 @@ export const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const lang = useSelector(uiSelectors.getLanguage);
   const userMapLink = `/map/${
     locations.filter((el) => el.isAvailable).at(-1)
       ? locations.filter((el) => el.isAvailable).at(-1)!.id
@@ -122,7 +125,7 @@ export const NavBar = () => {
             <Flex direction="column" align="center" justify="center" gap="6px">
               {item.icon(item.links.includes(pathname) ? "#fff" : "#6B82AE")}
               <NavItem $isActive={item.links.includes(pathname)}>
-                {item.text}
+                {language[lang]["nav"][item.text as "map"]}
               </NavItem>
             </Flex>
           </NavBarItem>

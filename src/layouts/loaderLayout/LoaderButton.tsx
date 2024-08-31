@@ -1,3 +1,4 @@
+import { language } from "@constants/language";
 import { StyledButton } from "@modules/rootPage/rootStyles";
 import { StyledButtonShadow } from "@modules/rootPage/rootStyles";
 import { uiSelectors } from "@store/ui";
@@ -17,7 +18,7 @@ interface LoaderButtonProps {
 
 export const LoaderButton: FC<LoaderButtonProps> = ({ handleClick }) => {
   const requests = useSelector(uiSelectors.getRequests);
-
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <MyButton
       $opacity={
@@ -37,7 +38,7 @@ export const LoaderButton: FC<LoaderButtonProps> = ({ handleClick }) => {
         type="pink"
       >
         <div>
-          <div>PLAY</div>
+          <div>{language[lang]["root"]["play"]}</div>
         </div>
       </StyledButton>
     </MyButton>

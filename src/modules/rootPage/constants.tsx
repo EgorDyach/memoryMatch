@@ -11,51 +11,70 @@ import steam from "/img/planets/planet_steam.webp";
 import today from "/img/planets/planet_today.webp";
 import cyber from "/img/planets/planet_cyber.webp";
 import end from "/img/planets/planet_end.webp";
+import { language } from "@constants/language";
+import { langType } from "@store/ui/types";
 
-export const showSettings: ShowModal = {
-  title: "Settings",
+export const showSettings: (lang: langType) => ShowModal = (lang) => ({
+  title: language[lang]["modals"]["settings"],
   description: <Settings />,
   hideModal: closeModal,
   isMarkup: false,
   withCancel: true,
-};
+});
 
-export const showBattlePass: ShowModal = {
-  title: "Battle Pass",
+export const showBattlePass: (lang: langType) => ShowModal = (lang) => ({
+  title: language[lang]["root"]["battlePass"],
   description: (
     <Flex style={{ margin: "0 auto" }} align="center">
       <Text
         $size="header"
         $shadow={{ color: content.secondary, shadowSize: 2, strokeWidth: 0.81 }}
       >
-        Coming soon
+        {language[lang]["root"]["comingSoon"]}
       </Text>
     </Flex>
   ),
   hideModal: closeModal,
   isMarkup: false,
   withCancel: true,
-};
+});
 
-export const showNews: ShowModal = {
-  title: "News",
+export const showNews: (lang: langType) => ShowModal = (lang) => ({
+  title: language[lang]["root"]["news"],
   description: (
     <Flex style={{ margin: "0 auto" }} align="center">
       <Text
         $size="header"
         $shadow={{ color: content.secondary, shadowSize: 2, strokeWidth: 0.81 }}
       >
-        Coming soon
+        {language[lang]["root"]["comingSoon"]}
       </Text>
     </Flex>
   ),
   hideModal: closeModal,
   isMarkup: false,
   withCancel: true,
-};
+});
 
-export const showPrivacy: ShowModal = {
-  title: "Privacy",
+export const showAd: (lang: langType) => ShowModal = (lang) => ({
+  title: language[lang]["root"]["ad"],
+  description: (
+    <Flex style={{ margin: "0 auto" }} align="center">
+      <Text
+        $size="header"
+        $shadow={{ color: content.secondary, shadowSize: 2, strokeWidth: 0.81 }}
+      >
+        {language[lang]["root"]["comingSoon"]}
+      </Text>
+    </Flex>
+  ),
+  hideModal: closeModal,
+  isMarkup: false,
+  withCancel: true,
+});
+
+export const showPrivacy: (lang: langType) => ShowModal = (lang) => ({
+  title: language[lang]["modals"]["privacy"],
   isMarkup: true,
   withCancel: true,
   description: ` <h1>Data Collection</h1>
@@ -118,24 +137,6 @@ export const showPrivacy: ShowModal = {
         <li>In the event of a sale or reorganization of our company, if necessary to ensure the continued operation of the Game.</li>
     </ul>`,
   hideModal: closeModal,
-};
-
-export const settingsLanguages = [
-  "English",
-  "Русский",
-  "中文",
-  "Español",
-  "हिन्दी",
-  "العربية",
-  "Português",
-  "বাংলা",
-  "日本語",
-  "ਪੰਜਾਬੀ",
-  "Deutsch",
-  "Français",
-  "한국어",
-  "தமிழ்",
-  "Italiano",
-];
+});
 
 export const planets = [cave, aztec, knight, steam, today, cyber, end];
