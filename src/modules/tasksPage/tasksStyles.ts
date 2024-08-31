@@ -21,7 +21,7 @@ export const StyledButton = styled(Button)`
   padding: 10px 4px;
   width: 100%;
 
-  font-size: 12px;
+  font-size: 11px;
   @media (max-width: 385px) {
     font-size: 10px;
   }
