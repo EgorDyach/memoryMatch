@@ -53,7 +53,7 @@ export const Settings = () => {
     <SettingsWrapper $top="small" gap="5px" direction="column">
       <SettingsControls direction="column">
         <Flex align="center" justify="space-between">
-          <Text $color="#092E46" $size="subtitle">
+          <Text $color="#092E46" $size="default">
             {language[lang]["modals"]["music"]}
           </Text>
           <Toggle
@@ -75,7 +75,7 @@ export const Settings = () => {
           />
         </Flex>
         <Flex $top="medium" align="center" justify="space-between">
-          <Text $color="#092E46" $size="subtitle">
+          <Text $color="#092E46" $size="default">
             {language[lang]["modals"]["sfx"]}
           </Text>
           <Toggle
