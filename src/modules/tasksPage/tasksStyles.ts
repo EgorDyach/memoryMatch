@@ -13,18 +13,16 @@ export const SocialIconWrapper = styled(Flex)`
   )};
   border: 0.67px solid #698cad;
   border-radius: 6.67px;
-  height: 75px;
   width: 100%;
+  aspect-ratio: 1 /1;
+  flex: 1;
 `;
 
 export const StyledButton = styled(Button)`
   padding: 10px 4px;
   width: 100%;
 
-  font-size: 11px;
-  @media (max-width: 385px) {
-    font-size: 10px;
-  }
+  font-size: 10px;
   @media (max-width: 365px) {
     font-size: 9.5px;
   }
@@ -64,4 +62,8 @@ export const Reward = styled(Flex)<{ $leftPercent: number }>`
   left: ${(props) => props.$leftPercent}%;
   bottom: 0;
   transform: translate(-50%, 50%);
+`;
+
+export const SocialItem = styled(Flex)`
+  width: 23%;
 `;

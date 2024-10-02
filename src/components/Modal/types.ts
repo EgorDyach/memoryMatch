@@ -1,3 +1,4 @@
+import { ModalsTitle } from "@type/language";
 import { ReactNode } from "react";
 
 export type ModalType =
@@ -7,7 +8,7 @@ export type ModalType =
 
 export type OpenModal = {
   visible: boolean;
-  title: ReactNode;
+  title: ModalsTitle;
   hideModal: VoidFunction;
   description?: ReactNode;
   isMarkup: boolean;

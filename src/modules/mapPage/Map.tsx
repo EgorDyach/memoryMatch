@@ -10,7 +10,8 @@ import { fetchStartGame } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useSelector } from "react-redux";
 import { uiSelectors } from "@store/ui";
-import { enqueueSnackbar } from "notistack";
+import { showErrorNotification } from "@lib/utils/notification";
+import { language } from "@constants/language";
 
 interface MapProps {
   points: MapLevel[];
@@ -67,10 +68,18 @@ export const Map: FC<MapProps> = ({ points, currentLevel }) => {
   const { pathname } = useLocation();
   const { seasonId = "" } = useParams();
   const user = useSelector(uiSelectors.getUser);
+  const lang = useSelector(uiSelectors.getLanguage);
   const handleClick = async (level: MapLevel) => {
-    if (level.id !== currentLevel || !user) return;
+    if (!user || level.id < currentLevel) return;
+    if (level.id > currentLevel) {
+      showErrorNotification(
+        language[lang]["notifications"]["notCompletedPrev"]
+      );
+      return;
+    }
+
     if (user.hearts < 1) {
-      enqueueSnackbar("У вас недостаточно сердец!");
+      showErrorNotification(language[lang]["notifications"]["noHearts"]);
       return;
     }
     try {

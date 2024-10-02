@@ -3,6 +3,7 @@ import { ENV } from "@lib/configs/enviorements";
 import { ApiError, AppApi } from "@type/api";
 import SessionService from "@lib/utils/sessionService";
 import { showErrorNotification } from "@lib/utils/notification";
+import { language } from "@constants/language";
 
 const defaultHeaders = {
   "Accept-Language": "ru",
@@ -30,7 +31,14 @@ const createRequestInstance = (addAuthHeader: boolean): AppApi => {
         SessionService.logout();
         return;
       } else if (error.status === 500) {
-        showErrorNotification("Сервер не доступен");
+        const lang = localStorage.getItem("language");
+        showErrorNotification(
+          lang
+            ? language[lang as "en" | "ru"]["notifications"][
+                "serverIsntAvailable"
+              ]
+            : "Server isn't available"
+        );
         return;
       }
       const errorObject = error.response?.data as ApiError | undefined;

@@ -27,7 +27,7 @@ const Links = styled(Flex)`
 const RowLine = styled(Flex)`
   position: absolute;
   width: 100%;
-  top: 315px;
+  top: 290px;
   left: 0;
   height: 5px;
   background-color: #64697b;
@@ -36,7 +36,7 @@ const RowLine = styled(Flex)`
 const ButtonLink = styled(Button)`
   color: #ffffff;
   text-shadow: 0px 2.53px #092e46;
-  font-size: 19px;
+  font-size: 16px;
   padding: 16px 3px;
   -webkit-text-stroke: 1.02px #092e46;
   box-shadow: 0px 1.67px 0px 0px #ffffff40 inset,

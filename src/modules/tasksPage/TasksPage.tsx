@@ -16,6 +16,7 @@ import {
   RewardsWrapper,
   Reward,
   StyledText,
+  SocialItem,
 } from "./tasksStyles";
 import { usePlaySFx } from "@hooks/usePlaySFx";
 import { language } from "@constants/language";
@@ -47,7 +48,7 @@ export const TasksPage = () => {
             {socials
               .sort((a, b) => a.id - b.id)
               .map((item, index) => (
-                <Flex key={index} direction="column" align="center">
+                <SocialItem key={index} direction="column" align="center">
                   <SocialIconWrapper align="center" justify="center">
                     {item.icon}
                   </SocialIconWrapper>
@@ -84,7 +85,7 @@ export const TasksPage = () => {
                       ]
                     }
                   </StyledButton>
-                </Flex>
+                </SocialItem>
               ))}
           </Flex>
           <Flex $top="large" direction="column">

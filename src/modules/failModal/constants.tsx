@@ -4,7 +4,7 @@ export const FailedModal: (
   onExit: VoidFunction,
   onRestart: VoidFunction
 ) => ShowModal = (onExit, onRestart) => ({
-  title: "Level failed",
+  title: "levelFailed",
   hideModal: () => {},
   isMarkup: false,
   withCancel: false,

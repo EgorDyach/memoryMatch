@@ -8,6 +8,10 @@ import CrossIcon from "@components/icons/CrossIcon";
 import styled from "styled-components";
 import { shadow, textShadow } from "@lib/theme/shadow";
 import { content } from "@lib/theme/colors";
+import { language } from "@constants/language";
+import { uiSelectors } from "@store/ui";
+import { useSelector } from "react-redux";
+import { ModalsTitle } from "@type/language";
 
 const ModalTitle = styled(SubHeader)`
   color: #fff;
@@ -37,15 +41,38 @@ const ContentWrapper = styled(Flex)`
   overflow: auto;
 `;
 
+const MarkupDiv = styled.div`
+  overflow-y: scroll;
+  * {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.25em;
+  }
+
+  h2 {
+    margin-top: 17px;
+  }
+  h1 {
+    font-size: 16px;
+  }
+
+  h1:not(:first-child) {
+    margin-top: 20px;
+  }
+`;
+
 export const ModalView: FC<ModalViewProps> = (props) => {
   const { title, description, hideModal, visible, isMarkup, withCancel } =
     props;
+  const lang = useSelector(uiSelectors.getLanguage);
   return (
     <StyledModalWrap $visible={visible}>
       <StyledModalContent>
         <Flex justify="center">
           <Flex>
-            <ModalTitle $top="small">{title}</ModalTitle>
+            <ModalTitle $top="small">
+              {language[lang]["modals"][title as ModalsTitle]}
+            </ModalTitle>
           </Flex>
           {withCancel && (
             <CancelContainer>
@@ -59,9 +86,9 @@ export const ModalView: FC<ModalViewProps> = (props) => {
         </Flex>
         <ContentWrapper>
           {isMarkup && (
-            <div
+            <MarkupDiv
               dangerouslySetInnerHTML={{ __html: String(description) }}
-            ></div>
+            ></MarkupDiv>
           )}
           {!isMarkup && description}
         </ContentWrapper>

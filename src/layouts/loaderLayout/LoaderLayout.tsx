@@ -7,17 +7,19 @@ import { requestLogin$ } from "@lib/api/login";
 import { requestLocationLevels$, requestLocations$ } from "@lib/api/map";
 import { requestShopData$ } from "@lib/api/shop";
 import { requestUser$ } from "@lib/api/user";
-import { enqueueSnackbar } from "notistack";
 import { Location } from "@type/user";
 import { levelGameSelectors } from "@store/levelGame";
 import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { requestMyTasks$, requestTasks$ } from "@lib/api/tasks";
+import { showErrorNotification } from "@lib/utils/notification";
+import { language } from "@constants/language";
 
 export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
   const soundSfx = usePlaySFx();
   const dispatch = useAppDispatch();
   const isLoaderOpen = useSelector(uiSelectors.getIsLoaderOpen);
+  const lang = useSelector(uiSelectors.getLanguage);
   const isAudioPlaying = useSelector(uiSelectors.getIsAudioPlaying);
   const seasonId = useSelector(levelGameSelectors.getSeasonId);
   const audio = useMemo(() => new Audio("/music.mp3"), []);
@@ -28,7 +30,6 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
   const audio5 = useMemo(() => new Audio(`/music/today.mp3`), []);
   const audio6 = useMemo(() => new Audio(`/music/cyber.mp3`), []);
   const audio7 = useMemo(() => new Audio(`/music/end.mp3`), []);
-  const [error, setError] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       document.body.style.overflow = "hidden";
@@ -47,14 +48,13 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(uiActions.setRequestFinished("login"));
           })
           .catch((e) => {
-            setError(e);
+            showErrorNotification(`${language[lang]['notifications']['errorOnAuth']}\n\n${e}`);
           });
         await requestShopData$(123)
           .then(() => {
             dispatch(uiActions.setRequestFinished("shop"));
           })
-          .catch((e) => {
-            setError(e);
+            );
           });
         await requestUser$()
           .then((res) => {
@@ -63,7 +63,9 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(uiActions.setRequestFinished("user"));
           })
           .catch((e) => {
-            setError(e);
+            showErrorNotification(
+              `${language[lang]["notifications"]["errorOnLoadingUser"]}\n\n${e}`
+            );
           });
         await requestTasks$()
           .then((res) => {
@@ -71,7 +73,9 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(uiActions.setRequestFinished("tasks"));
           })
           .catch((e) => {
-            setError(e);
+            showErrorNotification(
+              `${language[lang]["notifications"]["errorOnLoadingUser"]}\n\n${e}`
+            );
           });
         await requestMyTasks$()
           .then((res) => {
@@ -79,7 +83,9 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             dispatch(uiActions.setRequestFinished("tasksCompleted"));
           })
           .catch((e) => {
-            setError(e);
+            showErrorNotification(
+              `${language[lang]["notifications"]["errorOnLoadingUser"]}\n\n${e}`
+            );
           });
         const locations = await requestLocations$()
           .then((res) => {
@@ -88,7 +94,9 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
             return res;
           })
           .catch((e): Location[] => {
-            setError(e);
+            showErrorNotification(
+              `${language[lang]["notifications"]["errorOnLoadingUser"]}\n\n${e}`
+            );
             return [];
           });
         for (const location of locations) {
@@ -99,7 +107,9 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
               );
             })
             .catch((e) => {
-              setError(e);
+              showErrorNotification(
+                `${language[lang]["notifications"]["errorOnLoadingUser"]}\n\n${e}`
+              );
             });
         }
         dispatch(uiActions.setRequestFinished("locationLevels"));
@@ -107,12 +117,6 @@ export const LoaderLayout: FC<PropsWithChildren> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (error)
-      enqueueSnackbar(error, {
-        variant: "error",
-      });
-  }, [error]);
   const handleClick = () => {
     audio.play();
     soundSfx();

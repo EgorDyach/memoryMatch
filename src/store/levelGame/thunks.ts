@@ -21,6 +21,7 @@ import { requestUser$ } from "@lib/api/user";
 import { fetchHeartRecoveryTimeSeconds } from "@store/ui/thunks";
 import { Location } from "@type/user";
 import { season } from "@modules/versusGamePage/constants";
+import { language } from "@constants/language";
 
 const loadImage = (src: string) => {
   return new Promise((resolve, reject) => {
@@ -116,8 +117,12 @@ export const fetchStartGame =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке начать уровень!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnStart"]
+        }\n\n${e}`);
     } finally {
       dispatch(uiActions.setRequestFinished("startGame"));
       dispatch(uiActions.setRequestFinished("loadingImages"));
@@ -155,8 +160,12 @@ export const fetchFlipCard =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке переворота карточки!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnFlip"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -179,8 +188,12 @@ export const fetchPauseGame =
       dispatch(levelGameActions.setPairs(cards.length ** 2 / 2));
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке поставить игру на паузу!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnPause"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -189,7 +202,7 @@ export const fetchPauseGame =
 export const fetchUnpauseGame =
   (gameId: number | string) => async (dispatch: AppDispatch) => {
     const timeout = setTimeout(() => {
-      dispatch(levelGameActions.setIsLoading(true));
+      dispatch(levelGameActions.setIsLoading(false));
     }, 700);
     try {
       const {
@@ -215,8 +228,12 @@ export const fetchUnpauseGame =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке снять игру с паузы!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnUnpause"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -252,8 +269,12 @@ export const fetchRestartGame =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке перезапуска игры!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnRestart"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -277,8 +298,12 @@ export const fetchAbortGame =
       dispatch(levelGameActions.setInitialTimer(null));
       dispatch(levelGameActions.setMaxMoves(null));
       dispatch(levelGameActions.setMovesUsed(null));
-    } catch {
-      showErrorNotification("Ошибка при попытке отмены игры!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnAbort"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -319,8 +344,12 @@ export const fetchBoostViewCards =
         dispatch(levelGameActions.setAreCardsShown(false));
         dispatch(levelGameActions.setCards(cardsWas));
       }, 5000);
-    } catch {
-      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnUseBonus"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -356,8 +385,12 @@ export const fetchBoostOpenPair =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnUseBonus"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -392,8 +425,12 @@ export const fetchBoostExtraTime =
       );
       dispatch(levelGameActions.setMaxMoves(maxMoves));
       dispatch(levelGameActions.setMovesUsed(movesUsed));
-    } catch {
-      showErrorNotification("Ошибка при попытке использования бонуса!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(`
+        ${
+          language[lang as "en" | "ru"]["notifications"]["errorOnUseBonus"]
+        }\n\n${e}`);
     } finally {
       dispatch(levelGameActions.setIsLoading(false));
     }
@@ -414,8 +451,12 @@ export const fetchStartNextLevel = () => async (dispatch: AppDispatch) => {
     if (!currentLevel) throw new Error("Не удалось найти уровень!");
     dispatch(fetchStartGame(currentLevel.number, currentLocation.number, "/"));
     clearTimeout(timeout);
-  } catch {
-    showErrorNotification("Ошибка при запуске следующей игры!");
+  } catch (e) {
+    const lang = localStorage.getItem("language") || "en";
+    showErrorNotification(`
+      ${
+        language[lang as "en" | "ru"]["notifications"]["errorOnNext"]
+      }\n\n${e}`);
   } finally {
     dispatch(levelGameActions.setIsLoading(false));
   }

@@ -38,7 +38,7 @@ const ToggleBg = styled.span<{ $activeIndex: number }>`
 
 const ToggleItem = styled(Flex)<{ $lowPadding: boolean }>`
   z-index: 1;
-  padding: ${(props) => (props.$lowPadding ? "13px 45px" : "17px 45px")};
+  padding: ${(props) => (props.$lowPadding ? "11px 25px" : "15px 25px")};
   border-radius: 12px;
 `;
 

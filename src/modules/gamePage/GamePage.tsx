@@ -43,6 +43,8 @@ import CardsIcon from "@components/icons/CardsIcon";
 import LoopIcon from "@components/icons/LoopIcon";
 import RocketIcon from "@components/icons/RocketIcon";
 import { Hearts } from "@components/Hearts";
+import { showInfoNotification } from "@lib/utils/notification";
+import { language } from "@constants/language";
 const FlexFullWidth = styled(Flex)`
   width: 100%;
 `;
@@ -107,8 +109,8 @@ export const GamePage = () => {
   const status = useSelector(levelGameSelectors.getStatus);
   const isSfxActive = useSelector(uiSelectors.getIsSfxActive);
   const requests = useSelector(uiSelectors.getRequests);
-  const user = useSelector(uiSelectors.getUser);
   const lang = useSelector(uiSelectors.getLanguage);
+  const user = useSelector(uiSelectors.getUser);
   const [time, setTime] = useState(initialTime);
   const [isPause, setIsPause] = useState<boolean>(false);
 
@@ -151,25 +153,16 @@ export const GamePage = () => {
     if (!gameId) return;
     dispatch(fetchUnpauseGame(gameId));
     setIsPause(false);
-    closeModal(pauseModal(onExit, onCancel, onRestart, lang));
-  }, [closeModal, dispatch, gameId, lang, onExit, onRestart, soundSfx]);
+    closeModal(pauseModal(onExit, onCancel, onRestart));
+  }, [closeModal, dispatch, gameId, onExit, onRestart, soundSfx]);
 
   const handlePause = useCallback(async () => {
     soundSfx();
     if (!gameId) return;
     dispatch(fetchPauseGame(gameId));
     setIsPause(true);
-    openModal(pauseModal(onExit, onCancel, onRestart, lang));
-  }, [
-    soundSfx,
-    gameId,
-    dispatch,
-    openModal,
-    onExit,
-    onCancel,
-    onRestart,
-    lang,
-  ]);
+    openModal(pauseModal(onExit, onCancel, onRestart));
+  }, [soundSfx, gameId, dispatch, openModal, onExit, onCancel, onRestart]);
 
   useEffect(() => {
     setFields(
@@ -213,7 +206,7 @@ export const GamePage = () => {
     }
     if (status === 1) {
       setIsPause(true);
-      openModal(pauseModal(onExit, onCancel, onRestart, lang));
+      openModal(pauseModal(onExit, onCancel, onRestart));
       return;
     }
     if (status === 0) {
@@ -225,7 +218,6 @@ export const GamePage = () => {
     closeModal,
     gameId,
     isSfxActive,
-    lang,
     onCancel,
     onExit,
     onNext,
@@ -288,12 +280,12 @@ export const GamePage = () => {
       )}
       <StyledTitle $activeGameType={seasonId} $top="medium" type="default">
         <FlexFullWidth justify="space-between">
-          <Flex gap="11px" align="end">
+          <Flex gap="11px" align="center">
             <Text
               $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="subtitle"
             >
-              Moves
+              {language[lang]["game"]["moves"]}
             </Text>
             <Text
               $shadow={{ color: pauseButtonShadowColor[seasonId] }}
@@ -303,7 +295,7 @@ export const GamePage = () => {
             </Text>
           </Flex>
           <StyledTime align="center" direction="column">
-            <Text $size="subtitle">Time</Text>
+            <Text $size="subtitle">{language[lang]["game"]["time"]}</Text>
             {time || time === 0 ? (
               <Text>{formatTime(time)}</Text>
             ) : (
@@ -312,12 +304,12 @@ export const GamePage = () => {
               </Flex>
             )}
           </StyledTime>
-          <Flex gap="11px" align="end" direction="row-reverse">
+          <Flex gap="11px" align="center" direction="row-reverse">
             <Text
               $shadow={{ color: pauseButtonShadowColor[seasonId] }}
               $size="subtitle"
             >
-              Pairs
+              {language[lang]["game"]["pairs"]}
             </Text>
             <Text
               $shadow={{ color: pauseButtonShadowColor[seasonId] }}
@@ -344,12 +336,16 @@ export const GamePage = () => {
       <BoostsContainer justify="space-between">
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!user?.boosts[0]?.count}
             type="yellow"
             icon={<CardsIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[0];
-              if (!boost) return;
+              if (!boost) {
+                showInfoNotification(
+                  language[lang]["notifications"]["noBoost"]
+                );
+                return;
+              }
               if (boost.count) {
                 dispatch(fetchBoostViewCards(gameId, cards));
               }
@@ -359,12 +355,16 @@ export const GamePage = () => {
         </Flex>
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!user?.boosts[1]?.count}
             type="yellow"
             icon={<LoopIcon size={23} />}
             onClick={async () => {
               const boost = user?.boosts[1];
-              if (!boost) return;
+              if (!boost) {
+                showInfoNotification(
+                  language[lang]["notifications"]["noBoost"]
+                );
+                return;
+              }
               if (boost.count) {
                 dispatch(fetchBoostOpenPair(gameId));
               }
@@ -374,12 +374,16 @@ export const GamePage = () => {
         </Flex>
         <Flex align="center" gap="14px">
           <IconButton
-            disabled={!user?.boosts[2]?.count}
             type="yellow"
             icon={<RocketIcon size={23} />}
-            onClick={async () => {
+            onClick={() => {
               const boost = user?.boosts[2];
-              if (!boost) return;
+              if (!boost) {
+                showInfoNotification(
+                  language[lang]["notifications"]["noBoost"]
+                );
+                return;
+              }
               if (boost.count) {
                 dispatch(fetchBoostExtraTime(gameId));
               }

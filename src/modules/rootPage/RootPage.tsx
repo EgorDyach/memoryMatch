@@ -34,12 +34,12 @@ import { usePlaySFx } from "@hooks/usePlaySFx";
 import { useNavigate } from "react-router-dom";
 import { fetchStartGame } from "@store/levelGame/thunks";
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { enqueueSnackbar } from "notistack";
 import PageNotFound from "@modules/pageNotFound/PageNotFound";
 import { language } from "@constants/language";
 import { Hearts } from "@components/Hearts";
 import final from "/img/finalPhoto.jpg";
 import styled from "styled-components";
+import { showErrorNotification } from "@lib/utils/notification";
 
 const FinalImage = styled(PlanetImage)`
   z-index: -1;
@@ -73,7 +73,7 @@ export const RootPage = () => {
   const handlePlay = () => {
     if (!location || !user) return;
     if (user.hearts < 1) {
-      enqueueSnackbar("У вас недостаточно сердец!");
+      showErrorNotification(language[lang]["notifications"]["noHearts"]);
       return;
     }
     navigate("/game");
@@ -115,7 +115,7 @@ export const RootPage = () => {
               }}
               type="yellow"
             >
-              {language[lang]["root"]["battlePass"]}
+              {language[lang]["modals"]["battlePass"]}
             </ButtonPass>
             <StyledIconButton
               onClick={() => {
@@ -136,7 +136,7 @@ export const RootPage = () => {
             <StyledIconButton
               onClick={() => {
                 soundSfx();
-                openModal(showSettings(lang));
+                openModal(showSettings());
               }}
               type="blue"
               icon={<SettingsIcon size={33} />}

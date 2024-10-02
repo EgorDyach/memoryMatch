@@ -5,6 +5,7 @@ import { requestUser$ } from "@lib/api/user";
 import { uiActions } from ".";
 import { showErrorNotification } from "@lib/utils/notification";
 import { requestCompleteTask$, requestMyTasks$ } from "@lib/api/tasks";
+import { language } from "@constants/language";
 
 export const fetchHeartRecoveryTimeSeconds =
   (user: User) => (dispatch: AppDispatch) => {
@@ -24,7 +25,12 @@ export const fetchCompleteTask =
       await requestCompleteTask$(taskId);
       const tasks = await requestMyTasks$();
       dispatch(uiActions.setTasksCompleted(tasks));
-    } catch {
-      showErrorNotification("Не удалось выполнить задание!");
+    } catch (e) {
+      const lang = localStorage.getItem("language") || "en";
+      showErrorNotification(
+        `${
+          language[lang as "en" | "ru"]["notifications"]["errorOnTask"]
+        }\n\n${e}`
+      );
     }
   };

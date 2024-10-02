@@ -4,7 +4,7 @@ export const WinModal: (
   onExit: VoidFunction,
   onNext: VoidFunction
 ) => ShowModal = (onExit, onNext) => ({
-  title: "Level completed",
+  title: "levelCompleted",
   hideModal: () => {},
   isMarkup: false,
   withCancel: false,
